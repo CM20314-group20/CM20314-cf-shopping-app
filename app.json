@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "CM20314-cf-shopping-app",
+    "slug": "CM20314-cf-shopping-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "CM20314-cf-shopping-app"
+}
