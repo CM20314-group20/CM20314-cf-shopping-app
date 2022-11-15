@@ -18,3 +18,4 @@ A QR code will appear in the terminal, scan it with your phone camera and it wil
 
 ## Project Documents
 - React Native Wind for CSS, the documentation can be found at https://reactnativewind.com/docs/intro
+- React Native SVG Charts for charting and infographics, the documentation can be found at https://github.com/JesperLekland/react-native-svg-charts
