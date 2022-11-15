@@ -11,4 +11,6 @@ To run the app (while testing), download Expo Go from https://expo.dev/client, c
 ```
 npx expo start
 ```
-A QR code will appear in the terminal, scan it with your phone camera and it will open in Expo Go and will show realtime updates to the app
+A QR code will appear in the terminal, scan it with your phone camera and it will open in Expo Go and will show realtime updates to the app.
+
+We are using React Native Wind for CSS, the documentation can be found at https://reactnativewind.com/docs/intro
