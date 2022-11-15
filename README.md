@@ -7,7 +7,7 @@ npm install
 ```
 to install the dependencies
 
-To run the app, download Expo Go from https://expo.dev/client, cd into the root file and run
+To run the app (while testing), download Expo Go from https://expo.dev/client, cd into the root file and run
 ```
 npx expo start
 ```
