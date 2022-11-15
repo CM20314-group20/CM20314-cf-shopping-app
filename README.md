@@ -1,6 +1,7 @@
 # CM20314-cf-shopping-app
 Year 2 Semester 1 and 2 - Carbon Footprint Receipt Scanner App
 
+## Getting Started
 After cloning the run, cd into the root file and run
 ```
 npm install
@@ -13,4 +14,7 @@ npx expo start
 ```
 A QR code will appear in the terminal, scan it with your phone camera and it will open in Expo Go and will show realtime updates to the app.
 
-We are using React Native Wind for CSS, the documentation can be found at https://reactnativewind.com/docs/intro
+
+
+## Project Documents
+- React Native Wind for CSS, the documentation can be found at https://reactnativewind.com/docs/intro
