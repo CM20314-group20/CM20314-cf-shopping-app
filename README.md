@@ -2,7 +2,7 @@
 Year 2 Semester 1 and 2 - Carbon Footprint Receipt Scanner App
 
 ## Getting Started
-After cloning the run, cd into the root file and run
+After cloning the repo, cd into the root file and run
 ```
 npm install
 ```
