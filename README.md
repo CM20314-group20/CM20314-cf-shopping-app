@@ -17,8 +17,6 @@ npx expo start
 ```
 A QR code will appear in the terminal, scan it with your phone camera and it will open in Expo Go and will show realtime updates to the app.
 
-Make sure you have installed "Expo Go" it should work on both apple and android.
-
 
 
 ## Project Documents
