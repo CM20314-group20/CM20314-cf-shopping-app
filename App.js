@@ -10,7 +10,7 @@ export default function App() {
     <View style={styles.container}>
       <Text>Enter Text Below:</Text>
       <TextInput placeholder="Enter" onChangeText={e => setUpdate(e)}></TextInput>
-      <Text style={{color: '#F00'}}>Below is real time update:</Text>
+      <Text style={{color: '#F10'}}>Below is real time update:</Text>
       <Text>{update}</Text>
       <StatusBar style="auto" />
     </View>
