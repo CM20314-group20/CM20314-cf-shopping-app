@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
-
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import Home from './src/pages/Home';
+import Social from './src/pages/Social';
 export default function App() {
   
   const [update, setUpdate] = useState("")
-  return (
-    <>
-    <View style={styles.container}>
-      <Text>Enter Text Below:</Text>
-      <TextInput placeholder="Enter" onChangeText={e => setUpdate(e)}></TextInput>
-      <Text style={{color: '#F00'}}>Below is real time update:</Text>
-      <Text>{update}</Text>
-      <StatusBar style="auto" />
-    </View>
+  const Stack = createNativeStackNavigator();
+  // const MyStack = () => {
+    return (
+      <>
+      <Text>hi</Text>
+      <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{title: 'Welcome'}}
+        />
+        <Stack.Screen
+          name="Social"
+          component={Social}
+          options={{title: 'Social'}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
     </>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
@@ -26,3 +38,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
+
+
+
