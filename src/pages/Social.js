@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
-
 export default function Social() {
   
   const [update, setUpdate] = useState("")
@@ -14,6 +13,7 @@ export default function Social() {
       <Text>{update}</Text>
       
     </View>
+
     </>
   );
 }

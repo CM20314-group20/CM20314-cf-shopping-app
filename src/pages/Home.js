@@ -16,8 +16,6 @@ export default function Home({navigation}) {
       <Button title="Shopping List" onPress={() => navigation.navigate('ShoppingList', {name: 'ShoppingList'})}/>
       <Button title="Social page" onPress={() => navigation.navigate('Social', {name: 'Social'})}/>
       <Button title="Settings" onPress={() => navigation.navigate('Settings', {name: 'Settings'})}/>
-
-      
     </View>
     </>
   );
