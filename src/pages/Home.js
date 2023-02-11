@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import { StyleSheet, View, Button} from 'react-native';
 
 export default function Home({navigation}) {
   
@@ -7,10 +7,6 @@ export default function Home({navigation}) {
   return (
     <>
     <View style={styles.container}>
-      <Text>Enter Text Below:</Text>
-      <TextInput placeholder="Enter" onChangeText={e => setUpdate(e)}></TextInput>
-      <Text style={{color: '#F00'}}>Below is real time update:</Text>
-      <Text>{update}</Text>
       <Button title="Receipt Scanner" onPress={() => navigation.navigate('ReceiptScanner', {name: 'ReceiptScanner'})}/>
       <Button title="Barcode Scanner" onPress={() => navigation.navigate('BarcodeScanner', {name: 'BarcodeScanner'})}/>
       <Button title="Shopping List" onPress={() => navigation.navigate('ShoppingList', {name: 'ShoppingList'})}/>
