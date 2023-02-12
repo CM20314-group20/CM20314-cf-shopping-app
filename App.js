@@ -9,6 +9,7 @@ import BarcodeScanner from './src/pages/BarcodeScanner';
 import ReceiptScanner from './src/pages/ReceiptScanner';
 import Settings from './src/pages/Settings';
 import ShoppingList from './src/pages/ShoppingList';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function App() {
   
@@ -19,12 +20,22 @@ export default function App() {
       <>
       <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Shopping List" component={ShoppingList} />
-        <Tab.Screen name="Receipt Scanner" component={ReceiptScanner} />
+        <Tab.Screen name="Home" component={Home} options={{
+                    tabBarIcon: ({size, color}) => (<Icon name={"home"} color={color} size={22} />)
+                }}/>
+        <Tab.Screen name="Shopping List" component={ShoppingList} options={{
+                    tabBarIcon: ({size, color}) => (<Icon name={"list"} color={color} size={22} />)
+                }}/>
+        <Tab.Screen name="Receipt Scanner" component={ReceiptScanner} options={{
+                    tabBarIcon: ({size, color}) => (<Icon name={"camera"} color={color} size={22} />)
+                }}/>
         {/* <Tab.Screen name="Barcode Scanner" component={BarcodeScanner} /> */}
-        <Tab.Screen name="Social" component={Social} />
-        <Tab.Screen name="Settings" component={Settings} />
+        <Tab.Screen name="Social" component={Social} options={{
+                    tabBarIcon: ({size, color}) => (<Icon name={"plus"} color={color} size={22} />)
+                }}/>
+        <Tab.Screen name="Settings" component={Settings} options={{
+                    tabBarIcon: ({size, color}) => (<Icon name={"cog"} color={color} size={22} />)
+                }}/>
       </Tab.Navigator>
       </NavigationContainer>
       {/* <NavigationContainer>

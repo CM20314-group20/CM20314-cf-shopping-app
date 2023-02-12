@@ -7,11 +7,13 @@ export default function Social() {
   const Separator = () => <View style={styles.separator} />;
   return (
     <>
-    <View style={styles.container}>
+    <View style={styles.groupbuttons}>
+      <Separator />
+
       <Pressable style={styles.leavegroup}>
         <Text style={styles.text}>Leave Group</Text>
       </Pressable>
-
+      
       <Separator />
 
       <Pressable style={styles.joingroup}>
@@ -26,47 +28,88 @@ export default function Social() {
 
       <Separator />
 
+      <Pressable style={styles.groupid}>
+        <Text style={styles.text}>Group ID : placeholder</Text>
+      </Pressable>
+
+      <Separator />
     </View>    
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  groupbuttons: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'top',
   },
   leavegroup: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingVertical: 6,
+    paddingHorizontal: 18,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'red',
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
   },
   joingroup: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingVertical: 6,
+    paddingHorizontal: 24,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'blue',
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
   },
   creategroup: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'lawngreen',
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
+  },
+  groupid: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'lawngreen',
+    backgroundColor: 'darkgrey',
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
   },
+  // text: {
+  //   fontSize: 16,
+  //   lineHeight: 21,
+  //   fontWeight: 'bold',
+  //   letterSpacing: 0.25,
+  //   color: 'white',
+  // },
   text: {
-    fontSize: 16,
+    fontSize: 12,
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
