@@ -7721,9 +7721,9 @@ react-native-web@~0.18.9:
     postcss-value-parser "^4.2.0"
     styleq "^0.1.2"
 
-react-native-wind@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.npmjs.org/react-native-wind/-/react-native-wind-1.1.4.tgz"
+react-native-wind@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-wind/-/react-native-wind-1.2.0.tgz#ab58a28b59d93fbaa8d0738067b966eeba93d5b5"
 
 react-native@0.70.5:
   version "0.70.5"
