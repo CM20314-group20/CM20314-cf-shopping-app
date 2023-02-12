@@ -23,9 +23,9 @@ npx expo start --ios
 and the app will run on the Xcode simulator.
 
 ## Project Structure
-App.js is the root of the file. It should only contain navigation tools for the app.
-When creating a new screen, create it in /src/screens.
-If you find you are reusing a component a lot, place it in /src/components in a new <component-name>.js file and import it where you need.
+- App.js is the root of the file. It should only contain navigation tools for the app.
+- When creating a new screen, create it in /src/screens.
+- If you find you are reusing a component a lot, place it in /src/components in a new <component-name>.js file and import it where you need.
 
 ## Remember
 1. To create a new branch and name it appropriately with the Jira Issue Key
@@ -33,5 +33,6 @@ If you find you are reusing a component a lot, place it in /src/components in a 
 3. Refer to **https://experimental-systems-group20.atlassian.net/wiki/spaces/EP/pages/17334274/Using+Git+and+BitBucket?atlOrigin=eyJpIjoiMDA5MDg1MWEwNTYwNDU4MWFmNWZlNjg4ZWFhODEzYmIiLCJwIjoiaiJ9** for branches and commits
   
 ## Project Documents
+- React Native Docs https://reactnative.dev/docs/getting-started
 - React Native Wind for CSS, the documentation can be found at https://reactnativewind.com/docs/intro
 - React Native SVG Charts for charting and infographics, the documentation can be found at https://github.com/JesperLekland/react-native-svg-charts
