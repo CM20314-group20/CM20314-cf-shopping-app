@@ -8,11 +8,6 @@ export default function Settings() {
   return (
     <>
     <View style={styles.container}>
-      <Text>Enter Text Below:</Text>
-      <TextInput placeholder="Enter" onChangeText={e => setUpdate(e)}></TextInput>
-      <Text style={{color: '#F00'}}>Below is real time update:</Text>
-      <Text>{update}</Text>
-      
     </View>
     </>
   );

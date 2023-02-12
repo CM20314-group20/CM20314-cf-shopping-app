@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet } from 'react-native';
 import Home from './src/pages/Home';
 import Social from './src/pages/Social';
 import BarcodeScanner from './src/pages/BarcodeScanner';
@@ -13,9 +14,21 @@ export default function App() {
   
   const [update, setUpdate] = useState("")
   const Stack = createNativeStackNavigator();
+  const Tab = createBottomTabNavigator();
     return (
       <>
       <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Shopping List" component={ShoppingList} />
+        <Tab.Screen name="Receipt Scanner" component={ReceiptScanner} />
+        {/* <Tab.Screen name="Barcode Scanner" component={BarcodeScanner} /> */}
+        <Tab.Screen name="Social" component={Social} />
+        <Tab.Screen name="Settings" component={Settings} />
+      </Tab.Navigator>
+      </NavigationContainer>
+      {/* <NavigationContainer>
+      
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
@@ -49,7 +62,7 @@ export default function App() {
           options={{title: 'Settings'}}
         />
       </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer> */}
     </>
     );
 }

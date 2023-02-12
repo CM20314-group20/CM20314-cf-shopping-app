@@ -2,16 +2,13 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 
-export default function BarcodeScanner() {
+export default function BarcodeScanner({navigation}) {
   
   const [update, setUpdate] = useState("")
   return (
     <>
     <View style={styles.container}>
-      <Text>Enter Text Below:</Text>
-      <TextInput placeholder="Enter" onChangeText={e => setUpdate(e)}></TextInput>
-      <Text style={{color: '#F00'}}>Below is real time update:</Text>
-      <Text>{update}</Text>
+
       
     </View>
     </>
