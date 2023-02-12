@@ -40,8 +40,8 @@ export default function Settings() {
     <View style={styles.groupinput}>
       <Text style = {styles.text}> Data Metric:   </Text>
       <select name="category" value={category} onChange={event => handleCategoryChange(event.target.value)}>
-            <option id="0" ><text>Personal</text></option>
-            <option id="1" ><text>Personal</text></option>
+            <option id="0" >Personal</option>
+            <option id="1" >Work</option>
         </select>
     </View>
     </>
