@@ -16,7 +16,21 @@ npx expo start
 ```
 A QR code will appear in the terminal, scan it with your phone camera and it will open in Expo Go and will show realtime updates to the app.
 
+If you are on a mac, run
+```
+npx expo start --ios
+```
+and the app will run on the Xcode simulator.
 
+## Project Structure
+App.js is the root of the file. It should only contain navigation tools for the app.
+When creating a new screen, create it in /src/screens.
+If you find you are reusing a component a lot, place it in /src/components in a new <component-name>.js file and import it where you need.
+
+
+## Remember
+1. To create a new branch and name it appropriately with the Jira Issue Key
+2. Commit with the Jira Issue Key in the commit message, with an appropriate message
 
 ## Project Documents
 - React Native Wind for CSS, the documentation can be found at https://reactnativewind.com/docs/intro
