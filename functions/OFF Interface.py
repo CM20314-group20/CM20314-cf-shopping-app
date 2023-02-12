@@ -45,15 +45,15 @@ class OFF_Interface:
 
 
     # Get product information from barcode.
-    @staticmethod
-    def product_from_barcode(barcode: Union[int, str]) -> dict:
+    @classmethod
+    def product_from_barcode(cls, barcode: Union[int, str]) -> dict:
         if type(barcode) == int: barcode = str(barcode)
 
         result = try_request(openfoodfacts.products.get_product, {'barcode' : barcode})        
-        status, product = result['status'], result['product']
+        status = result['status']
 
         if status != 1:
             # TODO Product not found
             raise Exception("No results found.")
 
-        return OFF_Interface.process_product_dict(product)
+        return cls.process_product_dict(result['product'])
