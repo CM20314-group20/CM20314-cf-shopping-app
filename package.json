@@ -22,6 +22,7 @@
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-dropdown": "^1.11.0",
     "react-native": "0.70.5",
     "react-native-curved-bottom-bar": "^2.1.4",
     "react-native-leaderboard": "^1.0.6",
