@@ -1,26 +1,19 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import BarcodeScanner from './BarcodeScanner';
+import { StyleSheet, View } from 'react-native';
 
-export default function ReceiptScanner({navigation}) {
+export default function ReceiptScanner() {
   
   const [update, setUpdate] = useState("")
-  const Stack = createNativeStackNavigator();
   return (
     <>
-    <View style={styles.barcodebutton}>
-        <Button title="Barcode Scanner" onPress={() => navigation.navigate('BarcodeScanner')}/>    
+    <View style={styles.container}>
     </View>
-    
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  barcodebutton: {
+  container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'middle',

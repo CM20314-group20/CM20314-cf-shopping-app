@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-
-export default function BarcodeScanner({navigation}) {
+export default function BarcodeScanner() {
   
   const [update, setUpdate] = useState("")
   return (
     <>
     <View style={styles.container}>
-
       
     </View>
     </>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button} from 'react-native';
+import { StyleSheet, View} from 'react-native';
 
-export default function Home({navigation}) {
+export default function Home() {
   
   const [update, setUpdate] = useState("")
   return (

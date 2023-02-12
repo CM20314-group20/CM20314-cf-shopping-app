@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
-
+import { StyleSheet, View} from 'react-native';
 
 export default function ShoppingList() {
   
@@ -8,10 +7,6 @@ export default function ShoppingList() {
   return (
     <>
     <View style={styles.container}>
-      <Text>Enter Text Below:</Text>
-      <TextInput placeholder="Enter" onChangeText={e => setUpdate(e)}></TextInput>
-      <Text style={{color: '#F00'}}>Below is real time update:</Text>
-      <Text>{update}</Text>
       
     </View>
     </>
