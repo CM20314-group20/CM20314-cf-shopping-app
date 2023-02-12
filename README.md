@@ -1,10 +1,9 @@
 # CM20314-cf-shopping-app
 Year 2 Semester 1 and 2 - Carbon Footprint Receipt Scanner App
 
-## Installing NPM and Node JS
-https://www.youtube.com/watch?v=X-FPCwZFU_8&t=200s&ab_channel=TechMeSpot 
-
 ## Getting Started
+Install NPM and Node JS following the tutorial https://www.youtube.com/watch?v=X-FPCwZFU_8&t=200s&ab_channel=TechMeSpot 
+
 After cloning the repo, cd into the root file and run
 ```
 npm install
