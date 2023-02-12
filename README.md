@@ -8,7 +8,7 @@ After cloning the repo, cd into the root file and run
 ```
 npm install
 ```
-to install the dependencies
+to install the dependencies.
 
 To run the app (while testing), download Expo Go from https://expo.dev/client, cd into the root file and run
 ```
