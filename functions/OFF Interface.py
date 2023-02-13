@@ -2,7 +2,7 @@ import openfoodfacts
 from typing import Final, Union, Callable, Any
 
 # Dictionary keys of neccesary information. More can be added if required.
-PRODUCT_KEYS : Final = ['_id', 'product_name', 'ecoscore_grade', 'ecoscore_score']
+PRODUCT_KEYS : Final = ['_id', 'product_name', 'ecoscore_grade', 'ecoscore_score', '_keywords']
 CO2_KEYS : Final = ['co2_agriculture', 'co2_consumption', 'co2_distribution', 'co2_packaging', 'co2_processing', 'co2_transportation', 'co2_total']
 
 # Helper guard function to process requests which could return errors.
@@ -28,8 +28,8 @@ class OFF_Interface:
         return new_dict
     
     # Get product information from name. Currently raises exception if no valid result found.
-    @staticmethod
-    def product_from_name(product_name: str) -> dict:
+    @classmethod
+    def product_from_name(cls, product_name: str, eco_data_required: bool = True) -> dict:
         response = try_request(openfoodfacts.products.search, {'query': product_name})
         num_pages = response['page_count']
 
@@ -38,13 +38,17 @@ class OFF_Interface:
             products = try_request(openfoodfacts.products.search, {'query': product_name, 'page' : page})['products']
 
             for product in products:
-                if product['ecoscore_grade'] not in ['not-applicable', 'unknown']:
-                    return OFF_Interface.process_product_dict(product)
+                if eco_data_required:
+                    if product['ecoscore_grade'] not in ['not-applicable', 'unknown']:
+                        return cls.process_product_dict(product)
+                else:
+                    return cls.process_product_dict(product)
         # TODO Handle not finding valid search result.
         raise Exception("No valid search results found.")
 
 
     # Get product information from barcode.
+    # TODO Decide what to do when a product is found but no eco data is avaliable.
     @classmethod
     def product_from_barcode(cls, barcode: Union[int, str]) -> dict:
         if type(barcode) == int: barcode = str(barcode)
