@@ -1,0 +1,2 @@
+class BarcodeNotDetectedError(Exception):
+    pass
