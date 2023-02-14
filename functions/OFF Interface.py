@@ -9,9 +9,10 @@ CO2_KEYS : Final = ['co2_agriculture', 'co2_consumption', 'co2_distribution', 'c
 def try_request(function: Callable, args: dict) -> Any:
     try:
         return function(**args)
-    except:
-        # TODO Implement error handling.
-        raise NotImplementedError
+    # TODO Decide on proper error handling.
+    except Exception as err:
+        print(f"Unexpected {err=}, {type(err)=}")
+        raise
 
 class OFF_Interface:
     # Process a single product dictionary and extract neccesary information.
@@ -27,13 +28,13 @@ class OFF_Interface:
 
         return new_dict
     
-    # Get product information from name. Currently raises exception if no valid result found.
+    # Get product information from name.
     @classmethod
     def product_from_name(cls, product_name: str, eco_data_required: bool = True) -> dict:
         response = try_request(openfoodfacts.products.search, {'query': product_name})
         num_pages = response['page_count']
 
-        # Search results for a product with eco score avaliable.
+        # Search results for a product.
         for page in range(1, num_pages+1):
             products = try_request(openfoodfacts.products.search, {'query': product_name, 'page' : page})['products']
 
@@ -43,12 +44,10 @@ class OFF_Interface:
                         return cls.process_product_dict(product)
                 else:
                     return cls.process_product_dict(product)
-        # TODO Handle not finding valid search result.
-        raise Exception("No valid search results found.")
+        return None
 
-
-    # Get product information from barcode.
-    # TODO Decide what to do when a product is found but no eco data is avaliable.
+    # Get product information from barcode. Will return products with no eco data avaliable.
+    # TODO Decide how to handle scanned products not having eco data.
     @classmethod
     def product_from_barcode(cls, barcode: Union[int, str]) -> dict:
         if type(barcode) == int: barcode = str(barcode)
@@ -57,7 +56,6 @@ class OFF_Interface:
         status = result['status']
 
         if status != 1:
-            # TODO Product not found
-            raise Exception("No results found.")
+            return None
 
         return cls.process_product_dict(result['product'])
