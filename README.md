@@ -1,6 +1,5 @@
 # CM20314-cf-shopping-app
 
-I am just testing this
 Year 2 Semester 1 and 2 - Carbon Footprint Receipt Scanner App
 
 ## Getting Started
