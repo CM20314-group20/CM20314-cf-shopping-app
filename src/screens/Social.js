@@ -1,49 +1,66 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Alert} from 'react-native';
+import LeaderboardTable from '../components/DataTable.js';
 
 export default function Social() {
-  
   const [update, setUpdate] = useState("")
   const Separator = () => <View style={styles.separator} />;
   return (
     <>
+    <View style={styles.groupidbuttons}>
+      <Pressable style={styles.groupid}>
+        <Text style={styles.text}>Group ID : placeholder</Text>
+      </Pressable>
+    </View>
+
+    <View>
+      <LeaderboardTable style={styles.leaderboard}/>
+    </View>
+
     <View style={styles.groupbuttons}>
-      <Separator />
 
       <Pressable style={styles.leavegroup}>
-        <Text style={styles.text}>Leave Group</Text>
+        <Text style={styles.text} onPress={() => Alert.alert("Left the group")}>Leave Group</Text>
       </Pressable>
       
       <Separator />
 
       <Pressable style={styles.joingroup}>
-        <Text style={styles.text}>Join Group</Text>
+        <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text>
       </Pressable>
 
       <Separator />
 
       <Pressable style={styles.creategroup}>
-        <Text style={styles.text}>Create Group</Text>
+        <Text style={styles.text} onPress={() => Alert.alert("Create Group")}>Create Group</Text>
       </Pressable>
 
       <Separator />
 
-      <Pressable style={styles.groupid}>
-        <Text style={styles.text}>Group ID : placeholder</Text>
-      </Pressable>
-
-      <Separator />
     </View>    
+
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  leaderboard: {
+    flex: 1,
+    alignItems: 'center',
+  },
   groupbuttons: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'top',
+    alignItems: 'left',
+    justifyContent: 'left',
+    paddingHorizontal: 20,
+  },
+  groupidbuttons: {
+    flex: 0,
+    backgroundColor: '#fff',
+    alignItems: 'top',
+    justifyContent: 'top' ,
+    padding: 20,
   },
   leavegroup: {
     alignItems: 'center',
@@ -88,26 +105,19 @@ const styles = StyleSheet.create({
     shadowOffset : { width: 1, height: 5},
   },
   groupid: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'left',
+    justifyContent: 'left',
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'darkgrey',
+    backgroundColor: '#B7C1CC',
     shadowColor: 'darkgrey',
     shadowOpacity: 1.5,
     elevation: 8,
     shadowRadius: 5 ,
     shadowOffset : { width: 1, height: 5},
   },
-  // text: {
-  //   fontSize: 16,
-  //   lineHeight: 21,
-  //   fontWeight: 'bold',
-  //   letterSpacing: 0.25,
-  //   color: 'white',
-  // },
   text: {
     fontSize: 12,
     lineHeight: 21,
