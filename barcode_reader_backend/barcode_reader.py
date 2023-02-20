@@ -8,33 +8,33 @@ from barcode import Barcode
 
 class BarcodeReader:
     @staticmethod
-    def read_barcodes(image_path):
-        image_array = BarcodeReader._load_image(image_path)
-        detected_barcodes = decode(image_array)
+    def read_barcodes(image):
+        detected_barcodes = decode(image)
 
-        # If not detected then print the message
         if not detected_barcodes:
             raise BarcodeNotDetectedError("Barcode Not Detected or your barcode is blank/corrupted!")
 
-        return BarcodeReader._simplify_barcode_data(image_array, detected_barcodes)
+        return BarcodeReader._simplify_barcode_data(image, detected_barcodes)
 
     @staticmethod
     def _simplify_barcode_data(image_array, detected_barcodes):
         barcodes = list()
         barcode_images = BarcodeReader._get_barcode_images(image_array, detected_barcodes)
         for detected_barcode, barcode_image in zip(detected_barcodes, barcode_images):
-            barcodes.append(Barcode(detected_barcode.data, detected_barcode.type, barcode_image))
+            barcode_data = detected_barcode.data.decode("utf-8")
+            barcode_type = detected_barcode.type
+            barcodes.append(Barcode(barcode_data, barcode_type, barcode_image))
         return tuple(barcodes)
 
     @staticmethod
     def _get_barcode_images(image_array, detected_barcodes):
         barcode_images = list()
         RGB = (255, 0, 0)
-        WIDTH = 2
+        WIDTH = 0
         for barcode in detected_barcodes:
             (x, y, w, h) = barcode.rect
-            pos1 = (x - 10), (y - 10)
-            pos2 = (x + w + 10), (y + h + 10)
+            pos1 = (x - 20), (y - 120)
+            pos2 = (x + w + 20), (y + h + 20)
             barcode_images.append(cv2.rectangle(image_array, pos1, pos2, RGB, WIDTH))
         return tuple(barcode_images)
 
