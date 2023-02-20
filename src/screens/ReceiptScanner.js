@@ -4,7 +4,7 @@ import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import CameraButton from '../components/CameraButton';
 
-export default function BarcodeScanner() {
+export default function ReceiptScanner() {
   
   const [update, setUpdate] = useState("")
 
