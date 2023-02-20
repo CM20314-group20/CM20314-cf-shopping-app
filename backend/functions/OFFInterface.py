@@ -14,7 +14,7 @@ def try_request(function: Callable, args: dict) -> Any:
         print(f"Unexpected {err=}, {type(err)=}")
         raise
 
-class OFF_Interface:
+class OFFInterface:
     # Process a single product dictionary and extract neccesary information.
     @staticmethod
     def process_product_dict(product: dict) -> dict:
