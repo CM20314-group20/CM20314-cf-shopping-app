@@ -25,6 +25,8 @@
     "react-dropdown": "^1.11.0",
     "react-native": "0.70.5",
     "react-native-curved-bottom-bar": "^2.1.4",
+    "react-native-dropdown-picker": "^5.4.4",
+    "react-native-dropdown-select-list": "^2.0.4",
     "react-native-leaderboard": "^1.0.6",
     "react-native-navbar": "^2.1.0",
     "react-native-reanimated": "~2.12.0",
