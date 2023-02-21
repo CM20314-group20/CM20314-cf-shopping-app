@@ -8,57 +8,58 @@ from PIL import Image
 import openfoodfacts
 
 
-# takes image src as input and returns it as text
-def OCR(image):
-    img = Image.open(image)   # location of image to be processed
-    return tess.image_to_string(img)
+class ReceiptScanner:
+
+    # takes image src as input and returns it as text
+    @classmethod
+    def OCR(self, image_name: str) -> str:
+        img = Image.open(image_name)   # location of image to be processed
+        return tess.image_to_string(img)
 
 
-# takes string as input and removes non-alphanumeric and number characters
-# can be changed to keep numbers for product weights
-def clean_string(input):
-    input = input.lower()
-    out = ''
-    for i in input:
-        if ((i >= 'a' and i <= 'z') or i == ' ' or i == '/'):
-            out += i
-    return out
+    # takes string as input and removes non-alphanumeric and number characters
+    # can be changed to keep numbers for product weights
+    @classmethod
+    def clean_string(self, input: str) -> str:
+        input = input.lower()
+        out = ''
+        for i in input:
+            if ((i >= 'a' and i <= 'z') or i == ' ' or i == '/'):
+                out += i
+        return out
 
 
-# takes image source as input and returns products in list
-def im_to_text(image):
+    # takes image source as input and returns products in list
+    @classmethod
+    def im_to_text(self, image_name: str) -> list:
+        text = self.OCR(image_name)
 
-    text = OCR(image)
+        text = text.split('\n')
+        sections = []
+        add = False
 
-    text = text.split('\n')
-    sections = []
-    add = False
-
-    # loop OCR text and cut out unnecessary fluff
-    
-    # for sainsburys receipts
-    for row in text:
-        current = row.split(' ')
-        if len(current) >= 2:
-            if current[0] == 'Vat' or current[1] == 'Number':
-                add = True
-            if current[1] == "BALANCE":
-                add = False
-        if add and row != '':
-            sections.append(clean_string(row))
-    
-    return sections[1:]
+        # loop OCR text and cut out unnecessary fluff
+        
+        # for sainsburys receipts
+        for row in text:
+            current = row.split(' ')
+            if len(current) >= 2:
+                if current[0] == 'Vat' or current[1] == 'Number':
+                    add = True
+                if current[1] == "BALANCE":
+                    add = False
+            if add and row != '':
+                sections.append(self.clean_string(row))
+        
+        return sections[1:]
 
 
-
-image = 'test_receipt3.jpg'
-output = im_to_text(image)
+current = ReceiptScanner
+image_name = 'camera-backend/test_receipt3.jpg'
+output = current.im_to_text(image_name)
 print(output)
 
 # print(OCR(image))
-
-
-
 
 # # api call to search from openfoodfacts
 # out = openfoodfacts.products.search('STRAWBERRIES 400G')
