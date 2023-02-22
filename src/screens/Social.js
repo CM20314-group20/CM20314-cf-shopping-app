@@ -1,10 +1,37 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Pressable, Alert} from 'react-native';
 import LeaderboardTable from '../components/DataTable.js';
+import axios from 'axios';
 
 export default function Social() {
   const [update, setUpdate] = useState("")
   const Separator = () => <View style={styles.separator} />;
+  async function callSocial() {
+    // --- Method 1 --- 
+    // let response = await fetch('http://127.0.0.1:5000/home');
+    // let data = await response.json();
+    // return data;
+
+    // --- Method 2 ---
+    // try {
+    //   const url = 'http://127.0.0.1:5000/home'
+    //   return axios.get(url).then(response => response.data)
+    // }
+    // catch(err) {
+    //   console.log(err);
+    // }
+
+    // --- Method 3 ---
+    try {
+      const url = 'http://127.0.0.1:5000/social';
+      const response = await axios.get(url);
+      return response.data;
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
     <View style={styles.groupidbuttons}>
@@ -26,7 +53,8 @@ export default function Social() {
       <Separator />
 
       <Pressable style={styles.joingroup}>
-        <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text>
+        {/* <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text> */}
+        <Text style={styles.text} onPress={() => callSocial().then(data => console.log(data))}>Join Group</Text>
       </Pressable>
 
       <Separator />
