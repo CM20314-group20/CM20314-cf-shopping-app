@@ -1,29 +1,14 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Pressable, Alert} from 'react-native';
-import LeaderboardTable from '../components/DataTable.js';
+import LeaderboardTable from '../components/LeaderboardTable.js';
 import axios from 'axios';
 
 export default function Social() {
   const [update, setUpdate] = useState("")
   const Separator = () => <View style={styles.separator} />;
   async function callSocial() {
-    // --- Method 1 --- 
-    // let response = await fetch('http://127.0.0.1:5000/home');
-    // let data = await response.json();
-    // return data;
-
-    // --- Method 2 ---
-    // try {
-    //   const url = 'http://127.0.0.1:5000/home'
-    //   return axios.get(url).then(response => response.data)
-    // }
-    // catch(err) {
-    //   console.log(err);
-    // }
-
-    // --- Method 3 ---
     try {
-      const url = 'http://127.0.0.1:5000/social';
+      const url = 'http://127.0.0.1:5000/';
       const response = await axios.get(url);
       return response.data;
     }
@@ -31,7 +16,38 @@ export default function Social() {
       console.log(err);
     }
   }
+  async function leaveGroup() {
+    try {
+      await axios.post('http://127.0.0.1:5000/social', {
+        data: 'Left group',
+      })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+  function getLeaderboard() {
+    // TODO - create a get request to fetch leaderboard table from backend
+    let rows = [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]
+    console.log(rows);
+    return rows;
+  }
+  async function getLeaderboard2() {
+    // TODO - create a get request to fetch leaderboard table from backend
+    let rows = [];
+    try {
+      const url = 'http://127.0.0.1:5000/social';
+      const response = await axios.get(url);
+      rows = response.data['id-list'];
+    }
+    catch(err) {
+      console.log(err);
+    }
 
+    return rows;
+  }
+  
+  
   return (
     <>
     <View style={styles.groupidbuttons}>
@@ -41,13 +57,13 @@ export default function Social() {
     </View>
 
     <View>
-      <LeaderboardTable style={styles.leaderboard}/>
+      <LeaderboardTable style={styles.leaderboard} data={getLeaderboard()}/>
     </View>
 
     <View style={styles.groupbuttons}>
 
       <Pressable style={styles.leavegroup}>
-        <Text style={styles.text} onPress={() => Alert.alert("Left the group")}>Leave Group</Text>
+        <Text style={styles.text} onPress={() => leaveGroup()}>Leave Group</Text>
       </Pressable>
       
       <Separator />
