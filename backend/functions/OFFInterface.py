@@ -15,9 +15,6 @@ def try_request(function: Callable, args: dict) -> Any:
         raise
 
 class OFFInterface:
-    @staticmethod
-    def test():
-        return "test"
     # Process a single product dictionary and extract neccesary information.
     @staticmethod
     def process_product_dict(product: dict) -> dict:
