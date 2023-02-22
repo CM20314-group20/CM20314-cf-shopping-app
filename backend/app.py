@@ -1,7 +1,6 @@
 from flask import Flask, render_template, jsonify
 
-# FIXME - importing classes from /backend/functions
-# import OFFInterface 
+from functions.OFFInterface import OFFInterface
 
 app = Flask(__name__)
 
