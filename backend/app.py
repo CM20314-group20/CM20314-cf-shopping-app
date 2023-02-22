@@ -23,9 +23,7 @@ def social():
 
     elif request.method == 'GET':
         # TODO - handle properly to send list of lists in correct format to leaderboard table
-        data = {'list1' : ["1", "Joma", "23kg", "None"],
-                'list2' : ["2", "Coffeezilla", "25kg", "None"]}
-
+        data = {'id-list' : [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]}
         return data
 
 
