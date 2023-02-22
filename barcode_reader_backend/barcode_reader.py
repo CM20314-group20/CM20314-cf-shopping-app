@@ -1,43 +1,100 @@
 """https://www.geeksforgeeks.org/how-to-make-a-barcode-reader-in-python/ accessed 2023/02/14 at 11:35"""
+from typing import List
 
 import cv2
-from pyzbar.pyzbar import decode
-from barcode_not_detected_error import BarcodeNotDetectedError
+import numpy
+from pyzbar import pyzbar
+from barcode_errors import BarcodeNotDetectedError, MultipleBarcodesDetectedError
 from barcode import Barcode
 
 
 class BarcodeReader:
-    @staticmethod
-    def read_barcodes(image):
-        detected_barcodes = decode(image)
-
-        if not detected_barcodes:
-            raise BarcodeNotDetectedError("Barcode Not Detected or your barcode is blank/corrupted!")
-
-        return BarcodeReader._simplify_barcode_data(image, detected_barcodes)
-
-    @staticmethod
-    def _simplify_barcode_data(image_array, detected_barcodes):
-        barcodes = list()
-        barcode_images = BarcodeReader._get_barcode_images(image_array, detected_barcodes)
-        for detected_barcode, barcode_image in zip(detected_barcodes, barcode_images):
-            barcode_data = detected_barcode.data.decode("utf-8")
-            barcode_type = detected_barcode.type
-            barcodes.append(Barcode(barcode_data, barcode_type, barcode_image))
-        return tuple(barcodes)
-
-    @staticmethod
-    def _get_barcode_images(image_array, detected_barcodes):
-        barcode_images = list()
-        RGB = (255, 0, 0)
-        WIDTH = 0
-        for barcode in detected_barcodes:
-            (x, y, w, h) = barcode.rect
-            pos1 = (x - 20), (y - 120)
-            pos2 = (x + w + 20), (y + h + 20)
-            barcode_images.append(cv2.rectangle(image_array, pos1, pos2, RGB, WIDTH))
-        return tuple(barcode_images)
+    # @staticmethod
+    # def read_barcode(image: numpy.ndarray) -> Barcode:
+    #     """
+    #
+    #     :param image:
+    #     :return:
+    #     """
+    #     decoded_barcodes = pyzbar.decode(image)
+    #     number_of_barcodes = len(decoded_barcodes)
+    #
+    #     if number_of_barcodes == 0:
+    #         raise BarcodeNotDetectedError("Barcode not detected. Image has no barcode or is not readable.")
+    #     elif number_of_barcodes > 1:
+    #         raise MultipleBarcodesDetectedError("Multiple barcodes detected.")
+    #
+    #     barcode = decoded_barcodes[0]
+    #     (x, y, w, h) = barcode.rect
+    #     barcode_image = image[y:y + h, x:x + h]
+    #     return Barcode(barcode.data.decode("utf-8"), barcode.type, barcode_image)
 
     @staticmethod
-    def _load_image(image_path):
-        return cv2.imread(image_path)
+    def read_barcode(image: numpy.ndarray) -> Barcode:
+        """
+
+        :param image:
+        :return:
+        """
+        decoded_barcodes = pyzbar.decode(image)
+        number_of_barcodes = len(decoded_barcodes)
+
+        if number_of_barcodes == 0:
+            raise BarcodeNotDetectedError("Barcode not detected. Image has no barcode or is not readable.")
+        elif number_of_barcodes > 1:
+            raise MultipleBarcodesDetectedError("Multiple barcodes detected.")
+
+        barcode = decoded_barcodes[0]
+        (x, y, w, h) = barcode.rect
+        x1, x2 = (x - 20), (x + w + 20)
+        y1, y2 = (y - 120), (y + h + 20)
+        barcode_image = image[y1:y2, x1:x2]
+        return Barcode(barcode.data.decode("utf-8"), barcode.type, barcode_image)
+
+    @staticmethod
+    def _get_barcode_image(original_image: numpy.ndarray, decoded_barcode: pyzbar.Decoded):
+        """
+
+        :param image_array:
+        :param detected_barcodes:
+        :return:
+        """
+        # RGB = (255, 0, 0)
+        # WIDTH = 0
+
+        (x, y, w, h) = decoded_barcode.rect
+        return original_image[y:y + h, x:x + h]
+
+    # @staticmethod
+    # def _simplify_barcode_data(original_image: numpy.ndarray, decoded_barcode: pyzbar.Decoded):
+    #     """
+    #
+    #     :param original_image:
+    #     :param decoded_barcode:
+    #     :return:
+    #     """
+    #     barcode_image = BarcodeReader._get_barcode_image(original_image, decoded_barcode)
+    #     return Barcode(decoded_barcode.data.decode("utf-8"), decoded_barcode.type, barcode_image)
+    #
+    # @staticmethod
+    # def _get_barcode_image(original_image: numpy.ndarray, decoded_barcode: pyzbar.Decoded):
+    #     """
+    #
+    #     :param image_array:
+    #     :param detected_barcodes:
+    #     :return:
+    #     """
+    #     # RGB = (255, 0, 0)
+    #     # WIDTH = 0
+    #
+    #     (x, y, w, h) = decoded_barcode.rect
+    #     return original_image[y:y + h, x:x + h]
+    #
+    # @staticmethod
+    # def _load_image(image_path: str):
+    #     """
+    #
+    #     :param image_path:
+    #     :return:
+    #     """
+    #     return cv2.imread(image_path)
