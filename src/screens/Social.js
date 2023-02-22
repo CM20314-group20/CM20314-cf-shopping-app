@@ -16,6 +16,20 @@ export default function Social() {
       console.log(err);
     }
   }
+  async function getGroupID() {
+    try {
+      const url = 'http://127.0.0.1:5000/social';
+      const response = await axios.get(url);
+      const groupID = response.data['group-id'];
+      return groupID;
+
+    }
+    catch(err) {
+      console.log(err);
+    }
+    return -1;
+  }
+
   async function leaveGroup() {
     try {
       await axios.post('http://127.0.0.1:5000/social', {
@@ -29,7 +43,6 @@ export default function Social() {
   function getLeaderboard() {
     // TODO - create a get request to fetch leaderboard table from backend
     let rows = [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]
-    console.log(rows);
     return rows;
   }
   async function getLeaderboard2() {
@@ -39,7 +52,6 @@ export default function Social() {
       const url = 'http://127.0.0.1:5000/social';
       const response = await axios.get(url);
       rows = response.data['id-list'];
-      console.log(rows);
     }
     catch(err) {
       console.log(err);
@@ -47,13 +59,18 @@ export default function Social() {
 
     return rows;
   }
-  
+
+  // FIXME - Async function so that it renders the group id 
+  let groupID = -1;
+  getGroupID().then((id) => {
+    groupID = id;
+  })
   
   return (
     <>
     <View style={styles.groupidbuttons}>
       <Pressable style={styles.groupid}>
-        <Text style={styles.text}>Group ID : placeholder</Text>
+        <Text style={styles.text}>Group ID : {groupID}</Text>
       </Pressable>
     </View>
 

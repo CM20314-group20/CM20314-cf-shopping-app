@@ -12,7 +12,7 @@ def home():
 
 @app.route('/settings', methods=['GET, POST'])
 def settings():
-    return jsonify({"Settings"})
+    return jsonify({"Settings" : "Page"})
 
 
 
@@ -23,8 +23,8 @@ def social():
 
     elif request.method == 'GET':
         # TODO - handle properly to send list of lists in correct format to leaderboard table
-        data = {'id-list' : [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]}
-        return data
+        leaderboard_table = {'leaderboard-rows' : [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]}
+        return jsonify({"group-id" : "123"})
 
 
 
@@ -35,7 +35,7 @@ def receiptscanner():
 
 
     elif request.method == 'GET':
-        return jsonify({"Scanner"})
+        return jsonify({"Scanner" : "Page"})
 
 
 
