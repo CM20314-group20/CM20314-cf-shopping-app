@@ -4,7 +4,6 @@ export default function Settings() {
   const Separator = () => <View style={styles.separator} />;
   return (
     <>
-
     <View style={styles.input}>
       <Text style = {styles.text}> Username:   </Text>
       <TextInput
