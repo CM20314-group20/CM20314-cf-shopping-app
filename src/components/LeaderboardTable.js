@@ -12,13 +12,12 @@ const LeaderboardTable = (rows) => {
         <DataTable.Title>Badges</DataTable.Title>
       </DataTable.Header>
 
-      {rows.data.map((row, index) => (
-        // TODO - fix error of each child in list having unique "key"
-        <DataTable.Row>
-          <DataTable.Cell key={row['0']}>{row['0']}</DataTable.Cell>
-          <DataTable.Cell key={row['1']}>{row['1']}</DataTable.Cell>
-          <DataTable.Cell key={row['2']}>{row['2']}</DataTable.Cell>
-          <DataTable.Cell key={index}>{row['3']}</DataTable.Cell>
+      {rows.data.map(row => (
+        <DataTable.Row key={row['0']}>
+          <DataTable.Cell> {row['0']} </DataTable.Cell>
+          <DataTable.Cell> {row['1']} </DataTable.Cell>
+          <DataTable.Cell> {row['2']} </DataTable.Cell>
+          <DataTable.Cell> {row['3']} </DataTable.Cell>
         </DataTable.Row>
       ))}
       

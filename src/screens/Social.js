@@ -39,6 +39,7 @@ export default function Social() {
       const url = 'http://127.0.0.1:5000/social';
       const response = await axios.get(url);
       rows = response.data['id-list'];
+      console.log(rows);
     }
     catch(err) {
       console.log(err);
