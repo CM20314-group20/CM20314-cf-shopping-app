@@ -10,6 +10,9 @@ class TestReceiptReader(TestCase):
     barcode_3_upside_down = None
     barcode_3_left = None
     barcode_3_right = None
+    barcode_4_crimpled = None
+    barcode_5_curved = None
+    barcode_6_tilt = None
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -18,6 +21,10 @@ class TestReceiptReader(TestCase):
         cls.barcode_3_left = cv2.imread("test_barcodes/barcode_3_left.png")
         cls.barcode_3_right = cv2.imread("test_barcodes/barcode_3_right.png")
         cls.barcode_2 = cv2.imread("test_barcodes/barcode_12.png")
+        cls.barcode_4_crimpled = cv2.imread("test_barcodes/barcode_4_crimpled.png")
+        cls.barcode_5_curved = cv2.imread("test_barcodes/barcode_5_curved.jpg")
+        cls.barcode_6_tilt = cv2.imread("test_barcodes/barcode_6_tilt.jpg")
+
 
 
     def test_barcode_1_quantity(self):
@@ -37,6 +44,19 @@ class TestReceiptReader(TestCase):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
         self.assertEqual("EAN13", barcodes[0].get_type(), "Incorrect barcode type")
+    def test_barcode_4_reallife_image(self):
+        barcodes = BarcodeReader.read_barcodes(self.barcode_4_crimpled)
+        self.assertEqual("EAN13", barcodes[0].get_type(), "Type incorrect for crimpled barcode")
+        self.assertEqual("5000168002286", barcodes[0].get_data(), "Incorrect barcode data on crimpled barcode")
+    def test_barcode_5_reallife_image(self):
+        barcodes = BarcodeReader.read_barcodes(self.barcode_5_curved)
+        self.assertEqual("EAN13", barcodes[0].get_type(), "Type incorrect for curved barcode")
+        self.assertEqual("5045098057319", barcodes[0].get_data(), "Incorrect barcode data on curved barcode")
+
+    def test_barcode_6_reallife_image(self):
+        barcodes = BarcodeReader.read_barcodes(self.barcode_6_tilt)
+        self.assertEqual("EAN13", barcodes[0].get_type(), "Type incorrect for tilted barcode")
+        self.assertEqual("096619482016", barcodes[0].get_data(), "Incorrect barcode data on tilted barcode")
     def test_barcode_3_rotation_upsidedown(self):
         barcodes = BarcodeReader.read_barcodes(self.barcode_3_upside_down)
         self.assertEqual("EAN13",barcodes[0].get_type(),"Upside down barcode does not work")
