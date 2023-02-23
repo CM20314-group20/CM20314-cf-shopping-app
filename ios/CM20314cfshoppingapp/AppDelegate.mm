@@ -35,7 +35,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 {
   RCTAppSetupPrepareApp(application);
 
-  RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
+  RCTBridge *bridge = [cls.reactDelegate createBridgeWithDelegate:cls launchOptions:launchOptions];
 
 #if RCT_NEW_ARCH_ENABLED
   _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
@@ -45,15 +45,15 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
 #endif
 
-  NSDictionary *initProps = [self prepareInitialProps];
-  UIView *rootView = [self.reactDelegate createRootViewWithBridge:bridge moduleName:@"main" initialProperties:initProps];
+  NSDictionary *initProps = [cls prepareInitialProps];
+  UIView *rootView = [cls.reactDelegate createRootViewWithBridge:bridge moduleName:@"main" initialProperties:initProps];
 
   rootView.backgroundColor = [UIColor whiteColor];
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [self.reactDelegate createRootViewController];
+  cls.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  UIViewController *rootViewController = [cls.reactDelegate createRootViewController];
   rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
+  cls.window.rootViewController = rootViewController;
+  [cls.window makeKeyAndVisible];
 
   [super application:application didFinishLaunchingWithOptions:launchOptions];
 
@@ -81,7 +81,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 {
   NSMutableDictionary *initProps = [NSMutableDictionary new];
 #if RCT_NEW_ARCH_ENABLED
-  initProps[kRNConcurrentRoot] = @([self concurrentRootEnabled]);
+  initProps[kRNConcurrentRoot] = @([cls concurrentRootEnabled]);
 #endif
   return initProps;
 }
@@ -131,7 +131,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
 {
   _turboModuleManager = [[RCTTurboModuleManager alloc] initWithBridge:bridge
-                                                             delegate:self
+                                                             delegate:cls
                                                             jsInvoker:bridge.jsCallInvoker];
   return RCTAppSetupDefaultJsExecutorFactory(bridge, _turboModuleManager);
 }
