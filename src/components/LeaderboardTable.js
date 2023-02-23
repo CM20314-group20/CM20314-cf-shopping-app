@@ -1,8 +1,26 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { DataTable } from 'react-native-paper';
   
 const LeaderboardTable = (rows) => {
+
+  function getStyle(carbonFootprint) {
+    let length = carbonFootprint.length;
+    let carbonFootprintVal = carbonFootprint.slice(0, length-2)
+    if (carbonFootprintVal < 25) {
+      return {color: '#63f542'}
+    }
+    else if (carbonFootprintVal < 35) {
+      return {color: '#a7f542'}
+    }
+    else if (carbonFootprintVal < 50) {
+      return {color: '#f5844s'}
+    }
+    else {
+      return {color: '#f54242'}
+    }
+  }
+
   return (
     <DataTable style={styles.container}>
       <DataTable.Header style={styles.tableHeader}>
@@ -16,7 +34,7 @@ const LeaderboardTable = (rows) => {
         <DataTable.Row key={row['0']}>
           <DataTable.Cell> {row['0']} </DataTable.Cell>
           <DataTable.Cell> {row['1']} </DataTable.Cell>
-          <DataTable.Cell> {row['2']} </DataTable.Cell>
+          <DataTable.Cell> <Text style={getStyle(row['2'])}> {row['2']} </Text> </DataTable.Cell>
           <DataTable.Cell> {row['3']} </DataTable.Cell>
         </DataTable.Row>
       ))}
@@ -28,6 +46,12 @@ const LeaderboardTable = (rows) => {
 export default LeaderboardTable;
   
 const styles = StyleSheet.create({
+  lowcf: {
+    color: 'green',
+  },
+  highcf: {
+    color: 'red',
+  },
   container: {
     padding: 15,
     backgroundColor: '#fff',

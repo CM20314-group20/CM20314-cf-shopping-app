@@ -9,16 +9,6 @@ export default function Social() {
   const [group, setGroup] = useState()
   const [leaderboard, setLeaderboard] = useState()
   const Separator = () => <View style={styles.separator} />;
-  async function callSocial() {
-    try {
-      const url = 'http://127.0.0.1:5000/';
-      const response = await axios.get(url);
-      return response.data;
-    }
-    catch(err) {
-      console.log(err);
-    }
-  }
 
   useEffect(() => {
     getGroupID()
@@ -59,6 +49,7 @@ export default function Social() {
       console.log(err);
     }
   }
+
   
   return (
     <>
@@ -79,8 +70,7 @@ export default function Social() {
             <Separator />
 
             <Pressable style={styles.joingroup}>
-              {/* <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text> */}
-              <Text style={styles.text} onPress={() => callSocial().then(data => console.log(data))}>Join Group</Text>
+              <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text>
             </Pressable>
 
             <Separator />
