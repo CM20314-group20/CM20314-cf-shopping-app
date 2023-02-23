@@ -16,9 +16,13 @@ export default function ReceiptScanner() {
 
   // TODO - post request to send image to backend
   async function postImageToBackend(image) {
+    let formData = new FormData();
+    formData.append(image, {
+      name: `scanned-receipt`
+    });
     try {
       await axios.post('http://127.0.0.1:5000/receiptscanner', {
-        data: image,
+        data: formData,
       })
     }
     catch(err) {
@@ -52,7 +56,7 @@ export default function ReceiptScanner() {
       try{
         await MediaLibrary.createAssetAsync(image);
         // TODO - send image to backend
-        // postImageToBackend(image);
+        postImageToBackend(image);
         alert('Picture Save!')
         setImage(null);
       } catch(e) {
