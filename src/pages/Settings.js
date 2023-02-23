@@ -1,7 +1,20 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Pressable} from 'react-native';
+import { SelectList } from 'react-native-dropdown-select-list';
+
 export default function Settings() {
   const Separator = () => <View style={styles.separator} />;
+  const [selected, setSelected] = React.useState("");
+  
+  const data = [
+      {key:'1', value:'Mobiles', disabled:true},
+      {key:'2', value:'Appliances'},
+      {key:'3', value:'Cameras'},
+      {key:'4', value:'Computers', disabled:true},
+      {key:'5', value:'Vegetables'},
+      {key:'6', value:'Diary Products'},
+      {key:'7', value:'Drinks'},
+  ]
   return (
     <>
     <View style={styles.input}>
@@ -22,9 +35,14 @@ export default function Settings() {
         placeholder="Eg. User1"
       />
       <Text style = {styles.text}> Data Metric:   </Text>
+      <SelectList 
+        setSelected={(val) => setSelected(val)} 
+        data={data} 
+        save="value"
+        />
+    </View>
 
-      
-
+    <View style={styles.input}>
       <Pressable style={styles.Savebutton}>
         <Text style={styles.text}>Save Changes</Text>
       </Pressable>
@@ -32,6 +50,8 @@ export default function Settings() {
       <Pressable style={styles.Cancelbutton}>
         <Text style={styles.text}>Cancel</Text>
       </Pressable>
+      </View>
+      <View style={styles.input2}>
       <Separator />
       <Pressable style={styles.resetbutton}>
         <Text style={styles.text1}>Reset Password</Text>
@@ -40,8 +60,8 @@ export default function Settings() {
       <Pressable style={styles.resetbutton}>
         <Text style={styles.text2}>Delete Account</Text>
       </Pressable>
-    </View>
     
+    </View>
     </>
     
   );
@@ -64,6 +84,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'top',
+  },
+  input2: {
+    flexDirection: 'column',
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'left',
     justifyContent: 'top',
   },
   Savebutton: {

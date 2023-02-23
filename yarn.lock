@@ -9138,6 +9138,11 @@ react-native-navbar@^2.1.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-simple-dropdown@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.npmjs.org/react-native-simple-dropdown/-/react-native-simple-dropdown-1.0.9.tgz"
+  integrity sha512-0xtJUMi2Sk+5Br3KZ2O/PDn3YwXM5zjitFBmgUZ6Zhlcm1XusqjMVIhD7f6KtAh7amz9TSAZLexRuEUczVzmuQ==
+
 react-native-size-scaling@*:
   version "0.5.1"
   resolved "https://registry.npmjs.org/react-native-size-scaling/-/react-native-size-scaling-0.5.1.tgz"
