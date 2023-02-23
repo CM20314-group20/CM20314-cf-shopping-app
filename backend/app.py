@@ -22,9 +22,7 @@ def social():
         return "Hello world"
 
     elif request.method == 'GET':
-        # TODO - handle properly to send list of lists in correct format to leaderboard table
-        leaderboard_table = {'leaderboard-rows' : [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]}
-        return jsonify({"group-id" : "123"})
+        return jsonify({"group-id" : "123", "id-list" : [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]})
 
 
 

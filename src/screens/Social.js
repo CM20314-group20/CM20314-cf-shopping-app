@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, Pressable, Alert} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View, Pressable, Alert, Button} from 'react-native';
 import LeaderboardTable from '../components/LeaderboardTable.js';
 import axios from 'axios';
 
 export default function Social() {
   const [update, setUpdate] = useState("")
+  // const [isLoaded, setIsLoaded] = useState(false)
+  const [group, setGroup] = useState()
+  const [leaderboard, setLeaderboard] = useState()
   const Separator = () => <View style={styles.separator} />;
   async function callSocial() {
     try {
@@ -16,18 +19,22 @@ export default function Social() {
       console.log(err);
     }
   }
+
+  useEffect(() => {
+    getGroupID()
+    getLeaderboard()
+  }, [])
+
   async function getGroupID() {
     try {
       const url = 'http://127.0.0.1:5000/social';
       const response = await axios.get(url);
       const groupID = response.data['group-id'];
-      return groupID;
-
+      setGroup(groupID);
     }
     catch(err) {
       console.log(err);
     }
-    return -1;
   }
 
   async function leaveGroup() {
@@ -40,67 +47,52 @@ export default function Social() {
       console.log(err);
     }
   }
-  function getLeaderboard() {
-    // TODO - create a get request to fetch leaderboard table from backend
-    let rows = [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]
-    return rows;
-  }
-  async function getLeaderboard2() {
-    // TODO - create a get request to fetch leaderboard table from backend
-    let rows = [];
+
+  async function getLeaderboard() {
     try {
       const url = 'http://127.0.0.1:5000/social';
       const response = await axios.get(url);
-      rows = response.data['id-list'];
+      const rows = response.data['id-list'];
+      setLeaderboard(rows);
     }
     catch(err) {
       console.log(err);
     }
-
-    return rows;
   }
-
-  // FIXME - Async function so that it renders the group id 
-  let groupID = -1;
-  getGroupID().then((id) => {
-    groupID = id;
-  })
   
   return (
     <>
-    <View style={styles.groupidbuttons}>
-      <Pressable style={styles.groupid}>
-        <Text style={styles.text}>Group ID : {groupID}</Text>
-      </Pressable>
-    </View>
+    {(!leaderboard || !group) && <Text>Loading...</Text>}
+    {leaderboard && group && ( 
+    <><View style={styles.groupidbuttons}>
+          <Pressable style={styles.groupid}>
+            <Text style={styles.text}>Group ID : {group}</Text>
+          </Pressable>
+        </View><View>
+            <LeaderboardTable style={styles.leaderboard} data={leaderboard} />
+          </View><View style={styles.groupbuttons}>
 
-    <View>
-      <LeaderboardTable style={styles.leaderboard} data={getLeaderboard()}/>
-    </View>
+            <Pressable style={styles.leavegroup}>
+              <Text style={styles.text} onPress={() => leaveGroup()}>Leave Group</Text>
+            </Pressable>
 
-    <View style={styles.groupbuttons}>
+            <Separator />
 
-      <Pressable style={styles.leavegroup}>
-        <Text style={styles.text} onPress={() => leaveGroup()}>Leave Group</Text>
-      </Pressable>
-      
-      <Separator />
+            <Pressable style={styles.joingroup}>
+              {/* <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text> */}
+              <Text style={styles.text} onPress={() => callSocial().then(data => console.log(data))}>Join Group</Text>
+            </Pressable>
 
-      <Pressable style={styles.joingroup}>
-        {/* <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text> */}
-        <Text style={styles.text} onPress={() => callSocial().then(data => console.log(data))}>Join Group</Text>
-      </Pressable>
+            <Separator />
 
-      <Separator />
+            <Pressable style={styles.creategroup}>
+              <Text style={styles.text} onPress={() => Alert.alert("Create Group")}>Create Group</Text>
+            </Pressable>
 
-      <Pressable style={styles.creategroup}>
-        <Text style={styles.text} onPress={() => Alert.alert("Create Group")}>Create Group</Text>
-      </Pressable>
+            <Separator />
 
-      <Separator />
-
-    </View>    
-
+          </View></>    
+    )}
     </>
   );
 }
