@@ -14,6 +14,18 @@ export default function ReceiptScanner() {
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
 
+  // TODO - post request to send image to backend
+  async function postImageToBackend(image) {
+    try {
+      await axios.post('http://127.0.0.1:5000/receiptscanner', {
+        data: image,
+      })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     (async () => {
       MediaLibrary.requestPermissionsAsync();
@@ -39,6 +51,8 @@ export default function ReceiptScanner() {
     if(image) {
       try{
         await MediaLibrary.createAssetAsync(image);
+        // TODO - send image to backend
+        // postImageToBackend(image);
         alert('Picture Save!')
         setImage(null);
       } catch(e) {

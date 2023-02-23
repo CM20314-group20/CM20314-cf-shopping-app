@@ -1,44 +1,98 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, Pressable, Alert} from 'react-native';
-import LeaderboardTable from '../components/DataTable.js';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View, Pressable, Alert, Button} from 'react-native';
+import LeaderboardTable from '../components/LeaderboardTable.js';
+import axios from 'axios';
 
 export default function Social() {
   const [update, setUpdate] = useState("")
+  // const [isLoaded, setIsLoaded] = useState(false)
+  const [group, setGroup] = useState()
+  const [leaderboard, setLeaderboard] = useState()
   const Separator = () => <View style={styles.separator} />;
+  async function callSocial() {
+    try {
+      const url = 'http://127.0.0.1:5000/';
+      const response = await axios.get(url);
+      return response.data;
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getGroupID()
+    getLeaderboard()
+  }, [])
+
+  async function getGroupID() {
+    try {
+      const url = 'http://127.0.0.1:5000/social';
+      const response = await axios.get(url);
+      const groupID = response.data['group-id'];
+      setGroup(groupID);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+  async function leaveGroup() {
+    try {
+      await axios.post('http://127.0.0.1:5000/social', {
+        data: 'Left group',
+      })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+  async function getLeaderboard() {
+    try {
+      const url = 'http://127.0.0.1:5000/social';
+      const response = await axios.get(url);
+      const rows = response.data['id-list'];
+      setLeaderboard(rows);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+  
   return (
     <>
-    <View style={styles.groupidbuttons}>
-      <Pressable style={styles.groupid}>
-        <Text style={styles.text}>Group ID : placeholder</Text>
-      </Pressable>
-    </View>
+    {(!leaderboard || !group) && <Text>Loading...</Text>}
+    {leaderboard && group && ( 
+    <><View style={styles.groupidbuttons}>
+          <Pressable style={styles.groupid}>
+            <Text style={styles.text}>Group ID : {group}</Text>
+          </Pressable>
+        </View><View>
+            <LeaderboardTable style={styles.leaderboard} data={leaderboard} />
+          </View><View style={styles.groupbuttons}>
 
-    <View>
-      <LeaderboardTable style={styles.leaderboard}/>
-    </View>
+            <Pressable style={styles.leavegroup}>
+              <Text style={styles.text} onPress={() => leaveGroup()}>Leave Group</Text>
+            </Pressable>
 
-    <View style={styles.groupbuttons}>
+            <Separator />
 
-      <Pressable style={styles.leavegroup}>
-        <Text style={styles.text} onPress={() => Alert.alert("Left the group")}>Leave Group</Text>
-      </Pressable>
-      
-      <Separator />
+            <Pressable style={styles.joingroup}>
+              {/* <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text> */}
+              <Text style={styles.text} onPress={() => callSocial().then(data => console.log(data))}>Join Group</Text>
+            </Pressable>
 
-      <Pressable style={styles.joingroup}>
-        <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text>
-      </Pressable>
+            <Separator />
 
-      <Separator />
+            <Pressable style={styles.creategroup}>
+              <Text style={styles.text} onPress={() => Alert.alert("Create Group")}>Create Group</Text>
+            </Pressable>
 
-      <Pressable style={styles.creategroup}>
-        <Text style={styles.text} onPress={() => Alert.alert("Create Group")}>Create Group</Text>
-      </Pressable>
+            <Separator />
 
-      <Separator />
-
-    </View>    
-
+          </View></>    
+    )}
     </>
   );
 }
