@@ -1,1 +1,4 @@
-barcode_1: 0011058619656 https://www.upcindex.com/11058619656 2023/02/14
+TODO: Harvard Referencing.
+barcode_1: 0011058619656 EAN13 https://www.upcindex.com/11058619656 2023/02/14
+barcode_2: Multiple barcodes should throw error.
+barcode_3: 0657433004718 EAN13 https://www.weforum.org/agenda/2018/09/the-secret-weapon-in-the-fight-for-sustainability-the-humble-barcode/ 2034/02/21
