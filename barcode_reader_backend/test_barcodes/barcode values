@@ -1,4 +1,7 @@
-TODO: Harvard Referencing.
-barcode_1: 0011058619656 EAN13 https://www.upcindex.com/11058619656 2023/02/14
-barcode_2: Multiple barcodes should throw error.
-barcode_3: 0657433004718 EAN13 https://www.weforum.org/agenda/2018/09/the-secret-weapon-in-the-fight-for-sustainability-the-humble-barcode/ 2034/02/21
+barcode_1: 0011058619656 EAN13 Available at: https://www.upcindex.com/11058619656 (Accessed: 2023/02/14)
+barcode_2: Multiple barcodes should throw error. EAN13 Available at: https://support.honeywellaidc.com/s/article/How-to-setup-Multicode-with-a-Decode-Filter (Accessed: 2023/02/14)
+barcode_3: 0657433004718 EAN13 Available at: https://www.weforum.org/agenda/2018/09/the-secret-weapon-in-the-fight-for-sustainability-the-humble-barcode/ (2034/02/21)
+barcode_4: 5000156002286 Poor image quality should throw error.
+barcode_5: 5045098057319 EAN13
+barcode_6: 0096619482016 EAN13
+barcode_7: Tyler Baudelaire lol.

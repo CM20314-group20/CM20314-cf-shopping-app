@@ -5,6 +5,17 @@ from barcode_errors import BarcodeNotDetectedError, MultipleBarcodesDetectedErro
 from barcode_reader import BarcodeReader
 
 
+class TestBarcodeReader(TestCase):
+    def test_barcode_1_data(self):
+        barcode_1 = cv2.imread("test_barcodes/barcode_1.png")
+        barcode = BarcodeReader.read_barcode(barcode_1)
+        self.assertEqual("0011058619656", barcode.get_data(), "Incorrect barcode data")
+
+    def test_barcode_1_type(self):
+        barcode_1 = cv2.imread("test_barcodes/barcode_1.png")
+        barcode = BarcodeReader.read_barcode(barcode_1)
+        self.assertEqual("EAN13", barcode.get_type(), "Incorrect barcode type")
+
     def test_barcode_1_left_type(self):
         barcode_1_left = cv2.imread("test_barcodes/barcode_1_left.png")
         barcode = BarcodeReader.read_barcode(barcode_1_left)
@@ -30,7 +41,7 @@ from barcode_reader import BarcodeReader
         barcode = BarcodeReader.read_barcode(barcode_1_upside_down)
         self.assertEqual("EAN13", barcode.get_type(), "Incorrect barcode type")
 
-    def test_barcode_2_throws_multiple_barcode_error(self):
+    def test_barcode_2_raises_multiple_barcode_error(self):
         barcode_2 = cv2.imread("test_barcodes/barcode_2.png")
         with self.assertRaises(MultipleBarcodesDetectedError):
             BarcodeReader.read_barcode(barcode_2)
@@ -45,6 +56,66 @@ from barcode_reader import BarcodeReader
         barcode = BarcodeReader.read_barcode(barcode_3)
         self.assertEqual("EAN13", barcode.get_type(), "Incorrect barcode type")
 
+    def test_barcode_3_left_data(self):
+        barcode_3_left = cv2.imread("test_barcodes/barcode_3_left.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3_left)
+        self.assertEqual("0657433004718", barcode.get_data(), "Incorrect barcode data")
+
+    def test_barcode_3_left_type(self):
+        barcode_3_left = cv2.imread("test_barcodes/barcode_3_left.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3_left)
+        self.assertEqual("EAN13", barcode.get_type(), "Incorrect barcode type")
+
+    def test_barcode_3_right_data(self):
+        barcode_3_right = cv2.imread("test_barcodes/barcode_3_right.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3_right)
+        self.assertEqual("0657433004718", barcode.get_data(), "Incorrect barcode data")
+
+    def test_barcode_3_right_type(self):
+        barcode_3_right = cv2.imread("test_barcodes/barcode_3_right.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3_right)
+        self.assertEqual("EAN13", barcode.get_type(), "Incorrect barcode type")
+
+    def test_barcode_3_upside_down_data(self):
+        barcode_3 = cv2.imread("test_barcodes/barcode_3_upside_down.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3)
+        self.assertEqual("0657433004718", barcode.get_data(), "Incorrect barcode data")
+
+    def test_barcode_3_upside_down_type(self):
+        barcode_3_upside_down = cv2.imread("test_barcodes/barcode_3_upside_down.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3_upside_down)
+        self.assertEqual("EAN13", barcode.get_type(), "Incorrect barcode type")
+
+    def test_barcode_4_raises_barcode_not_detected_error(self):
+        barcode_4 = cv2.imread("test_barcodes/barcode_4.png")
+        with self.assertRaises(BarcodeNotDetectedError):
+            BarcodeReader.read_barcode(barcode_4)
+
+    def test_barcode_5_curved_data(self):
+        barcode_5 = cv2.imread("test_barcodes/barcode_5_curved.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_5)
+        self.assertEqual("5045098057319", barcode.get_data(), "Incorrect barcode data")
+
+    def test_barcode_5_curved_type(self):
+        barcode_5 = cv2.imread("test_barcodes/barcode_5_curved.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_5)
+        self.assertEqual("EAN13", barcode.get_type(), "Incorrect barcode type")
+
+    def test_barcode_6_tilt_data(self):
+        barcode_6 = cv2.imread("test_barcodes/barcode_6_tilt.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_6)
+        self.assertEqual("0096619482016", barcode.get_data(), "Incorrect barcode data")
+
+    def test_barcode_6_tilt_type(self):
+        barcode_6 = cv2.imread("test_barcodes/barcode_6_tilt.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_6)
+        self.assertEqual("EAN13", barcode.get_type(), "Incorrect barcode type")
+
+    def test_barcode_7_raises_barcode_not_detected_error(self):
+        barcode_7 = cv2.imread("test_barcodes/barcode_7.jpg")
+        with self.assertRaises(BarcodeNotDetectedError):
+            BarcodeReader.read_barcode(barcode_7)
+
 
 class TestBarcodeReaderImageCrop(TestCase):
     def test_barcode_1_image(self):
@@ -52,80 +123,93 @@ class TestBarcodeReaderImageCrop(TestCase):
         barcode = BarcodeReader.read_barcode(barcode_1)
         cv2.imshow("barcode_1", barcode.get_barcode_image())
         cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
     def test_barcode_1_left_image(self):
         barcode_1_left = cv2.imread("test_barcodes/barcode_1_left.png")
         barcode = BarcodeReader.read_barcode(barcode_1_left)
-        cv2.imshow("barcode_1", barcode.get_barcode_image())
+        cv2.imshow("barcode_1_left", barcode.get_barcode_image())
         cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
     def test_barcode_1_right_image(self):
         barcode_1_right = cv2.imread("test_barcodes/barcode_1_right.png")
         barcode = BarcodeReader.read_barcode(barcode_1_right)
-        cv2.imshow("barcode_1", barcode.get_barcode_image())
+        cv2.imshow("barcode_1_right", barcode.get_barcode_image())
         cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
     def test_barcode_1_upside_down_image(self):
         barcode_1_upside_down = cv2.imread("test_barcodes/barcode_1_upside_down.png")
         barcode = BarcodeReader.read_barcode(barcode_1_upside_down)
-        cv2.imshow("barcode_1", barcode.get_barcode_image())
+        cv2.imshow("barcode_1_upside_down", barcode.get_barcode_image())
         cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
     def test_barcode_3_image(self):
-        barcode_1 = cv2.imread("test_barcodes/barcode_3.jpg")
-        barcode = BarcodeReader.read_barcode(barcode_1)
+        barcode_3 = cv2.imread("test_barcodes/barcode_3.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3)
         cv2.imshow("barcode_3", barcode.get_barcode_image())
         cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
-        self.assertEqual("EAN13", barcodes[0].get_type(), "Incorrect barcode type")
-    def test_barcode_4_reallife_image(self):
-        barcodes = BarcodeReader.read_barcodes(self.barcode_4_crimpled)
-        self.assertEqual("EAN13", barcodes[0].get_type(), "Type incorrect for crimpled barcode")
-        self.assertEqual("5000168002286", barcodes[0].get_data(), "Incorrect barcode data on crimpled barcode")
-    def test_barcode_5_reallife_image(self):
-        barcodes = BarcodeReader.read_barcodes(self.barcode_5_curved)
-        self.assertEqual("EAN13", barcodes[0].get_type(), "Type incorrect for curved barcode")
-        self.assertEqual("5045098057319", barcodes[0].get_data(), "Incorrect barcode data on curved barcode")
+    def test_barcode_3_left_image(self):
+        barcode_3_left = cv2.imread("test_barcodes/barcode_3_left.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3_left)
+        cv2.imshow("barcode_3_left", barcode.get_barcode_image())
+        cv2.waitKey(0)
 
-    def test_barcode_6_reallife_image(self):
-        barcodes = BarcodeReader.read_barcodes(self.barcode_6_tilt)
-        self.assertEqual("EAN13", barcodes[0].get_type(), "Type incorrect for tilted barcode")
-        self.assertEqual("096619482016", barcodes[0].get_data(), "Incorrect barcode data on tilted barcode")
-    def test_barcode_3_rotation_upsidedown(self):
-        barcodes = BarcodeReader.read_barcodes(self.barcode_3_upside_down)
-        self.assertEqual("EAN13",barcodes[0].get_type(),"Upside down barcode does not work")
+    def test_barcode_3_right_image(self):
+        barcode_3_right = cv2.imread("test_barcodes/barcode_3_right.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3_right)
+        cv2.imshow("barcode_3_right", barcode.get_barcode_image())
+        cv2.waitKey(0)
 
-    def test_barcode_3_rotation_left(self):
-        barcodes = BarcodeReader.read_barcodes(self.barcode_3_left)
-        self.assertEqual("EAN13", barcodes[0].get_type(), "Rotation to left does not work")
+    def test_barcode_3_upside_down_image(self):
+        barcode_3_upside_down = cv2.imread("test_barcodes/barcode_3_upside_down.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_3_upside_down)
+        cv2.imshow("barcode_3_upside_down", barcode.get_barcode_image())
+        cv2.waitKey(0)
 
-    def test_barcode_3_rotation_right(self):
-        barcodes = BarcodeReader.read_barcodes(self.barcode_3_right)
-        self.assertEqual("EAN13", barcodes[0].get_type(), "Rotation to right does not work")
-    #def test_barcode_2_quantity(self):
-        #barcodes = BarcodeReader.read_barcodes(self.barcode_1)
-        #self.assertEqual(3, len(barcodes), "Incorrect number of barcodes read")
-    #def test_barcode_2_data(self):
-        #barcodes = BarcodeReader.read_barcodes(self.barcode_2)
-        #self.assertEqual("1234567890", barcodes[0].get_data(), "Incorrect barcode data of left barcode")
-        #self.assertEqual("ABCD567890", barcodes[1].get_data(), "Incorrect barcode data of middle barcode")
-        #self.assertEqual("ABCD567890", barcodes[2].get_data(), "Incorrect barcode data of right barcode")
-    #def test_barcode_2_type(self):
-        #barcodes = BarcodeReader.read_barcodes(self.barcode_2)
-        #self.assertEqual("EAN13", barcodes[0].get_type(), "Incorrect barcode type")
-    #def test_barcode_2_image(self):
-        #barcodes = BarcodeReader.read_barcodes(self.barcode_2)
-        #cv2.imshow("barcode_1", barcodes[0].get_barcode_image())
-        #shows barcode
-        #cv2.waitKey(0)
-        #wont do anything until barcode is closed
-        #cv2.destroyAllWindows()
-        # self.assertEqual("EAN13", barcodes[0].get_type(), "Incorrect barcode type")
-        #rotations barcode different way all up down left right
-        #take barcode rotate it check barcode tester does info data 
+    def test_barcode_5_image(self):
+        barcode_5 = cv2.imread("test_barcodes/barcode_5_curved.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_5)
+        cv2.imshow("barcode_5", barcode.get_barcode_image())
+        cv2.waitKey(0)
 
+    def test_barcode_5_left_image(self):
+        barcode_5_left = cv2.imread("test_barcodes/barcode_5_curved_left.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_5_left)
+        cv2.imshow("barcode_5_left", barcode.get_barcode_image())
+        cv2.waitKey(0)
+
+    def test_barcode_5_right_image(self):
+        barcode_5_right = cv2.imread("test_barcodes/barcode_5_curved_right.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_5_right)
+        cv2.imshow("barcode_5_right", barcode.get_barcode_image())
+        cv2.waitKey(0)
+
+    def test_barcode_5_upside_down_image(self):
+        barcode_5_upside_down = cv2.imread("test_barcodes/barcode_5_curved_upside_down.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_5_upside_down)
+        cv2.imshow("barcode_5_upside_down", barcode.get_barcode_image())
+        cv2.waitKey(0)
+
+    def test_barcode_6_image(self):
+        barcode_6 = cv2.imread("test_barcodes/barcode_6_tilt.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_6)
+        cv2.imshow("barcode_6", barcode.get_barcode_image())
+        cv2.waitKey(0)
+
+    def test_barcode_6_left_image(self):
+        barcode_6_left = cv2.imread("test_barcodes/barcode_6_tilt_left.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_6_left)
+        cv2.imshow("barcode_6_left", barcode.get_barcode_image())
+        cv2.waitKey(0)
+
+    def test_barcode_6_right_image(self):
+        barcode_6_right = cv2.imread("test_barcodes/barcode_6_tilt_right.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_6_right)
+        cv2.imshow("barcode_6_right", barcode.get_barcode_image())
+        cv2.waitKey(0)
+
+    def test_barcode_6_upside_down_image(self):
+        barcode_6_upside_down = cv2.imread("test_barcodes/barcode_6_tilt_upside_down.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_6_upside_down)
+        cv2.imshow("barcode_6_upside_down", barcode.get_barcode_image())
+        cv2.waitKey(0)

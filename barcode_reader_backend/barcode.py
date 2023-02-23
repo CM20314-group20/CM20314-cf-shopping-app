@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 
 
 class Barcode:
@@ -6,7 +6,7 @@ class Barcode:
     Barcode representation.
     """
 
-    def __init__(self, barcode_data: str, barcode_type: str, barcode_image: numpy.ndarray):
+    def __init__(self, barcode_data: str, barcode_type: str, barcode_image: np.ndarray):
         self._data = barcode_data
         self._type = barcode_type
         self._barcode_image = barcode_image
@@ -25,7 +25,7 @@ class Barcode:
         """
         return self._type
 
-    def get_barcode_image(self) -> numpy.ndarray:
+    def get_barcode_image(self) -> np.ndarray:
         """
         Getter for barcode image.
         :return: Barcode image as numpy array.
