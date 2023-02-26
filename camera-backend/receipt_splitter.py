@@ -5,7 +5,10 @@
 import pytesseract as tess
 tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'   # locaton of teserract-orc file and make sure to include \tesseract.exe at end
 from PIL import Image
-import openfoodfacts
+# import openfoodfacts
+
+# databse of abbreviatons and remove_abbreviations function
+import abbreviations_dict
 
 
 class ReceiptScanner:
@@ -23,10 +26,20 @@ class ReceiptScanner:
     def clean_string(self, input: str) -> str:
         input = input.lower()
         out = ''
+
+        # check if empty string
+        if len(input) == 0: return out
+
+        # check if first letter is x if so remove
+        if input[0] == 'x' or input[0] == '*':
+            input = input[1:]
+
+        # remove random simbols and numbers from ocr
         for i in input:
-            if ((i >= 'a' and i <= 'z') or i == ' ' or i == '/'):
+            if ((i >= 'a' and i <= 'z') or i == ' ' or i == '/' or i == '&'):
                 out += i
-        return out
+
+        return abbreviations_dict.remove_abbreviations(out)
 
 
     # takes image source as input and returns products in list
