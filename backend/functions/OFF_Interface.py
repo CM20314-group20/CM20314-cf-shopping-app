@@ -1,5 +1,8 @@
 import openfoodfacts
 from typing import Final, Union, Callable, Any
+from Freq_Dict import Freq_Dict
+from DB_Interface import get_cf_from_category
+
 
 # Dictionary keys of neccesary information. More can be added if required.
 PRODUCT_KEYS : Final = ['_id', 'product_name', 'ecoscore_grade', 'ecoscore_score', '_keywords']
@@ -17,7 +20,7 @@ def try_request(function: Callable, args: dict) -> Any:
 class OFFInterface:
     # Process a single product dictionary and extract neccesary information.
     @staticmethod
-    def process_product_dict(product: dict) -> dict:
+    def _process_product_dict(product: dict) -> dict:
         # Extract wanted keys and values from original product dictionary.
         new_dict = {k : product[k] for k in PRODUCT_KEYS if k in product}
         
@@ -27,10 +30,22 @@ class OFFInterface:
             new_dict['category'] = product['ecoscore_data']['agribalyse']['name_en']
 
         return new_dict
-    
+
+    @staticmethod
+    def _get_most_freq_category(product_name: str) -> list:
+        frequencies = Freq_Dict()
+
+        response = try_request(openfoodfacts.products.search, {'query': product_name})
+        products = response['products']
+
+        for product in products:
+            if 'categories' in product.keys():
+                frequencies.add(product['categories'])
+        return frequencies.get_most_freq()
+
     # Get product information from name.
     @classmethod
-    def product_from_name(cls, product_name: str, eco_data_required: bool = True) -> dict:
+    def product_from_name(cls, product_name: str) -> dict:
         response = try_request(openfoodfacts.products.search, {'query': product_name})
         num_pages = response['page_count']
 
@@ -39,15 +54,17 @@ class OFFInterface:
             products = try_request(openfoodfacts.products.search, {'query': product_name, 'page' : page})['products']
 
             for product in products:
-                if eco_data_required:
-                    if product['ecoscore_grade'] not in ['not-applicable', 'unknown']:
-                        return cls.process_product_dict(product)
-                else:
-                    return cls.process_product_dict(product)
-        return None
+                if product['ecoscore_grade'] not in ['not-applicable', 'unknown']:
+                    return cls._process_product_dict(product)
+
+        # If close match cannot be found, revert to category database
+        category = cls._get_most_freq_category(product_name)
+        product = {'product_name' : product_name,
+                   'category': category,
+                   'co2_data' : {'co2_total' : get_cf_from_category(category)}}
+        return product
 
     # Get product information from barcode. Will return products with no eco data avaliable.
-    # TODO Decide how to handle scanned products not having eco data.
     @classmethod
     def product_from_barcode(cls, barcode: Union[int, str]) -> dict:
         if type(barcode) == int: barcode = str(barcode)
@@ -58,4 +75,4 @@ class OFFInterface:
         if status != 1:
             return None
 
-        return cls.process_product_dict(result['product'])
+        return cls._process_product_dict(result['product'])

@@ -3,3 +3,4 @@
 
 # Any required imports can be added below
 openfoodfacts
+thefuzz[speedup]
