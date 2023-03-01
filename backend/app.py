@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 
-from product_data_backend.OFF_Interface import OFFInterface
+from product_data_backend import ProductData
 
 app = Flask(__name__)
 
