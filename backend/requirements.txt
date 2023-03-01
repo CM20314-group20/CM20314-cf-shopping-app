@@ -4,3 +4,7 @@
 # Any required imports can be added below
 openfoodfacts
 thefuzz[speedup]
+opencv-python
+numpy
+pyzbar
+flask
