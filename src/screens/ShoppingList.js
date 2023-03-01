@@ -1,15 +1,62 @@
 import React, {useState} from 'react';
-import { StyleSheet, View} from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
+import ListFoodItem from '../components/ListFoodItem';
 
 export default function ShoppingList() {
-  
-  const [update, setUpdate] = useState("")
+  const [list, setList] = useState();
+  const [listItems, setListItems] = useState([]);
+
+  const addTask = () => {
+    Keyboard.dismiss();
+    // TODO - add to local storage / db
+    setListItems([...listItems, list])
+    setList(null);
+  }
+
+  const completeTask = (index) => {
+    let itemsCopy = [...listItems];
+    itemsCopy.splice(index, 1);
+    // TODO - Post request to db / update local storage of items in the shoppinglist
+    setListItems(itemsCopy)
+  }
+
   return (
-    <>
     <View style={styles.container}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1
+        }}
+        keyboardShouldPersistTaps='handled'
+      >
+
+      <View style={styles.tasks}>
+        <View style={styles.items}>{
+            listItems.map((item, index) => {
+              return (
+                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
+                  <ListFoodItem text={item} /> 
+                </TouchableOpacity>
+              )
+            })
+          }
+        </View>
+      </View>
+        
+      </ScrollView>
+
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.createTask}
+      >
+        <TextInput style={styles.input} placeholder={'Add item'} placeholderTextColor={'white'} value={list} onChangeText={text => setList(text)} />
+        <TouchableOpacity onPress={() => addTask()}>
+          <View style={styles.addButton}>
+            <Text style={styles.addText}>+</Text>
+          </View>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
       
     </View>
-    </>
   );
 }
 
@@ -17,7 +64,56 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+  },
+  tasks: {
+    paddingTop: 0,
+    paddingHorizontal: 20,
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
+  },
+  items: {
+    marginTop: 30,
+  },
+  createTask: {
+    bottom: 100,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  input: {
+    color: 'white',
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    backgroundColor: 'rgb(49, 44, 44)',
+    borderRadius: 60,
+    borderWidth: 1,
+    width: 250,
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
+  },
+  addButton: {
+    width: 60,
+    height: 60,
+    backgroundColor: 'rgb(49, 44, 44)',
+    borderRadius: 60,
     justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
+  },
+  addText: {
+    color: '#fff',
+    fontSize: 20,
   },
 });

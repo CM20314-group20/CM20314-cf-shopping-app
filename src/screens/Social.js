@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Pressable, Alert, Button} from 'react-native';
 import LeaderboardTable from '../components/LeaderboardTable.js';
 import axios from 'axios';
+import LoadingScreen from '../components/LoadingScreen.js';
 
 export default function Social() {
   const [update, setUpdate] = useState("")
@@ -53,7 +54,7 @@ export default function Social() {
   
   return (
     <>
-    {(!leaderboard || !group) && <Text>Loading...</Text>}
+    {(!leaderboard || !group) && <LoadingScreen />}
     {leaderboard && group && ( 
     <><View style={styles.groupidbuttons}>
           <Pressable style={styles.groupid}>
