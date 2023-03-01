@@ -60,7 +60,7 @@ class ProductData:
         category = _get_most_freq_category(product_name)
         product = {'product_name' : product_name,
                    'category': category,
-                   'co2_data' : {'co2_total' : get_cf_from_category(category)}}
+                   'co2_data' : {'co2_total_per_kg' : get_cf_from_category(category)}}
         return product
 
     # Get product information from barcode. Will return products with no eco data avaliable.
