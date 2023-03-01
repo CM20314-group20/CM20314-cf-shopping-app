@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
+import axios from "axios";
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import CameraButton from '../components/CameraButton';
+import ChangeScanButton from '../components/ChangeScanButton';
 
 export default function ReceiptScanner() {
   
@@ -12,6 +14,7 @@ export default function ReceiptScanner() {
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back)
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const [isReceipt, setIsReceipt] = useState(true);
   const cameraRef = useRef(null);
 
   // TODO - post request to send image to backend
@@ -19,6 +22,7 @@ export default function ReceiptScanner() {
     let formData = new FormData();
     formData.append(image, {
       name: `scanned-receipt`
+
     });
     try {
       await axios.post('http://127.0.0.1:5000/receiptscanner', {
@@ -57,7 +61,7 @@ export default function ReceiptScanner() {
         await MediaLibrary.createAssetAsync(image);
         // TODO - send image to backend
         postImageToBackend(image);
-        alert('Picture Save!')
+        alert('Scanning')
         setImage(null);
       } catch(e) {
         console.log(e)
@@ -90,6 +94,21 @@ export default function ReceiptScanner() {
             <CameraButton icon={'retweet'} onPress={() => {
               setType(type === CameraType.back ? CameraType.front : CameraType.back)
             }}/>
+
+            {isReceipt ? 
+              <ChangeScanButton title={'Barcode Scanner'} onPress={() => {
+                setIsReceipt(false);
+              }}/>
+            :
+              <ChangeScanButton title={'Receipt Scanner'} onPress={() => {
+                setIsReceipt(true);
+              }}/>
+            }
+            
+            {/* <Image
+              style={barcodeTarget}
+              source={require('src/assets/icons8-barcode-64.png')}
+            /> */}
             <CameraButton icon={'flash'}
             color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#f1f1f1'}
             onPress={() => {
@@ -122,6 +141,9 @@ export default function ReceiptScanner() {
 }
 
 const styles = StyleSheet.create({
+  barcodeTarget: {
+
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
