@@ -67,10 +67,10 @@ class ReceiptScanner:
         return sections[1:]
 
 
-current = ReceiptScanner
-image_name = 'camera-backend/test_receipt3.jpg'
-output = current.im_to_text(image_name)
-print(output)
+# current = ReceiptScanner
+# image_name = 'camera-backend/test_receipt3.jpg'
+# output = current.im_to_text(image_name)
+# print(output)
 
 # print(OCR(image))
 
