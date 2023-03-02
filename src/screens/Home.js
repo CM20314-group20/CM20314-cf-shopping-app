@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <View style={styles.container}>
-        {/* <Text style={styles.header01} >History</Text> */}
+        <Text style={styles.header01} >History</Text>
         <LineChart
           data={{
             labels: ["January", "February", "March", "April", "May", "June"],
@@ -64,7 +64,7 @@ export default function Home() {
         <Text style={styles.results} >37 fishs saved</Text>
         <Text style={styles.header01} > Achievements </Text>
         <Text style={styles.results} >Star Reducer:</Text>
-        {/* // <Text> CF lowered by more than 50 kg from previous month</Text> */}
+        <Text>CF lowered by more than 50 kg from previous month</Text>
         <View style={styles.goal}>
           <Button
             title="GOALS"
@@ -115,10 +115,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'green',
     // shadowColor: 'darkgrey',
     color: 'darkgreen',
-    shadowOpacity: 1.5,
     elevation: 8,
-    shadowRadius: 5,
-    shadowOffset: { width: 1, height: 5 },
     marginVertical: 8
   },
   header01: {
@@ -129,8 +126,6 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     paddingHorizontal: 18,
     borderRadius: 4,
-    elevation: 3,
-    shadowOpacity: 1.5,
     elevation: 8,
     textDecorationLine: "underline",
 
@@ -143,7 +138,6 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     borderRadius: 4,
     elevation: 3,
-    shadowOpacity: 1.5,
     elevation: 8,
     marginVertical: 10
   }
