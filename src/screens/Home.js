@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'top',
+    // justifyContent: 'top', // Doesn't work on android
   },
   graph: {
     alignItems: 'center',
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   results: {
-    fontSize: '18px',
+    fontSize: 18,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 6,
@@ -125,10 +125,10 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   header01: {
-    fontSize: '25px',
+    fontSize: 25,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    alignContent: 'left',
+    // alignContent: 'left', // Doesn't work on android
     paddingVertical: 1,
     paddingHorizontal: 18,
     borderRadius: 4,
@@ -138,10 +138,10 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   Achievements: {
-    fontSize: '20px',
+    fontSize: 20,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    alignContent: 'left',
+    // alignContent: 'left', // Doesn't work on android
     color: 'orange',
     paddingVertical: 1,
     paddingHorizontal: 18,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   goal: {
-    alignItems: 'left',
+    // alignItems: 'left',
     paddingVertical: 1,
     paddingHorizontal: 18,
     backgroundColor: 'darkgreen',
