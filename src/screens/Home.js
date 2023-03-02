@@ -12,9 +12,6 @@ import {
 
 export default function Home() {
   // const [update, setUpdate] = useState("")
-  const Item = ({ item }) => {
-    return <View style={styles.item}>{item.icon}</View>;
-  };
   return (
     <>
       <View style={styles.container}>
