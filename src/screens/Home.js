@@ -11,11 +11,11 @@ import {
 } from "react-native-chart-kit";
 
 export default function Home() {
-  const [update, setUpdate] = useState("")
+  // const [update, setUpdate] = useState("")
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.header01} >History</Text>
+        {/* <Text style={styles.header01} >History</Text> */}
         <LineChart
           data={{
             labels: ["January", "February", "March", "April", "May", "June"],
@@ -59,11 +59,12 @@ export default function Home() {
             borderRadius: 16
           }}
         />
-        <Text style={styles.results} >🚗 1.6 miles of CO2 reduced</Text>
-        <Text style={styles.results} >💡 1kw energy saved</Text>
-        <Text style={styles.results} >🐟 37 fishs saved</Text>
+        <Text style={styles.results} >1.6 miles of CO2 reduced</Text>
+        <Text style={styles.results} >1kw energy saved</Text>
+        <Text style={styles.results} >37 fishs saved</Text>
         <Text style={styles.header01} > Achievements </Text>
-        <Text style={styles.results} >⭐️ Star Reducer:</Text>  <Text> CF lowered by more than 50 kg from previous month</Text>
+        <Text style={styles.results} >Star Reducer:</Text>
+        {/* // <Text> CF lowered by more than 50 kg from previous month</Text> */}
         <View style={styles.goal}>
           <Button
             title="GOALS"
