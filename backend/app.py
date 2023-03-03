@@ -39,11 +39,15 @@ def receiptscanner():
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def shoppinglist():
+    # TODO - get items from db before hand
+    items = ["Apple", "Pear", "Grape", "Chicken"]
     if request.method == 'GET':
-        return jsonify({"Items" : ["Apple", "Pear", "Grape", "Chicken"]})
+        return jsonify({"Items" : items})
     
     elif request.method == 'POST':
-        return jsonify({"Shopping" : "List"})
+        # TODO - update items in db for the user
+        items = request.get_json()['data']
+        return ""
 
 
 

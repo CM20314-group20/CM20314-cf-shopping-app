@@ -27,7 +27,13 @@ export default function ShoppingList() {
   const addItem = () => {
     Keyboard.dismiss();
     setListItems([...listItems, list])
-    // TODO - post request to backend
+
+    axios.post('http://127.0.0.1:5000/shoppinglist', {
+      data: [...listItems, list]
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
     setList(null);
   }
 
