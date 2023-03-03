@@ -3,9 +3,13 @@
 # or check under 'binaries' for other versions = https://tesseract-ocr.github.io/tessdoc/Home.html 
 
 import pytesseract as tess
-tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'   # locaton of teserract-orc file and make sure to include \tesseract.exe at end
+
+tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  # locaton of teserract-orc file and make sure to include \tesseract.exe at end
 from PIL import Image
-import openfoodfacts
+# import openfoodfacts
+
+# databse of abbreviatons and remove_abbreviations function
+import abbreviations_dict
 
 
 class ReceiptScanner:
@@ -39,7 +43,7 @@ class ReceiptScanner:
         add = False
 
         # loop OCR text and cut out unnecessary fluff
-        
+
         # for sainsburys receipts
         for row in text:
             current = row.split(' ')
@@ -50,21 +54,10 @@ class ReceiptScanner:
                     add = False
             if add and row != '':
                 sections.append(self.clean_string(row))
-        
+
         return sections[1:]
 
 
 current = ReceiptScanner
 image_name = 'camera-backend/test_receipt3.jpg'
 output = current.im_to_text(image_name)
-print(output)
-
-# print(OCR(image))
-
-# # api call to search from openfoodfacts
-# out = openfoodfacts.products.search('STRAWBERRIES 400G')
-# print(out)
-
-
-
-
