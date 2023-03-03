@@ -1,26 +1,48 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
 import ListFoodItem from '../components/ListFoodItem';
+import axios from 'axios';
+import LoadingScreen from '../components/LoadingScreen.js';
 
 export default function ShoppingList() {
   const [list, setList] = useState();
   const [listItems, setListItems] = useState([]);
+  
+  useEffect(() => {
+    getShoppingListItems()
+  }, [])
 
-  const addTask = () => {
+  async function getShoppingListItems() {
+    try {
+      const url = 'http://127.0.0.1:5000/shoppinglist';
+      const response = await axios.get(url);
+      const shoppingListItems = response.data["Items"];      
+      setListItems(shoppingListItems);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+  const addItem = () => {
     Keyboard.dismiss();
-    // TODO - add to local storage / db
     setListItems([...listItems, list])
+    // TODO - post request to backend
     setList(null);
   }
 
-  const completeTask = (index) => {
+  const removeItem = (index) => {
     let itemsCopy = [...listItems];
     itemsCopy.splice(index, 1);
-    // TODO - Post request to db / update local storage of items in the shoppinglist
+    // TODO - post request to backend
     setListItems(itemsCopy)
   }
-
+  
   return (
+    <>
+    {(!listItems) && <LoadingScreen />}
+    {listItems && ( 
+    <>
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={{
@@ -33,7 +55,7 @@ export default function ShoppingList() {
         <View style={styles.items}>{
             listItems.map((item, index) => {
               return (
-                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
+                <TouchableOpacity key={index}  onPress={() => removeItem(index)}>
                   <ListFoodItem text={item} /> 
                 </TouchableOpacity>
               )
@@ -49,7 +71,7 @@ export default function ShoppingList() {
         style={styles.createTask}
       >
         <TextInput style={styles.input} placeholder={'Add item'} placeholderTextColor={'white'} value={list} onChangeText={text => setList(text)} />
-        <TouchableOpacity onPress={() => addTask()}>
+        <TouchableOpacity onPress={() => addItem()}>
           <View style={styles.addButton}>
             <Text style={styles.addText}>+</Text>
           </View>
@@ -57,6 +79,9 @@ export default function ShoppingList() {
       </KeyboardAvoidingView>
       
     </View>
+    </>
+    )}
+  </>
   );
 }
 
