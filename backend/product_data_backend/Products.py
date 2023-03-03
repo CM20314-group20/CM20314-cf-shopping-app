@@ -1,7 +1,7 @@
 import openfoodfacts
 from typing import Final, Union, Callable, Any
-from Freq_Dict import Freq_Dict
-from DB_Interface import get_cf_from_category
+from .Freq_Dict import Freq_Dict
+from .DB_Interface import get_cf_from_category
 
 
 # Dictionary keys of neccesary information. More can be added if required.
