@@ -6,7 +6,7 @@ import LoadingScreen from '../components/LoadingScreen.js';
 
 export default function ShoppingList() {
   const [list, setList] = useState();
-  const [listItems, setListItems] = useState([]);
+  const [listItems, setListItems] = useState();
   
   useEffect(() => {
     getShoppingListItems()
@@ -49,9 +49,10 @@ export default function ShoppingList() {
 
     setListItems(itemsCopy)
   }
-  
+
   return (
     <>
+    
     {(!listItems) && <LoadingScreen />}
     {listItems && ( 
     <>
