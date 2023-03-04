@@ -29,7 +29,7 @@ export default function ShoppingList() {
     setListItems([...listItems, list])
 
     axios.post('http://127.0.0.1:5000/shoppinglist', {
-      data: [...listItems, list]
+      data: {'items_after_add ' : [...listItems, list]}
     })
     .catch(function (error) {
       console.log(error);
@@ -40,7 +40,13 @@ export default function ShoppingList() {
   const removeItem = (index) => {
     let itemsCopy = [...listItems];
     itemsCopy.splice(index, 1);
-    // TODO - post request to backend
+    axios.post('http://127.0.0.1:5000/shoppinglist', {
+      data: {'items_after_remove' : itemsCopy}
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
     setListItems(itemsCopy)
   }
   
