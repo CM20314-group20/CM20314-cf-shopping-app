@@ -70,7 +70,7 @@ export default function Home() {
         <View style={styles.goal}>
           <Button
             title="GOALS"
-            color="white"
+            color="darkgreen"
             height="30"
             // fontSize="30px"
             onPress={() => alert('To save 10kg')} />
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     // alignItems: 'left',
     paddingVertical: 1,
     paddingHorizontal: 18,
-    backgroundColor: 'darkgreen',
+    // backgroundColor: 'darkgreen',
     borderRadius: 4,
     elevation: 3,
     elevation: 8,
