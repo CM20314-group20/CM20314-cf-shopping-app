@@ -9,6 +9,8 @@ export default function Social() {
   const [group, setGroup] = useState()
   const [leaderboard, setLeaderboard] = useState()
   const Separator = () => <View style={styles.separator} />;
+  let urlIP = 'http://10.0.2.2:5000' // Android Emulator
+  // let urlIP = 'http://127.0.0.1:5000' // IOS Emulator
 
   useEffect(() => {
     getGroupID()
@@ -17,7 +19,7 @@ export default function Social() {
 
   async function getGroupID() {
     try {
-      const url = 'http://127.0.0.1:5000/social';
+      const url = urlIP.concat('/social');
       const response = await axios.get(url);
       const groupID = response.data['group-id'];
       setGroup(groupID);
@@ -28,9 +30,10 @@ export default function Social() {
   }
 
   async function leaveGroup() {
+    let url = urlIP.concat('/social');
     try {
-      await axios.post('http://127.0.0.1:5000/social', {
-        data: 'Left group',
+    await axios.post(url, {
+      data: 'Left group',
       })
     }
     catch(err) {
@@ -40,7 +43,7 @@ export default function Social() {
 
   async function getLeaderboard() {
     try {
-      const url = 'http://127.0.0.1:5000/social';
+      const url = urlIP.concat('/social');
       const response = await axios.get(url);
       const rows = response.data['id-list'];
       setLeaderboard(rows);
@@ -95,15 +98,15 @@ const styles = StyleSheet.create({
   groupbuttons: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'left',
-    justifyContent: 'left',
-    paddingHorizontal: 20,
+    // alignItems: 'left', Doesn't work in Android
+    // justifyContent: 'left', Doesn't work in Android
+    // paddingHorizontal: 20, Doesn't work in Android
   },
   groupidbuttons: {
     flex: 0,
     backgroundColor: '#fff',
-    alignItems: 'top',
-    justifyContent: 'top' ,
+    // alignItems: 'top', Doesn't work in Android
+    // justifyContent: 'top' , Doesn't work in Android
     padding: 20,
   },
   leavegroup: {
@@ -149,8 +152,8 @@ const styles = StyleSheet.create({
     shadowOffset : { width: 1, height: 5},
   },
   groupid: {
-    alignItems: 'left',
-    justifyContent: 'left',
+    // alignItems: 'left', Doesn't work in Android
+    // justifyContent: 'left', Doesn't work in Android
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
