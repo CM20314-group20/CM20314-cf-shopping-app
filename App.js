@@ -36,7 +36,8 @@ export default function App() {
           },
         })}>
           <Tab.Screen name="Home" component={Home} options={{
-            tabBarIcon: ({ size, color }) => (<Icon name={"home"} color={color} size={22} />)
+            tabBarIcon: ({ size, color }) => (<Icon name={"home"} color={color} size={22} />
+            )
           }}
           />
           <Tab.Screen name="Shopping List" component={ShoppingList} options={{
