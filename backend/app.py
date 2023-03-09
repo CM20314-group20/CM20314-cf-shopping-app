@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 
-from functions.OFFInterface import OFFInterface
+# from product_data_backend import ProductData
 
 app = Flask(__name__)
 
@@ -37,9 +37,17 @@ def receiptscanner():
 
 
 
-@app.route('/shoppinglist', methods=['GET, POST'])
+@app.route('/shoppinglist', methods=['GET', 'POST'])
 def shoppinglist():
-    return jsonify({"Shopping" : "List"})
+    # TODO - get items from db before hand
+    items = ["Apple", "Pear", "Grape", "Chicken"]
+    if request.method == 'GET':
+        return jsonify({"Items" : items})
+    
+    elif request.method == 'POST':
+        # TODO - update items in db for the user
+        items = request.get_json()['data']
+        return ""
 
 
 

@@ -1,8 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, Image } from 'react-native';
 import { DataTable } from 'react-native-paper';
   
 const LeaderboardTable = (rows) => {
+  const cfBadge1 = '../images/cf-badge-1.png';
+
+  function determineBadge(val) {
+    if (val == "None") {
+      return <Image style={styles.badge1} source={require(cfBadge1)} />
+    } else {
+      return "None"
+    }
+  }
 
   function getStyle(carbonFootprint) {
     let length = carbonFootprint.length;
@@ -20,8 +29,8 @@ const LeaderboardTable = (rows) => {
       return {color: '#f54242'}
     }
   }
-
   return (
+    <>
     <DataTable style={styles.container}>
       <DataTable.Header style={styles.tableHeader}>
         <DataTable.Title>Position</DataTable.Title>
@@ -35,11 +44,12 @@ const LeaderboardTable = (rows) => {
           <DataTable.Cell> {row['0']} </DataTable.Cell>
           <DataTable.Cell> {row['1']} </DataTable.Cell>
           <DataTable.Cell> <Text style={getStyle(row['2'])}> {row['2']} </Text> </DataTable.Cell>
-          <DataTable.Cell> {row['3']} </DataTable.Cell>
+          <DataTable.Cell> {determineBadge(row['3'])} </DataTable.Cell>
         </DataTable.Row>
       ))}
       
     </DataTable>
+    </>
   );
 };
   
@@ -60,4 +70,9 @@ const styles = StyleSheet.create({
   tableHeader: {
     backgroundColor: '#DCDCDC',
   },
+  badge1: {
+    height: 40,
+    width: 40,
+    backgroundColor: '#fff'
+  }
 });
