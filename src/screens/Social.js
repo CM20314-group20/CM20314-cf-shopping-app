@@ -73,6 +73,10 @@ export default function Social() {
     }
   }
 
+  handleRefresh = () => {
+    setGroup()
+    getGroupID()
+  }
   
   return (
     <>
@@ -88,7 +92,14 @@ export default function Social() {
           </View><View style={styles.groupbuttons}>
 
             <Pressable style={styles.leavegroup}>
-              <Text style={styles.text} onPress={() => leaveGroup()}>Leave Group</Text>
+              <Text style={styles.text} onPress={() => {
+                leaveGroup();
+                Alert.alert(
+                  "You have left your group"
+                )
+                handleRefresh();
+              }
+            }>Leave Group</Text>
             </Pressable>
 
             <Separator />
@@ -109,6 +120,7 @@ export default function Social() {
                     }
                   ],
                 )
+                handleRefresh();
               }}>Join Group</Text>
             </Pressable>
 

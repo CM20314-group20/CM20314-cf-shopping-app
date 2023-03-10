@@ -45,6 +45,7 @@ export default function ReceiptScanner() {
         const data = await cameraRef.current.takePictureAsync();
         console.log(data);
         setImage(data.uri);
+        console.log(data.uri);
       } catch(e) {
         console.log(e);
       }
