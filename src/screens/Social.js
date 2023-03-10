@@ -28,6 +28,28 @@ export default function Social() {
     }
   }
 
+  async function joinGroup(group_id) {
+    try {
+      await axios.post('http://127.0.0.1:5000/social', {
+        data: 'Join Group', group_id: group_id,
+      })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+  async function createGroup(group_id) {
+    try {
+      await axios.post('http://127.0.0.1:5000/social', {
+        data: 'Create Group', group_id: group_id,
+      })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   async function leaveGroup() {
     try {
       await axios.post('http://127.0.0.1:5000/social', {
@@ -72,13 +94,43 @@ export default function Social() {
             <Separator />
 
             <Pressable style={styles.joingroup}>
-              <Text style={styles.text} onPress={() => Alert.alert("Join Group")}>Join Group</Text>
+              <Text style={styles.text} onPress={() => {
+                Alert.prompt(
+                  "Enter Group ID",
+                  "Input the id of the group you want to join",
+                  [
+                    {
+                      text: "Cancel",
+                      style: "cancel"
+                    },
+                    {
+                      text: "OK",
+                      onPress: groupid => joinGroup(groupid)
+                    }
+                  ],
+                )
+              }}>Join Group</Text>
             </Pressable>
 
             <Separator />
 
             <Pressable style={styles.creategroup}>
-              <Text style={styles.text} onPress={() => Alert.alert("Create Group")}>Create Group</Text>
+              <Text style={styles.text} onPress={() => {
+                Alert.prompt(
+                  "Create a group",
+                  "Input the id of the group you want to create",
+                  [
+                    {
+                      text: "Cancel",
+                      style: "cancel"
+                    },
+                    {
+                      text: "OK",
+                      onPress: groupid => createGroup(groupid)
+                    }
+                  ],
+                )
+              }}>Create Group</Text>
             </Pressable>
 
             <Separator />

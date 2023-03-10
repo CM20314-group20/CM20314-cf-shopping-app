@@ -21,26 +21,22 @@ export default function Settings() {
       <Text style = {styles.text}> Username:   </Text>
       <TextInput
         style={styles.UserinputBox}
-        placeholder="Eg. User1"
+        placeholder="Eg. user1"
       />
       <Text style = {styles.text}> Email:   </Text>
       <TextInput
         style={styles.UserinputBox}
-        placeholder="Eg. User1"
+        placeholder="Eg. username@gmail.com"
       />
 
       <Text style = {styles.text}> Phone No.:   </Text>
       <TextInput
         style={styles.UserinputBox}
-        placeholder="Eg. User1"
+        placeholder="Eg. 07779 138931"
       />
-      <Text style = {styles.text}> Data Metric:   </Text>
-      <SelectList 
-        setSelected={(val) => setSelected(val)} 
-        data={data} 
-        save="value"
-        />
+      
     </View>
+    
 
     <View style={styles.input}>
       <Pressable style={styles.Savebutton}>
@@ -50,8 +46,9 @@ export default function Settings() {
       <Pressable style={styles.Cancelbutton}>
         <Text style={styles.text}>Cancel</Text>
       </Pressable>
-      </View>
-      <View style={styles.input2}>
+    </View>
+
+    <View style={styles.input}>
       <Separator />
       <Pressable style={styles.resetbutton}>
         <Text style={styles.text1}>Reset Password</Text>
@@ -60,7 +57,16 @@ export default function Settings() {
       <Pressable style={styles.resetbutton}>
         <Text style={styles.text2}>Delete Account</Text>
       </Pressable>
-    
+    </View>
+
+    <View style={styles.dropdown}>
+    <Text style = {styles.text}> Data Metric:   </Text>
+      <SelectList 
+        style={styles.selectList}
+        setSelected={(val) => setSelected(val)} 
+        data={data} 
+        save="value"
+        />
     </View>
     </>
     
@@ -68,6 +74,21 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
+  selectList: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+  },
+  dropdown: {
+    flexDirection: 'column',
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    marginHorizontal: 160,
+    marginVertical: 200,
+  },
   UserinputBox: {
     width: 300,
     height: 40,
@@ -85,10 +106,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'top',
+    position: 'relative',
   },
   input2: {
     flexDirection: 'column',
-    flex: 1,
+    flex: 0.5,
     backgroundColor: '#fff',
     alignItems: 'left',
     justifyContent: 'top',
