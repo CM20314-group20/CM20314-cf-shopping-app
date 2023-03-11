@@ -32,6 +32,8 @@ export default function Social() {
     try {
       await axios.post('http://127.0.0.1:5000/social', {
         data: 'Join Group', group_id: group_id,
+      }).then((response) => {
+        setGroup(response.data['group-id']);
       })
     }
     catch(err) {
@@ -43,6 +45,8 @@ export default function Social() {
     try {
       await axios.post('http://127.0.0.1:5000/social', {
         data: 'Create Group', group_id: group_id,
+      }).then((response) => {
+        setGroup(response.data['group-id']);
       })
     }
     catch(err) {
@@ -54,6 +58,8 @@ export default function Social() {
     try {
       await axios.post('http://127.0.0.1:5000/social', {
         data: 'Left group',
+      }).then((response) => {
+        setGroup("You are not part of a group");
       })
     }
     catch(err) {
@@ -74,8 +80,7 @@ export default function Social() {
   }
 
   handleRefresh = () => {
-    setGroup()
-    getGroupID()
+    getLeaderboard()
   }
   
   return (
@@ -97,7 +102,6 @@ export default function Social() {
                 Alert.alert(
                   "You have left your group"
                 )
-                handleRefresh();
               }
             }>Leave Group</Text>
             </Pressable>
@@ -120,7 +124,6 @@ export default function Social() {
                     }
                   ],
                 )
-                handleRefresh();
               }}>Join Group</Text>
             </Pressable>
 

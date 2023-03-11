@@ -72,7 +72,7 @@ class ReceiptScanner:
 # output = current.im_to_text(image_name)
 # print(output)
 
-# print(OCR(image))
+# print(current.OCR(image_name))
 
 # # api call to search from openfoodfacts
 # out = openfoodfacts.products.search('STRAWBERRIES 400G')

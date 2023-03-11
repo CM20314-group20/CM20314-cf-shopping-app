@@ -12,19 +12,19 @@ import {
 import axios from "axios";
 
 export default function Home() {
-  const [cfData, setcfData] = useState()
+  const [cfData, setcfData] = useState([])
 
   useEffect(() => {
-    getCFHistory()
+    // getCFHistory()
   }, [])
 
   async function getCFHistory() {
     try {
       const url = 'http://127.0.0.1:5000/';
       const response = await axios.get(url);
-      const data = response.data['cf-data'];
+      // FIXME
+      const data = response.data["Data"];
       setcfData(data);
-      console.log(cfData);
     }
     catch(err) {
       console.log(err);
