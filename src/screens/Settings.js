@@ -1,20 +1,29 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Pressable} from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
+import axios from 'axios';
 
 export default function Settings() {
   const Separator = () => <View style={styles.separator} />;
   const [selected, setSelected] = React.useState("");
   
   const data = [
-      {key:'1', value:'Mobiles', disabled:true},
-      {key:'2', value:'Appliances'},
-      {key:'3', value:'Cameras'},
-      {key:'4', value:'Computers', disabled:true},
-      {key:'5', value:'Vegetables'},
-      {key:'6', value:'Diary Products'},
-      {key:'7', value:'Drinks'},
+      {key:'1', value:'Miles Driven'},
+      {key:'2', value:'Trees Saved'},
+      {key:'3', value:'Pure CO2 emissions'},
   ]
+
+  async function postMetric(metric) {
+    try {
+      await axios.post('http://127.0.0.1:5000/settings', {
+        data: 'New Metric', metric: metric,
+      })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+  
   return (
     <>
     <View style={styles.input}>
@@ -38,7 +47,7 @@ export default function Settings() {
     </View>
     
 
-    <View style={styles.input}>
+    <View style={styles.savechanges}>
       <Pressable style={styles.Savebutton}>
         <Text style={styles.text}>Save Changes</Text>
       </Pressable>
@@ -48,7 +57,7 @@ export default function Settings() {
       </Pressable>
     </View>
 
-    <View style={styles.input}>
+    {/* <View style={styles.input}>
       <Separator />
       <Pressable style={styles.resetbutton}>
         <Text style={styles.text1}>Reset Password</Text>
@@ -57,13 +66,13 @@ export default function Settings() {
       <Pressable style={styles.resetbutton}>
         <Text style={styles.text2}>Delete Account</Text>
       </Pressable>
-    </View>
+    </View> */}
 
     <View style={styles.dropdown}>
-    <Text style = {styles.text}> Data Metric:   </Text>
+    <Text style={styles.text}>Data Metric:</Text>
       <SelectList 
-        style={styles.selectList}
         setSelected={(val) => setSelected(val)} 
+        onSelect={() => postMetric(selected)}
         data={data} 
         save="value"
         />
@@ -74,11 +83,6 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
-  selectList: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-  },
   dropdown: {
     flexDirection: 'column',
     flex: 1,
@@ -88,6 +92,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginHorizontal: 160,
     marginVertical: 200,
+  },
+  savechanges: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   UserinputBox: {
     width: 300,
@@ -116,10 +126,10 @@ const styles = StyleSheet.create({
     justifyContent: 'top',
   },
   Savebutton: {
-    alignItems: 'right',
+    alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 6,
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'lawngreen',

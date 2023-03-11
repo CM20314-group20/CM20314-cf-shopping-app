@@ -29,7 +29,7 @@ export default function ShoppingList() {
     setListItems([...listItems, list])
 
     axios.post('http://127.0.0.1:5000/shoppinglist', {
-      data: {'items_after_add ' : [...listItems, list]}
+      data: {'items_after_add' : [...listItems, list]}
     })
     .catch(function (error) {
       console.log(error);

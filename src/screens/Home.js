@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { SearchBar } from '@rneui/themed';
 import { StyleSheet, View, Text, Dimensions, Button } from 'react-native';
 import {
@@ -9,8 +9,27 @@ import {
   ContributionGraph,
   StackedBarChart
 } from "react-native-chart-kit";
+import axios from "axios";
 
 export default function Home() {
+  const [cfData, setcfData] = useState([])
+
+  useEffect(() => {
+    // getCFHistory()
+  }, [])
+
+  async function getCFHistory() {
+    try {
+      const url = 'http://127.0.0.1:5000/';
+      const response = await axios.get(url);
+      // FIXME
+      const data = response.data["Data"];
+      setcfData(data);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
   // const [update, setUpdate] = useState("")
   const Item = ({ item }) => {
     return <View style={styles.item}>{item.icon}</View>;

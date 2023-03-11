@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import CameraButton from '../components/CameraButton';
+import axios from 'axios';
 
 export default function ReceiptScanner() {
   
@@ -13,16 +14,21 @@ export default function ReceiptScanner() {
   const [type, setType] = useState(Camera.Constants.Type.back)
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
+  
 
   // TODO - post request to send image to backend
-  async function postImageToBackend(image) {
-    let formData = new FormData();
-    formData.append(image, {
-      name: `scanned-receipt`
+  async function postImageToBackend(uri) {
+    const form = new FormData();
+    form.append('Image', {
+      name: `scanned-receipt`,
+      uri: uri,
+      type: "image.jpg",
     });
     try {
       await axios.post('http://127.0.0.1:5000/receiptscanner', {
-        data: formData,
+        data: form,
+      }).then((response) => {
+        console.log(response.data);
       })
     }
     catch(err) {
@@ -43,8 +49,10 @@ export default function ReceiptScanner() {
     if(cameraRef) {
       try{
         const data = await cameraRef.current.takePictureAsync();
-        console.log(data);
         setImage(data.uri);
+        // TODO - replace this post to backend in Save image
+        // for permission reasons it wont let it work off code
+        postImageToBackend(data.uri);
       } catch(e) {
         console.log(e);
       }
@@ -52,11 +60,11 @@ export default function ReceiptScanner() {
   }
 
   const saveImage = async() => {
-    if(image) {
+    if (image) {
       try{
         await MediaLibrary.createAssetAsync(image);
-        // TODO - send image to backend
-        postImageToBackend(image);
+        // TODO - send image to backend here
+        // postImageToBackend(image);
         alert('Picture Save!')
         setImage(null);
       } catch(e) {

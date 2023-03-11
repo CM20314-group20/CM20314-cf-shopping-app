@@ -32,6 +32,8 @@ export default function Social() {
     try {
       await axios.post('http://127.0.0.1:5000/social', {
         data: 'Join Group', group_id: group_id,
+      }).then((response) => {
+        setGroup(response.data['group-id']);
       })
     }
     catch(err) {
@@ -43,6 +45,8 @@ export default function Social() {
     try {
       await axios.post('http://127.0.0.1:5000/social', {
         data: 'Create Group', group_id: group_id,
+      }).then((response) => {
+        setGroup(response.data['group-id']);
       })
     }
     catch(err) {
@@ -54,6 +58,8 @@ export default function Social() {
     try {
       await axios.post('http://127.0.0.1:5000/social', {
         data: 'Left group',
+      }).then((response) => {
+        setGroup("You are not part of a group");
       })
     }
     catch(err) {
@@ -73,6 +79,9 @@ export default function Social() {
     }
   }
 
+  handleRefresh = () => {
+    getLeaderboard()
+  }
   
   return (
     <>
@@ -88,7 +97,13 @@ export default function Social() {
           </View><View style={styles.groupbuttons}>
 
             <Pressable style={styles.leavegroup}>
-              <Text style={styles.text} onPress={() => leaveGroup()}>Leave Group</Text>
+              <Text style={styles.text} onPress={() => {
+                leaveGroup();
+                Alert.alert(
+                  "You have left your group"
+                )
+              }
+            }>Leave Group</Text>
             </Pressable>
 
             <Separator />
