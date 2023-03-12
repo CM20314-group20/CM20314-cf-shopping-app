@@ -4,7 +4,7 @@ class Freq_Dict:
         self.dict = dict()
 
         self.highest_freq = 0
-        self.highest_freq_key = ""
+        self.highest_freq_key = None
 
     def __str__(self) -> str:
         return str(self.dict)
