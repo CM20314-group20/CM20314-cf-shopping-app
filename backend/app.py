@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 import random, math, urllib
 from product_data_backend import ProductData
-# from camera_backend import receipt_splitter
+from camera_backend.receipt_splitter import ReceiptScanner
 import base64
 
 app = Flask(__name__)
@@ -68,13 +68,16 @@ def receiptscanner():
         base64_str = data['data']['_parts'][0][1]['base64']
         decoded_img = base64.b64decode(base64_str)
         
-        # print(decoded_img)
-        # with open('backend/scanned-images/new-image.jpg', 'wb') as f:
-        #     f.write(decoded_img)
+        with open('backend/scanned-images/new-image.jpg', 'wb') as f:
+            f.write(decoded_img)
 
-        # TODO - OCR this image "decoded_img" and return everything that we need for front end, takes a while for the image to load
 
-        return jsonify({"Image" : "Data"})
+        products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
+        products = [ProductData.product_from_name(name) for name in products if name != ' ']
+        
+        print(products)
+        
+        return jsonify({"Image" : products})
 
 
     elif request.method == 'GET':

@@ -45,10 +45,10 @@ class ReceiptScanner:
     @classmethod
     def im_to_text(self, image_name: str) -> list:
         text = self.OCR(image_name)
-
+        
         text = text.split('\n')
         sections = []
-        add = False
+        add = True
 
         # loop OCR text and cut out unnecessary fluff
         
@@ -62,7 +62,7 @@ class ReceiptScanner:
                     add = False
             if add and row != '':
                 sections.append(self.clean_string(row))
-        
+
         return sections[1:]
 
 
