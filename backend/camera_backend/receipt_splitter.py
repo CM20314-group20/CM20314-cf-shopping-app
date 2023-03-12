@@ -8,8 +8,7 @@ from PIL import Image
 # import openfoodfacts
 
 # databse of abbreviatons and remove_abbreviations function
-import abbreviations_dict
-
+from . import abbreviations_dict
 
 class ReceiptScanner:
 
