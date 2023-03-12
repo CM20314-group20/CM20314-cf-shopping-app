@@ -8,6 +8,7 @@ import Social from './src/screens/Social';
 import Settings from './src/screens/Settings';
 import ShoppingList from './src/screens/ShoppingList';
 import ReceiptScanner from './src/screens/ReceiptScanner';
+import ReceiptItems from './src/screens/ReceiptItems';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -21,6 +22,7 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
+        
         <Tab.Navigator screenOptions={() => ({
           headerShown: true,
           headerStyle: {
@@ -52,6 +54,7 @@ export default function App() {
           <Tab.Screen name="Settings" component={Settings} options={{
             tabBarIcon: ({ size, color }) => (<Icon name={"cog"} color={color} size={22} />)
           }} />
+          <Tab.Screen name="Scanned Items" component={ReceiptItems}/>
         </Tab.Navigator>
       </NavigationContainer>
     </>

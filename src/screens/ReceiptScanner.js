@@ -14,20 +14,24 @@ export default function ReceiptScanner() {
   const [type, setType] = useState(Camera.Constants.Type.back)
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
-  
+  const ip = "192.168.1.94";
+  const port = "4000";
+
 
   // TODO - post request to send image to backend
-  async function postImageToBackend(uri) {
+  async function postImageToBackend(base64) {
     const form = new FormData();
     form.append('Image', {
       name: `scanned-receipt`,
-      uri: uri,
+      base64: base64,
       type: "image.jpg",
     });
     try {
-      await axios.post('http://127.0.0.1:5000/receiptscanner', {
+      // await axios.post('http://127.0.0.1:5000/receiptscanner', {
+      await axios.post('http://' + ip + ':' + port + '/receiptscanner', {
         data: form,
       }).then((response) => {
+        // Display this data on a new page
         console.log(response.data);
       })
     }
@@ -48,11 +52,11 @@ export default function ReceiptScanner() {
   const takePicture = async () => {
     if(cameraRef) {
       try{
-        const data = await cameraRef.current.takePictureAsync();
+        const data = await cameraRef.current.takePictureAsync({base64:true});
         setImage(data.uri);
         // TODO - replace this post to backend in Save image
         // for permission reasons it wont let it work off code
-        postImageToBackend(data.uri);
+        postImageToBackend(data['base64']);
       } catch(e) {
         console.log(e);
       }
