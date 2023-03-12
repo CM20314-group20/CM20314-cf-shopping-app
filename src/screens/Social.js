@@ -11,6 +11,9 @@ export default function Social() {
   const [leaderboard, setLeaderboard] = useState()
   const Separator = () => <View style={styles.separator} />;
 
+  const ip = "192.168.1.94";
+  const port = "4000";
+
   useEffect(() => {
     getGroupID()
     getLeaderboard()
@@ -18,7 +21,8 @@ export default function Social() {
 
   async function getGroupID() {
     try {
-      const url = 'http://127.0.0.1:5000/social';
+      // const url = 'http://127.0.0.1:5000/social';
+      const url = 'http://' + ip + ':' + port + '/social';
       const response = await axios.get(url);
       const groupID = response.data['group-id'];
       setGroup(groupID);
@@ -30,7 +34,8 @@ export default function Social() {
 
   async function joinGroup(group_id) {
     try {
-      await axios.post('http://127.0.0.1:5000/social', {
+      // await axios.post('http://127.0.0.1:5000/social', {
+      await axios.post('http://' + ip + ':' + port + '/social', {
         data: 'Join Group', group_id: group_id,
       }).then((response) => {
         setGroup(response.data['group-id']);
@@ -43,7 +48,8 @@ export default function Social() {
 
   async function createGroup(group_id) {
     try {
-      await axios.post('http://127.0.0.1:5000/social', {
+      // await axios.post('http://127.0.0.1:5000/social', {
+      await axios.post('http://192.168.1.94:4000/social', {
         data: 'Create Group', group_id: group_id,
       }).then((response) => {
         setGroup(response.data['group-id']);
@@ -56,7 +62,8 @@ export default function Social() {
 
   async function leaveGroup() {
     try {
-      await axios.post('http://127.0.0.1:5000/social', {
+      // await axios.post('http://127.0.0.1:5000/social', {
+      await axios.post('http://' + ip + ':' + port + '/social', {
         data: 'Left group',
       }).then((response) => {
         setGroup("You are not part of a group");
@@ -69,7 +76,8 @@ export default function Social() {
 
   async function getLeaderboard() {
     try {
-      const url = 'http://127.0.0.1:5000/social';
+      // const url = 'http://127.0.0.1:5000/social';
+      const url = 'http://' + ip + ':' + port + '/social';
       const response = await axios.get(url);
       const rows = response.data['id-list'];
       setLeaderboard(rows);

@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import random, math, urllib
 from product_data_backend import ProductData
 # from camera_backend import receipt_splitter
+import base64
 
 app = Flask(__name__)
 
@@ -17,7 +18,6 @@ def home():
             random.uniform(0, 1) * 100,
             random.uniform(0, 1) * 100
                     ]
-        print(data)
         return jsonify({"Data" : data})
     
     return jsonify({"Home" : "Page"})
@@ -60,13 +60,14 @@ def social():
 def receiptscanner():
     if request.method == 'POST':
         data = request.get_json()
-        image_uri = data['data']['_parts'][0][1]['uri']
-        image = urllib.request.urlopen(image_uri)
-
-        # with open('backend/scanned-images/new-image.jpg', 'wb') as f:
-            # f.write(image.file.read())
+        base64_str = data['data']['_parts'][0][1]['base64']
+        decoded_img = base64.b64decode(base64_str)
         
-        # TODO - OCR this image and return everything that we need for front end
+        # print(decoded_img)
+        # with open('backend/scanned-images/new-image.jpg', 'wb') as f:
+        #     f.write(decoded_img)
+
+        # TODO - OCR this image "decoded_img" and return everything that we need for front end, takes a while for the image to load
 
         return jsonify({"Image" : "Data"})
 
@@ -91,4 +92,4 @@ def shoppinglist():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port='4000')

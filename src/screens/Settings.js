@@ -15,7 +15,8 @@ export default function Settings() {
 
   async function postMetric(metric) {
     try {
-      await axios.post('http://127.0.0.1:5000/settings', {
+      // await axios.post('http://127.0.0.1:5000/settings', {
+      await axios.post('http://192.168.1.94:4000/settings', {
         data: 'New Metric', metric: metric,
       })
     }

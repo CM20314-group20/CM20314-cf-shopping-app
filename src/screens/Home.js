@@ -13,6 +13,8 @@ import axios from "axios";
 
 export default function Home() {
   const [cfData, setcfData] = useState([])
+  const ip = "192.168.1.94";
+  const port = "4000";
 
   useEffect(() => {
     // getCFHistory()
@@ -20,7 +22,8 @@ export default function Home() {
 
   async function getCFHistory() {
     try {
-      const url = 'http://127.0.0.1:5000/';
+      // const url = 'http://127.0.0.1:5000/';
+      const url = 'http://' + ip + ':' + port + '/';
       const response = await axios.get(url);
       // FIXME
       const data = response.data["Data"];

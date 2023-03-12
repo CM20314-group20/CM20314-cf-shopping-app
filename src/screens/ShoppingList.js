@@ -4,17 +4,31 @@ import ListFoodItem from '../components/ListFoodItem';
 import axios from 'axios';
 import LoadingScreen from '../components/LoadingScreen.js';
 
+import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 export default function ShoppingList() {
   const [list, setList] = useState();
   const [listItems, setListItems] = useState();
-  
+  const navigation = useNavigation();
+  const Stack = createNativeStackNavigator();
+  const ip = "192.168.1.94";
+  const port = "4000";
+
   useEffect(() => {
     getShoppingListItems()
   }, [])
+  
+  // FIXME - Load Scanned Items page as a stack not a tab
+  function renderScannedItems() {
+    navigation.navigate("Scanned Items");
+  }
 
   async function getShoppingListItems() {
     try {
-      const url = 'http://127.0.0.1:5000/shoppinglist';
+      // const url = 'http://127.0.0.1:5000/shoppinglist';
+      const url = 'http://' + ip + ':' + port + '/shoppinglist';
       const response = await axios.get(url);
       const shoppingListItems = response.data["Items"];      
       setListItems(shoppingListItems);
@@ -28,19 +42,22 @@ export default function ShoppingList() {
     Keyboard.dismiss();
     setListItems([...listItems, list])
 
-    axios.post('http://127.0.0.1:5000/shoppinglist', {
+    // axios.post('http://127.0.0.1:5000/shoppinglist', {
+    axios.post('http://' + ip + ':' + port + '/shoppinglist', {
       data: {'items_after_add' : [...listItems, list]}
     })
     .catch(function (error) {
       console.log(error);
     });
     setList(null);
+    // renderScannedItems();
   }
 
   const removeItem = (index) => {
     let itemsCopy = [...listItems];
     itemsCopy.splice(index, 1);
-    axios.post('http://127.0.0.1:5000/shoppinglist', {
+    // axios.post('http://127.0.0.1:5000/shoppinglist', {
+    axios.post('http://' + ip + ':' + port + '/shoppinglist', {
       data: {'items_after_remove' : itemsCopy}
     })
     .catch(function (error) {
