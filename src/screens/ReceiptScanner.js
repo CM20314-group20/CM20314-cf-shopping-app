@@ -5,6 +5,8 @@ import * as MediaLibrary from 'expo-media-library';
 import CameraButton from '../components/CameraButton';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import LoadingScreen from '../components/LoadingScreen';
+import { render } from 'react-dom';
 
 export default function ReceiptScanner() {
   
@@ -14,6 +16,10 @@ export default function ReceiptScanner() {
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back)
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const [scannedItems, setScannedItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [base64, setBase64] = useState("");
+
   const cameraRef = useRef(null);
   const ip = "192.168.1.94";
   const port = "4000";
@@ -32,9 +38,7 @@ export default function ReceiptScanner() {
       await axios.post('http://' + ip + ':' + port + '/receiptscanner', {
         data: form,
       }).then((response) => {
-
-        // Display this data on a new page
-        console.log(response.data);
+        renderScannedItems(response.data["Image"]);
       })
     }
     catch(err) {
@@ -42,8 +46,12 @@ export default function ReceiptScanner() {
     }
   }
 
-  function renderScannedItems() {
-    navigation.push("Receipt Items");
+  function renderScannedItems(props) {
+    // TODO - get these items from return of post request of postImageToBackend
+    navigation.push("Receipt Items", {
+      data: props
+    });
+    
   }
 
   useEffect(() => {
@@ -52,8 +60,7 @@ export default function ReceiptScanner() {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
       setHasCameraPermission(cameraStatus.status== 'granted');
     })();
-
-  }, [])
+  }, []);
 
   const takePicture = async () => {
     if(cameraRef) {
@@ -62,12 +69,13 @@ export default function ReceiptScanner() {
         setImage(data.uri);
         // TODO - replace this post to backend in Save image
         // for permission reasons it wont let it work off code
+        setBase64(data['base64']);
         postImageToBackend(data['base64']);
       } catch(e) {
         console.log(e);
       }
     }
-    renderScannedItems();
+    // renderScannedItems();
   }
 
   const saveImage = async() => {
@@ -91,6 +99,9 @@ export default function ReceiptScanner() {
   const BottomSeparator = () => <View style={styles.BottomSeparator} />;
   
   return (
+    <>
+    {loading && <LoadingScreen />}
+    {!loading && (
     <>
     <View style={styles.container}>
       {!image ?
@@ -136,6 +147,8 @@ export default function ReceiptScanner() {
       }
       <BottomSeparator/>
     </View>
+    </>
+    )}
     </>
   );
 }
