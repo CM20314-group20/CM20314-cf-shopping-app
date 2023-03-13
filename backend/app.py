@@ -73,7 +73,6 @@ def receiptscanner():
         #     f.write(decoded_img)
 
         # TODO - OCR this image "decoded_img" and return everything that we need for front end, takes a while for the image to load
-        print("receipt")
         return jsonify({"Image" : "Data"})
 
 
@@ -93,7 +92,6 @@ def barcodescanner():
         #     f.write(decoded_img)
 
         # TODO - OCR this image "decoded_img" and return everything that we need for front end, takes a while for the image to load (The carbon footprint of the specific Item scanned)
-        print("barcode")
         return jsonify({"Image" : "Data"})
 
 

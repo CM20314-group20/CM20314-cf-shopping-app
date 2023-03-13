@@ -177,15 +177,15 @@ const styles = StyleSheet.create({
   groupbuttons: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'left', // Doesn't work on android
-    // justifyContent: 'left', // Doesn't work on android
-    // paddingHorizontal: 20, // Doesn't work on android
+    alignItems: 'left', // Doesn't work on android
+    justifyContent: 'left', // Doesn't work on android
+    paddingHorizontal: 20, // Doesn't work on android
   },
   groupidbuttons: {
     flex: 0,
     backgroundColor: '#fff',
-    // alignItems: 'top',
-    // justifyContent: 'top' ,
+    alignItems: 'top', // Doesn't work on android
+    justifyContent: 'top' , // Doesn't work on android
     padding: 20,
   },
   leavegroup: {
@@ -231,8 +231,8 @@ const styles = StyleSheet.create({
     shadowOffset : { width: 1, height: 5},
   },
   groupid: {
-    // alignItems: 'left', // Doesn't work on android
-    // justifyContent: 'left', // Doesn't work on android
+    alignItems: 'left', // Doesn't work on android
+    justifyContent: 'left', // Doesn't work on android
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,

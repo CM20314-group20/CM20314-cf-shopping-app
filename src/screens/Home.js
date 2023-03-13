@@ -127,16 +127,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    // justifyContent: 'top', // Doesn't work on android
+    justifyContent: 'top', // Doesn't work on android
   },
   header_text: {
-    // alignItems: 'left' //  Doesn't work in Android
+    alignItems: 'left' //  Doesn't work in Android
   },
   savings: {
     alignItems: 'center'
   },
   achievements_wrapper: {
-    // alignItems: 'left' //  Doesn't work in Android
+    alignItems: 'left' //  Doesn't work in Android
   },
   achievements: {
     alignItems: 'center'
