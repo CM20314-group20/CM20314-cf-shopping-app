@@ -31,6 +31,7 @@ export default function ReceiptScanner() {
       await axios.post('http://' + ip + ':' + port + '/receiptscanner', {
         data: form,
       }).then((response) => {
+
         // Display this data on a new page
         console.log(response.data);
       })
