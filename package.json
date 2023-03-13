@@ -28,6 +28,7 @@
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
     "react-native-curved-bottom-bar": "^2.1.4",
+    "react-native-image-picker": "^5.1.0",
     "react-native-leaderboard": "^1.0.6",
     "react-native-navbar": "^2.1.0",
     "react-native-paper": "^5.2.0",

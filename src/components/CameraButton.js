@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        marginRight:50,
+        marginLeft:50,
     },
     text: {
         fontWeight: 'bold',

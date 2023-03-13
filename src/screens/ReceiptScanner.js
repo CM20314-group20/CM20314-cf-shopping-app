@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react';
 import axios from "axios";
-import { StyleSheet, Text, View, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, PermissionsAndroid, Platform } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import CameraButton from '../components/CameraButton';
 import ChangeScanButton from '../components/ChangeScanButton';
 import { justifyContent } from 'react-native-wind/dist/styles/flex/justify-content';
+import ImagePicker from 'react-native-image-picker';
 
 export default function ReceiptScanner() {
   
@@ -13,6 +14,8 @@ export default function ReceiptScanner() {
 
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
+  const [wholeImage, setWholeImage] = useState(null);
+  // const [imageBlob, setImageBlob] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back)
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const [isReceipt, setIsReceipt] = useState(true);
@@ -21,22 +24,96 @@ export default function ReceiptScanner() {
   let urlIP = 'http://10.0.2.2:5000' // Android Emulator
   // let urlIP = 'http://127.0.0.1:5000' // IOS Emulator
 
-  // TODO - post request to send image to backend
-  async function postImageToBackend(image) {
-    let formData = new FormData();
-    formData.append(image, {
-      name: `scanned-receipt`
+  // async function getImageBlob(imageUri) {
+  //   let response = await fetch(imageUri);
+  //   let blob = await response.blob();
+  //   return blob;
+  // }
 
-    });
-    try {
-      url = urlIP.concat('/receiptscanner');
-      await axios.post(url, {
-        data: formData,
-      })
-    }
-    catch(err) {
-      console.log(err);
-    }
+  // async function requestStoragePermission() {
+  //   if (Platform.OS === 'android') {
+  //     try {
+  //       const granted = await PermissionsAndroid.request(
+  //         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+  //         {
+  //           title: 'Storage Permission Required',
+  //           message: 'This app needs access to your storage to select photos'
+  //         }
+  //       );
+  //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //         console.log('Storage permission granted');
+  //         return true;
+  //       } else {
+  //         console.log('Storage permission denied');
+  //         return false;
+  //       }
+  //     } catch (err) {
+  //       console.warn(err);
+  //       return false;
+  //     }
+  //   } else {
+  //     // On iOS, permissions are granted at installation time
+  //     return true;
+  //   }
+  // }
+
+  // TODO - post request to send image to backend
+  async function postImageToBackend() {
+
+    fetch(image, (response) => {
+      console.log('here');
+      console.log(response);
+    })
+    console.log('here');
+
+    const formData = new FormData();
+        formData.append('image', {
+          uri: wholeImage.uri,
+          type: 'jpg',
+          name: wholeImage.fileName,
+        });
+
+        let url = urlIP.concat('/receiptscanner');
+
+        fetch(url, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((response) => response.json())
+        .then((result) => {
+          // console.log('here');
+          console.log(result);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+
+
+    // console.log(image);
+
+    // let blob = await getImageBlob(image);
+    // console.log(blob);
+
+    // let formData = new FormData();
+    // formData.append('image', {
+    //   blob: blob,
+    //   uri: image,
+    //   type: 'image/jpeg',
+    //   name: `scanned-receipt.jpg`
+    // });
+    // await axios.post(url, image)
+    // .then((response) =>{
+    //   console.log(response.data);
+    // })
+    // await axios.post(url, {
+    //   data: formData,
+    //   })
+    // .catch((err) => {
+    //   console.log(err.stack);
+    // })
   }
 
   useEffect(() => {
@@ -53,6 +130,7 @@ export default function ReceiptScanner() {
       try{
         const data = await cameraRef.current.takePictureAsync();
         console.log(data);
+        setWholeImage(data);
         setImage(data.uri);
       } catch(e) {
         console.log(e);
@@ -61,11 +139,12 @@ export default function ReceiptScanner() {
   }
 
   const saveImage = async() => {
-    if(image) {
+    if(wholeImage) {
       try{
         await MediaLibrary.createAssetAsync(image);
         // TODO - send image to backend
-        postImageToBackend(image);
+        // postImageToBackend(image);
+        postImageToBackend();
         alert('Scanning')
         setImage(null);
       } catch(e) {
