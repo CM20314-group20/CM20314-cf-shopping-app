@@ -99,14 +99,12 @@ export default function Home() {
             <Text>CF lowered by more than 50 kg from previous month</Text>
           </View>
         <View style={styles.goalButtonWrapper} >
-          <Pressable style={styles.goal}>
-              <Text style={styles.text} onPress={() => {
-                
-                Alert.alert(
-                  "To save 10kg"
-                )
-              }
-            }>Goals</Text>
+          <Pressable style={styles.goal} onPress={() => {
+              Alert.alert(
+                "To save 10kg"
+              )
+            }}>
+              <Text style={styles.text}>Goals</Text>
             </Pressable>
         </View>
         {/* <SearchBar

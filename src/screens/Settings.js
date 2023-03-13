@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Pressable} from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Pressable, Alert} from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import axios from 'axios';
 
@@ -49,7 +49,10 @@ export default function Settings() {
     
 
     <View style={styles.savechanges}>
-      <Pressable style={styles.Savebutton}>
+      <Pressable style={styles.Savebutton} onPress={() => {
+        postMetric(selected)
+        Alert.alert("Changes Saved")
+      }}>
         <Text style={styles.text}>Save Changes</Text>
       </Pressable>
       <Separator />
@@ -73,7 +76,7 @@ export default function Settings() {
     <Text style={styles.text}>Data Metric:</Text>
       <SelectList 
         setSelected={(val) => setSelected(val)} 
-        onSelect={() => postMetric(selected)}
+        onSelect={() => {}}
         data={data} 
         save="value"
         />

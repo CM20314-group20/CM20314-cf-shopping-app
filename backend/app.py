@@ -53,6 +53,7 @@ def social():
 
         
     elif request.method == 'GET':
+        # TODO - get the user's group id from the database and return the user's and their data in that group
         return jsonify({"group-id" : groupid, "id-list" : [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]})
 
 
