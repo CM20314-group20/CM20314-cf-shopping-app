@@ -18,4 +18,4 @@ def get_cf_from_category(category: str) -> tuple:
     if not best_row is None:
         return (best_row['category'], float(best_row['co2']))
     else:
-        return None
+        return None, None
