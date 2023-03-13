@@ -92,14 +92,12 @@ export default function Home() {
           <Text style={styles.energy}> 1kw energy saved</Text>
           <Text style={styles.fish}> 37 fish saved</Text>
           <Text style={styles.trees}> 10 trees planted</Text>
-        </View>
-        <View style={styles.achievements_wrapper}> 
           <Text style={styles.header01}> Achievements </Text>
+        </View>
           <View style={styles.achievements}> 
             <Text style={styles.Achievements}> Star Reducer:</Text>
             <Text>CF lowered by more than 50 kg from previous month</Text>
           </View>
-        </View>
         <View style={styles.goalButtonWrapper} >
           <Pressable style={styles.goal}>
               <Text style={styles.text} onPress={() => {
@@ -126,7 +124,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
+    alignItems: 'center',
     // justifyContent: 'top', // Doesn't work on android
   },
   header_text: {
