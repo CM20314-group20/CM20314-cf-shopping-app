@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Pressable} from 'react-native';
 import axios from 'axios';
-
+import { useNavigation } from '@react-navigation/native';
 export default function ReceiptItems() {
   const [update, setUpdate] = useState("")
-  
+  const navigation = useNavigation();
   return (
     <>
         <View style={styles.container}>
-            
+
         </View>
     </>
     

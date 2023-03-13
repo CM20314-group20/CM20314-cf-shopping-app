@@ -11,11 +11,28 @@ import {
 } from "react-native-chart-kit";
 import axios from "axios";
 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+
+import Social from './Social';
+import Settings from './Settings';
+import ShoppingList from './ShoppingList';
+import ReceiptScanner from './ReceiptScanner';
+import ReceiptItems from './ReceiptItems';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+
+
 export default function Home() {
   const [cfData, setcfData] = useState([])
   const Separator = () => <View style={styles.separator} />;
   const ip = "192.168.1.94";
   const port = "4000";
+
+  const Stack = createNativeStackNavigator();
+  const Tab = createBottomTabNavigator();
 
   useEffect(() => {
     // getCFHistory()
@@ -40,6 +57,8 @@ export default function Home() {
   };
   return (
     <>
+        
+
       <View style={styles.container}>
         <View style={styles.header_text}>
           <Text style={styles.header01}>Dashboard</Text>

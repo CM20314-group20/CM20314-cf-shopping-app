@@ -19,11 +19,6 @@ export default function ShoppingList() {
   useEffect(() => {
     getShoppingListItems()
   }, [])
-  
-  // FIXME - Load Scanned Items page as a stack not a tab
-  function renderScannedItems() {
-    navigation.navigate("Scanned Items");
-  }
 
   async function getShoppingListItems() {
     try {
@@ -50,7 +45,6 @@ export default function ShoppingList() {
       console.log(error);
     });
     setList(null);
-    // renderScannedItems();
   }
 
   const removeItem = (index) => {
