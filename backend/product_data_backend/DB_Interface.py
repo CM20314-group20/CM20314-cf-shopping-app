@@ -4,7 +4,7 @@ from thefuzz import fuzz
 DATABASE_PATH = 'backend\product_data_backend\AgribalyseData.csv'
 
 # Returns carbon footprint from product category by searching through local database.
-def get_cf_from_category(category: str) -> float:
+def get_cf_from_category(category: str) -> tuple:
     highest_score = 0
     best_row = None
     
@@ -15,4 +15,7 @@ def get_cf_from_category(category: str) -> float:
             if score > highest_score:
                 highest_score = score
                 best_row = row
-    return float(best_row['co2'])
+    if not best_row is None:
+        return (best_row['category'], float(best_row['co2']))
+    else:
+        return None, None

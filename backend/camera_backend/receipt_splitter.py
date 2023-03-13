@@ -8,8 +8,7 @@ from PIL import Image
 # import openfoodfacts
 
 # databse of abbreviatons and remove_abbreviations function
-import abbreviations_dict
-
+from . import abbreviations_dict
 
 class ReceiptScanner:
 
@@ -30,9 +29,12 @@ class ReceiptScanner:
         # check if empty string
         if len(input) == 0: return out
 
-        # check if first letter is x if so remove
-        if input[0] == 'x' or input[0] == '*':
-            input = input[1:]
+        while True:
+            # check if first letter is x if so remove
+            if input[0] == 'x' or input[0] == '*':
+                input = input[1:]
+            else:
+                break
 
         # remove random simbols and numbers from ocr
         for i in input:
@@ -46,38 +48,44 @@ class ReceiptScanner:
     @classmethod
     def im_to_text(self, image_name: str) -> list:
         text = self.OCR(image_name)
-
         text = text.split('\n')
-        sections = []
-        add = False
 
         # loop OCR text and cut out unnecessary fluff
-        
-        # for sainsburys receipts
-        for row in text:
-            current = row.split(' ')
-            if len(current) >= 2:
-                if current[0] == 'Vat' or current[1] == 'Number':
+        def process_text(text):
+            sections = []
+            add = False
+            
+            for row in text:
+                row = row.lower()
+                # terminate if end of recipt keyword found
+                if any(word in row for word in {'balance', 'total', 'join', 'due', 'clubcard'}):
+                    return sections
+                
+                
+                # if start of receipt keyword found start adding text
+                if any(word in row for word in {'vat', 'number'}):
                     add = True
-                if current[1] == "BALANCE":
-                    add = False
-            if add and row != '':
-                sections.append(self.clean_string(row))
-        
-        return sections[1:]
+                # ignore lines with certain words
+                elif any(word in row for word in {'item', 'cashier'}):
+                    continue
+                # if line isnt blank, and start of recipt found, clean and add to list
+                elif add and not row in {'', ' '}:
+                    sections.append(self.clean_string(row))
+            return sections
+
+        return process_text(text)
 
 
-# current = ReceiptScanner
-# image_name = 'camera-backend/test_receipt3.jpg'
-# output = current.im_to_text(image_name)
-# print(output)
+        # for row in text:
+        #     print(row)
 
-# print(current.OCR(image_name))
+        #     current = row.split(' ')
+        #     if len(current) >= 2:
+        #         if current[0] == 'Vat' or current[1] == 'Number':
+        #             add = True
+        #         if current[1].lower() in {'balance', 'total'}:
+        #             add = False
+        #     if add and row != '':
+        #         sections.append(self.clean_string(row))
 
-# # api call to search from openfoodfacts
-# out = openfoodfacts.products.search('STRAWBERRIES 400G')
-# print(out)
-
-
-
-
+        # return sections[1:]
