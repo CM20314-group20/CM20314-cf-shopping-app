@@ -38,18 +38,22 @@ def settings():
 @app.route('/social', methods=['GET', 'POST'])
 def social():
     groupid = -1
+    id_list = []
     if request.method == 'POST':
         if request.get_json()['data'] == 'Left Group':
             groupid = 0
 
         elif request.get_json()['data'] == 'Join Group':
             groupid = int(request.get_json()['group_id'])
+            # TODO - get the users in the group
+            id_list = [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]
 
         elif request.get_json()['data'] == 'Create Group':
             # TODO - Create new group with the user in
             groupid = int(request.get_json()['group_id'])
 
-        return jsonify({"group-id" : groupid})
+        # TODO - need to return all the other users in the group for the leaderboard
+        return jsonify({"group-id" : groupid, "id-list" : id_list})
 
         
     elif request.method == 'GET':
