@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Pressable } from 'react-native';
 import ListFoodItem from '../components/ListFoodItem';
 import axios from 'axios';
 import LoadingScreen from '../components/LoadingScreen.js';
@@ -67,13 +67,25 @@ export default function ShoppingList() {
     setListItems(itemsCopy)
   }
 
+  const removeAllItems = () => {
+    setListItems([]);
+  }
+
   return (
     <>
     
     {(!listItems) && <LoadingScreen />}
     {listItems && ( 
     <>
+    
+      <Pressable style={styles.removeAllItemsButton} onPress={() => {
+        removeAllItems();
+      }}>
+        <Text style={styles.removeText}>Remove All Items</Text>
+      </Pressable>
+
     <View style={styles.container}>
+    
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1
@@ -93,7 +105,9 @@ export default function ShoppingList() {
           }
         </View>
       </View>
-        
+
+      
+
       </ScrollView>
 
       <KeyboardAvoidingView 
@@ -109,6 +123,7 @@ export default function ShoppingList() {
       </KeyboardAvoidingView>
       
     </View>
+    
     </>
     )}
   </>
@@ -119,6 +134,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  removeAllItemsWrapper: {
+    flex: 0,
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  removeAllItemsButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'rgb(49, 44, 44)',
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
   },
   tasks: {
     paddingTop: 0,
@@ -171,4 +206,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
   },
+  removeText: {
+    color: '#fff',
+  }
 });
