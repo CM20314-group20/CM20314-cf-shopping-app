@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import CameraButton from '../components/CameraButton';
+import ChangeScanButton from '../components/ChangeScanButton';
+import BarcodeIcon from '../components/BarcodeIcon';
 import axios from 'axios';
 
 export default function ReceiptScanner() {
@@ -14,12 +16,23 @@ export default function ReceiptScanner() {
   const [type, setType] = useState(Camera.Constants.Type.back)
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
-  const ip = "192.168.1.94";
+  const [isReceipt, setIsReceipt] = useState(true);
+
+  // const ip = "192.168.1.94";
+  const ip = '10.0.2.2' // Android Emulator
   const port = "4000";
 
 
   // TODO - post request to send image to backend
   async function postImageToBackend(base64) {
+    // Decides where to send image
+    let backendLocation = '';
+    if (isReceipt){
+      backendLocation = '/receiptscanner'
+    } else {
+      backendLocation = '/barcodescanner'
+    }
+
     const form = new FormData();
     form.append('Image', {
       name: `scanned-receipt`,
@@ -28,7 +41,7 @@ export default function ReceiptScanner() {
     });
     try {
       // await axios.post('http://127.0.0.1:5000/receiptscanner', {
-      await axios.post('http://' + ip + ':' + port + '/receiptscanner', {
+      await axios.post('http://' + ip + ':' + port + backendLocation, {
         data: form,
       }).then((response) => {
         // Display this data on a new page
@@ -97,11 +110,23 @@ export default function ReceiptScanner() {
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: 30,
+            flex:1
             
           }}>
             <CameraButton icon={'retweet'} onPress={() => {
               setType(type === CameraType.back ? CameraType.front : CameraType.back)
             }}/>
+
+            {isReceipt ? 
+              <ChangeScanButton title={'Barcode Scanner'} onPress={() => {
+                setIsReceipt(false);
+              }}/>
+            :
+              <ChangeScanButton title={'Receipt Scanner'} onPress={() => {
+                setIsReceipt(true);
+              }}/>
+            }
+
             <CameraButton icon={'flash'}
             color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#f1f1f1'}
             onPress={() => {
@@ -113,7 +138,23 @@ export default function ReceiptScanner() {
             flex:1,
           }}>
           </View>
-          <CameraButton title={'Scan'} icon="camera" onPress={takePicture}/>
+          {!isReceipt ?
+              //   <Image
+              //   style={styles.barcodeTarget}
+              //   source={require('../assets/qr-code-scan-9775.svg')}
+              //   />
+              // :
+              // <Text></Text>
+              <View style={{flex:10, flexDirection: 'column', justifyContent:'center'}}>
+                <BarcodeIcon/>
+              </View>
+              // <Text></Text>
+              :
+              <Text></Text>
+            }
+          <View>
+            <CameraButton title={'Scan'} icon="camera" onPress={takePicture}/>
+          </View>
         </Camera>
         :
         <ImageBackground source={{uri: image}} style={styles.camera}>
@@ -121,6 +162,7 @@ export default function ReceiptScanner() {
               flexDirection:'row',
               justifyContent: 'space-between',
               paddingHorizontal: 50,
+              flex: 1
             }}>
               <CameraButton title={'Re-take'} icon="retweet" onPress={() => setImage(null)}/>
               <CameraButton title={"Save"} icon="check" onPress={saveImage}/>
@@ -141,7 +183,8 @@ const styles = StyleSheet.create({
     
   },
   camera: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'column',
   },
   BottomSeparator: {
     height:90,

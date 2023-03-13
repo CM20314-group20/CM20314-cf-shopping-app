@@ -73,7 +73,27 @@ def receiptscanner():
         #     f.write(decoded_img)
 
         # TODO - OCR this image "decoded_img" and return everything that we need for front end, takes a while for the image to load
+        print("receipt")
+        return jsonify({"Image" : "Data"})
 
+
+    elif request.method == 'GET':
+        print(request.data)
+        return jsonify({"Scanner" : "Page"})
+    
+@app.route('/barcodescanner', methods=['GET', 'POST'])
+def barcodescanner():
+    if request.method == 'POST':
+        data = request.get_json()
+        base64_str = data['data']['_parts'][0][1]['base64']
+        decoded_img = base64.b64decode(base64_str)
+        
+        # print(decoded_img)
+        # with open('backend/scanned-images/new-image.jpg', 'wb') as f:
+        #     f.write(decoded_img)
+
+        # TODO - OCR this image "decoded_img" and return everything that we need for front end, takes a while for the image to load (The carbon footprint of the specific Item scanned)
+        print("barcode")
         return jsonify({"Image" : "Data"})
 
 

@@ -11,7 +11,9 @@ export default function Social() {
   const [leaderboard, setLeaderboard] = useState()
   const Separator = () => <View style={styles.separator} />;
 
-  const ip = "192.168.1.94";
+  // const ip = "192.168.1.94";
+  const ip = '10.0.2.2' // Android Emulator
+
   const port = "4000";
 
   useEffect(() => {
@@ -175,15 +177,15 @@ const styles = StyleSheet.create({
   groupbuttons: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'left',
-    justifyContent: 'left',
-    paddingHorizontal: 20,
+    // alignItems: 'left',
+    // justifyContent: 'left',
+    // paddingHorizontal: 20,
   },
   groupidbuttons: {
     flex: 0,
     backgroundColor: '#fff',
-    alignItems: 'top',
-    justifyContent: 'top' ,
+    // alignItems: 'top',
+    // justifyContent: 'top' ,
     padding: 20,
   },
   leavegroup: {
@@ -229,8 +231,8 @@ const styles = StyleSheet.create({
     shadowOffset : { width: 1, height: 5},
   },
   groupid: {
-    alignItems: 'left',
-    justifyContent: 'left',
+    // alignItems: 'left',
+    // justifyContent: 'left',
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,

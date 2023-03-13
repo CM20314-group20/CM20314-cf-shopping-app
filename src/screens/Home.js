@@ -130,13 +130,13 @@ const styles = StyleSheet.create({
     // justifyContent: 'top', // Doesn't work on android
   },
   header_text: {
-    alignItems: 'left'
+    // alignItems: 'left' //  Doesn't work in Android
   },
   savings: {
     alignItems: 'center'
   },
   achievements_wrapper: {
-    alignItems: 'left'
+    // alignItems: 'left' //  Doesn't work in Android
   },
   achievements: {
     alignItems: 'center'
