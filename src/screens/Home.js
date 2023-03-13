@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    // alignContent: 'left', // Doesn't work on android
+    alignContent: 'left', // Doesn't work on android
     paddingVertical: 1,
     paddingHorizontal: 18,
     borderRadius: 4,
@@ -233,13 +233,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    // alignContent: 'left', // Doesn't work on android
+    alignContent: 'left', // Doesn't work on android
     color: 'orange',
     paddingVertical: 1,
     paddingHorizontal: 18,
     borderRadius: 4,
     elevation: 8,
-    // textDecorationLine: "underline",
+    textDecorationLine: "underline",
 
     marginVertical: 8
   },

@@ -18,8 +18,8 @@ export default function ReceiptScanner() {
   const cameraRef = useRef(null);
   const [isReceipt, setIsReceipt] = useState(true);
 
-  // const ip = "192.168.1.94";
-  const ip = '10.0.2.2' // Android Emulator
+  const ip = "192.168.1.94";
+  // const ip = '10.0.2.2' // Android Emulator
   const port = "4000";
 
 
@@ -138,17 +138,10 @@ export default function ReceiptScanner() {
             flex:1,
           }}>
           </View>
-          {!isReceipt ?
-              //   <Image
-              //   style={styles.barcodeTarget}
-              //   source={require('../assets/qr-code-scan-9775.svg')}
-              //   />
-              // :
-              // <Text></Text>
-              <View style={{flex:10, flexDirection: 'column', justifyContent:'center'}}>
+            {!isReceipt ?
+              <View style={{flex:10, flexDirection: 'column'}}>
                 <BarcodeIcon/>
               </View>
-              // <Text></Text>
               :
               <Text></Text>
             }
@@ -180,6 +173,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
+    alignContent: 'center',
+    // alignItems: 'center'
     
   },
   camera: {

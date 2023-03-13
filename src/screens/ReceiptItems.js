@@ -20,6 +20,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    // justifyContent: 'top', // Doesn't work on android
+    justifyContent: 'top', // Doesn't work on android
   },
 });

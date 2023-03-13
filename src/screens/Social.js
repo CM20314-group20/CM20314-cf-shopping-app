@@ -11,8 +11,8 @@ export default function Social() {
   const [leaderboard, setLeaderboard] = useState()
   const Separator = () => <View style={styles.separator} />;
 
-  // const ip = "192.168.1.94";
-  const ip = '10.0.2.2' // Android Emulator
+  const ip = "192.168.1.94";
+  // const ip = '10.0.2.2' // Android Emulator
 
   const port = "4000";
 
@@ -177,9 +177,9 @@ const styles = StyleSheet.create({
   groupbuttons: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'left',
-    // justifyContent: 'left',
-    // paddingHorizontal: 20,
+    // alignItems: 'left', // Doesn't work on android
+    // justifyContent: 'left', // Doesn't work on android
+    // paddingHorizontal: 20, // Doesn't work on android
   },
   groupidbuttons: {
     flex: 0,
@@ -231,8 +231,8 @@ const styles = StyleSheet.create({
     shadowOffset : { width: 1, height: 5},
   },
   groupid: {
-    // alignItems: 'left',
-    // justifyContent: 'left',
+    // alignItems: 'left', // Doesn't work on android
+    // justifyContent: 'left', // Doesn't work on android
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
