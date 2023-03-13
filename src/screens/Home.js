@@ -13,6 +13,7 @@ import axios from "axios";
 
 export default function Home() {
   const [cfData, setcfData] = useState([])
+  const Separator = () => <View style={styles.separator} />;
   const ip = "192.168.1.94";
   const port = "4000";
 
@@ -98,6 +99,9 @@ export default function Home() {
             <Text style={styles.Achievements}> Star Reducer:</Text>
             <Text>CF lowered by more than 50 kg from previous month</Text>
           </View>
+
+        <Separator />
+        
         <View style={styles.goalButtonWrapper} >
           <Pressable style={styles.goal} onPress={() => {
               Alert.alert(
@@ -268,5 +272,10 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(249, 180, 45, 0.25)",
     borderWidth: 1.5,
     borderColor: "#fff"
-  }
+  },
+  separator: {
+    marginVertical: 8,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
 });
