@@ -103,7 +103,8 @@ export default function Social() {
           <Pressable style={styles.groupid}>
             <Text style={styles.text}>Group ID : {group}</Text>
           </Pressable>
-        </View><View>
+        </View>
+        <View>
             <LeaderboardTable style={styles.leaderboard} data={leaderboard} />
           </View><View style={styles.groupbuttons}>
 

@@ -73,7 +73,7 @@ def receiptscanner():
 
         products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
         products = [ProductData.product_from_name(name) for name in products]
-                
+        
         return jsonify({"Image" : products})
 
 

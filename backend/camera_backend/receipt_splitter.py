@@ -3,7 +3,7 @@
 # or check under 'binaries' for other versions = https://tesseract-ocr.github.io/tessdoc/Home.html 
 
 import pytesseract as tess
-tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'   # locaton of teserract-orc file and make sure to include \tesseract.exe at end
+# tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'   # locaton of teserract-orc file and make sure to include \tesseract.exe at end
 from PIL import Image
 # import openfoodfacts
 

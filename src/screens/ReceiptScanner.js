@@ -4,11 +4,12 @@ import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import CameraButton from '../components/CameraButton';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ReceiptScanner() {
   
   const [update, setUpdate] = useState("")
-
+  const navigation = useNavigation();
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back)
@@ -31,6 +32,7 @@ export default function ReceiptScanner() {
       await axios.post('http://' + ip + ':' + port + '/receiptscanner', {
         data: form,
       }).then((response) => {
+
         // Display this data on a new page
         console.log(response.data);
       })
@@ -38,6 +40,10 @@ export default function ReceiptScanner() {
     catch(err) {
       console.log(err);
     }
+  }
+
+  function renderScannedItems() {
+    navigation.push("Receipt Items");
   }
 
   useEffect(() => {
@@ -61,6 +67,7 @@ export default function ReceiptScanner() {
         console.log(e);
       }
     }
+    renderScannedItems();
   }
 
   const saveImage = async() => {
