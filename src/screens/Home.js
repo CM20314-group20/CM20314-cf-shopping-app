@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { SearchBar } from '@rneui/themed';
-import { StyleSheet, View, Text, Dimensions, Button } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, Pressable, Alert } from 'react-native';
 import {
   LineChart,
   BarChart,
@@ -13,6 +13,7 @@ import axios from "axios";
 
 export default function Home() {
   const [cfData, setcfData] = useState([])
+  const Separator = () => <View style={styles.separator} />;
   const ip = "192.168.1.94";
   const port = "4000";
 
@@ -40,10 +41,12 @@ export default function Home() {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.header01} >History</Text>
+        <View style={styles.header_text}>
+          <Text style={styles.header01}>Dashboard</Text>
+        </View>
         <LineChart
           data={{
-            labels: ["December", "January", "February", "March", "April", "May"],
+            labels: ["October", "November", "December", "January", "February", "March"],
             datasets: [
               {
                 data: [
@@ -64,18 +67,18 @@ export default function Home() {
           yAxisInterval={1} // optional, defaults to 1
           chartConfig={{
             backgroundColor: "blue",
-            backgroundGradientFrom: "red",
-            backgroundGradientTo: "green",
+            backgroundGradientFrom: "rgb(222, 245, 230)",
+            backgroundGradientTo: "rgb(222, 245, 230)",
             decimalPlaces: 0, // optional, defaults to 2dp
-            color: (opacity = 2) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 2) => `rgba(255, 255, 255, ${opacity})`,
+            color: (opacity = 2) => 'green',
+            labelColor: (opacity = 2) => 'grey',
             style: {
               borderRadius: 16
             },
             propsForDots: {
               r: "3",
               strokeWidth: "2",
-              stroke: "black"
+              stroke: "green"
             }
           }}
           bezier
@@ -85,20 +88,28 @@ export default function Home() {
             borderRadius: 30
           }}
         />
-        <Text style={styles.results} >1.6 miles of CO2 reduced</Text>
-        <Text style={styles.results} >1kw energy saved</Text>
-        <Text style={styles.results} >37 fishs saved</Text>
-        <Text style={styles.results} >10 trees planeted</Text>
-        <Text style={styles.header01} > Achievements </Text>
-        <Text style={styles.Achievements} >Star Reducer:</Text>
-        <Text>CF lowered by more than 50 kg from previous month</Text>
-        <View style={styles.goal}>
-          <Button
-            title="GOALS"
-            color="white"
-            height="30"
-            // fontSize="30px"
-            onPress={() => alert('To save 10kg')} />
+        <View style={styles.savings}>
+          <Text style={styles.c02}> 1.6 miles of CO2 reduced</Text>
+          <Text style={styles.energy}> 1kw energy saved</Text>
+          <Text style={styles.fish}> 37 fish saved</Text>
+          <Text style={styles.trees}> 10 trees planted</Text>
+          <Text style={styles.header01}> Achievements </Text>
+        </View>
+          <View style={styles.achievements}> 
+            <Text style={styles.Achievements}> Star Reducer:</Text>
+            <Text>CF lowered by more than 50 kg from previous month</Text>
+          </View>
+
+        <Separator />
+        
+        <View style={styles.goalButtonWrapper} >
+          <Pressable style={styles.goal} onPress={() => {
+              Alert.alert(
+                "To save 10kg"
+              )
+            }}>
+              <Text style={styles.text}>Goals</Text>
+            </Pressable>
         </View>
         {/* <SearchBar
           placeholder="Type Here..."
@@ -118,6 +129,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // justifyContent: 'top', // Doesn't work on android
   },
+  header_text: {
+    alignItems: 'left'
+  },
+  savings: {
+    alignItems: 'center'
+  },
+  achievements_wrapper: {
+    alignItems: 'left'
+  },
+  achievements: {
+    alignItems: 'center'
+  },
+  goalButtonWrapper: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 100
+  },
   graph: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -132,7 +161,7 @@ const styles = StyleSheet.create({
     // shadowOffset: { width: 1, height: 5 },
     marginVertical: 8
   },
-  results: {
+  c02: {
     fontSize: 18,
     alignItems: 'center',
     justifyContent: 'center',
@@ -142,12 +171,55 @@ const styles = StyleSheet.create({
     elevation: 3,
     // backgroundColor: 'green',
     // shadowColor: 'darkgrey',
-    color: 'black',
+    color: 'green',
+    elevation: 8,
+    marginVertical: 8
+  },
+  energy: {
+    fontSize: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 18,
+    borderRadius: 4,
+    elevation: 3,
+    // backgroundColor: 'green',
+    // shadowColor: 'darkgrey',
+    color: '#E9DB11',
+    elevation: 8,
+    marginVertical: 8
+  },
+  fish: {
+    fontSize: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 18,
+    borderRadius: 4,
+    elevation: 3,
+    // backgroundColor: 'green',
+    // shadowColor: 'darkgrey',
+    color: 'blue',
+    elevation: 8,
+    marginVertical: 8
+  },
+  trees: {
+    fontSize: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 18,
+    borderRadius: 4,
+    elevation: 3,
+    // backgroundColor: 'green',
+    // shadowColor: 'darkgrey',
+    color: 'green',
     elevation: 8,
     marginVertical: 8
   },
   header01: {
     fontSize: 25,
+    fontWeight: 'bold',
     alignItems: 'flex-start',
     justifyContent: 'center',
     // alignContent: 'left', // Doesn't work on android
@@ -155,8 +227,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     borderRadius: 4,
     elevation: 8,
-    textDecorationLine: "underline",
-
     marginVertical: 8
   },
   Achievements: {
@@ -174,14 +244,18 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   goal: {
-    // alignItems: 'left',
-    paddingVertical: 1,
-    paddingHorizontal: 18,
-    backgroundColor: 'darkgreen',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
     borderRadius: 4,
     elevation: 3,
+    backgroundColor: 'lawngreen',
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
     elevation: 8,
-    marginVertical: 10
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
   },
   app: {
     flex: 4, // the number of columns you want to devide the screen into
@@ -198,5 +272,10 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(249, 180, 45, 0.25)",
     borderWidth: 1.5,
     borderColor: "#fff"
-  }
+  },
+  separator: {
+    marginVertical: 8,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
 });

@@ -16,7 +16,8 @@ export default ListFoodItem;
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: '#BDC3C7',
+    // backgroundColor: '#BDC3C7',
+    backgroundColor: 'rgb(222, 245, 230)',
     padding: 15,
     borderRadius: 10,
     flexDirection: 'row',
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   tickOffItem: {
     width: 24,
     height: 24,
-    backgroundColor: 'black',
+    backgroundColor: 'green',
     opacity: 0.4,
     borderRadius: 5,
     marginRight: 15,

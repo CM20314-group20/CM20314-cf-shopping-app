@@ -39,6 +39,7 @@ export default function Social() {
         data: 'Join Group', group_id: group_id,
       }).then((response) => {
         setGroup(response.data['group-id']);
+        setLeaderboard(response.data['id-list'])
       })
     }
     catch(err) {
@@ -53,6 +54,7 @@ export default function Social() {
         data: 'Create Group', group_id: group_id,
       }).then((response) => {
         setGroup(response.data['group-id']);
+        setLeaderboard([]);
       })
     }
     catch(err) {
@@ -67,6 +69,7 @@ export default function Social() {
         data: 'Left group',
       }).then((response) => {
         setGroup("You are not part of a group");
+        setLeaderboard([]);
       })
     }
     catch(err) {
