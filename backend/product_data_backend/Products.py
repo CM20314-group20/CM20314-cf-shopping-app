@@ -3,10 +3,6 @@ from typing import Final, Union, Callable, Any
 from .Freq_Dict import Freq_Dict
 from .DB_Interface import get_cf_from_category
 
-
-# Dictionary keys of neccesary information. More can be added if required.
-PRODUCT_KEYS : Final = ['product_name']
-
 # Helper guard function to process requests which could return errors.
 def _try_request(function: Callable, args: dict) -> Any:
     try:
@@ -15,19 +11,6 @@ def _try_request(function: Callable, args: dict) -> Any:
     except Exception as err:
         print(f"Unexpected {err=}, {type(err)=}")
         raise
-
-# Process a single product dictionary and extract neccesary information.
-def _process_product_dict(product: dict) -> dict:
-    # Extract wanted keys and values from original product dictionary.
-    new_dict = {k : product[k] for k in PRODUCT_KEYS if k in product}
-    
-    # If Ecoscore data is avaliable, proccess additional CO2 information.
-    if product['ecoscore_grade'] not in ['not-applicable', 'unknown']:
-        new_dict['category'] = product['ecoscore_data']['agribalyse']['name_en']
-        new_dict['co2_total'] = product['ecoscore_data']['agribalyse']['co2_total']
-
-
-    return new_dict
 
 # Gets most frequent category from product name search.
 def _get_most_freq_category(product_name: str) -> list:
@@ -49,17 +32,19 @@ class ProductData:
     # Search results for a product.
         products = _try_request(openfoodfacts.products.search, {'query': product_name})['products']
 
+        found_match = False
         for product in products:
             if product['ecoscore_grade'] not in ['not-applicable', 'unknown']:
-                print(product_name, _process_product_dict(product))
-                return _process_product_dict(product)
-
-        # If close match cannot be found, revert to category database
-        category = _get_most_freq_category(product_name)
-        if category == None:
-            category = product_name
-        
-        category, co2_data = get_cf_from_category(category)
+                category = product['ecoscore_data']['agribalyse']['name_en']
+                _, co2_data = get_cf_from_category(category)
+                found_match = True
+            
+        if not found_match:
+            # If close match cannot be found, revert to category database
+            category = _get_most_freq_category(product_name)
+            if category in {None, '', ' '}:
+                category = product_name
+            category, co2_data = get_cf_from_category(category)
             
         product = {'product_name' : product_name,
                    'category': category,
@@ -77,4 +62,14 @@ class ProductData:
         if status != 1:
             return None
 
-        return _process_product_dict(result['product'])
+        product = result['product']
+        product_name = product['product_name']
+        if product['ecoscore_grade'] not in ['not-applicable', 'unknown']:
+                category = product['ecoscore_data']['agribalyse']['name_en']
+                _, co2_data = get_cf_from_category(category)
+        else:
+            ProductData.product_from_name(product_name)
+                
+        return {'product_name':product_name,
+                'category':category,
+                'co2_total_per_kg':co2_data}
