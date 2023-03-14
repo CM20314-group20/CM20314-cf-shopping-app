@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   groupbuttons: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'left', // Doesn't work on android
+    alignItems: 'left', // Doesn't work on android
     justifyContent: 'left',
     paddingHorizontal: 20,
   },
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     shadowOffset : { width: 1, height: 5},
   },
   groupid: {
-    // alignItems: 'left', // Doesn't work on android
+    alignItems: 'left', // Doesn't work on android
     justifyContent: 'left',
     paddingVertical: 12,
     paddingHorizontal: 32,

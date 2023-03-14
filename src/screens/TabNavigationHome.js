@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // justifyContent: 'top', // Doesn't work on android
+    justifyContent: 'top', // Doesn't work on android
   },
   separator: {
     marginVertical: 8,
