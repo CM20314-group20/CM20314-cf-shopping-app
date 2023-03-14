@@ -131,10 +131,8 @@ def transform_image(original_image):
         
     # apply a four-point perspective transform to the *original* image to
     # obtain a top-down bird's-eye view of the receipt
-    if len(new_verticies) != 4:
-        return original_image
-    else:
-        return four_point_transform(original_image, new_verticies.reshape(4, 2) * ratio)
+    receipt = four_point_transform(original_image, new_verticies.reshape(4, 2) * ratio)
+    return receipt
 
 def filter_image(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
