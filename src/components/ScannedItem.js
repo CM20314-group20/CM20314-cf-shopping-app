@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Image, View } from 'react-native';
+import { StyleSheet, Text, Image, View, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { Row } from 'react-native-table-component';
 import CarIcon from '../components/CarIcon';
@@ -19,20 +19,29 @@ const ScannedItem = (props) => {
     //  rating5 > 4
 
     if (carbonFootprintVal < rating1) {
-      return '#ff0000'
+      return '#2cba00'
+      return '#00FF00'
     }
     else if (carbonFootprintVal < rating2) {
-      return '#ffa700'
+      return '#7ac40a'
+      return '#9ACD32'
     }
     else if (carbonFootprintVal < rating3) {
-      return '#fff400'
+      return '#a8a222'
+      return '#FFA500'
     }
     else if (carbonFootprintVal < rating4) {
-      return '#a3ff00'
+      return '#ffa700'
+      return '#FF6347'
     }
     else {
-      return '#2cba00'
+      return '#ff0000'
     }
+  }
+
+  function carbonGramsToCarDistance(grams) {
+    // Reference https://www.statista.com/statistics/1233337/carbon-footprint-of-travel-per-kilometer-by-mode-of-transport-uk/
+    return (grams/170).toFixed(2)
   }
 
 
@@ -52,22 +61,24 @@ const ScannedItem = (props) => {
         </DataTable.Row>
       ))}
       </DataTable> */}
-      <View style={styles.tableContainer}>
-      {data.map((data, index) => (
-        <View key={index} style={styles.itemContainer}>
-          <View style={styles.textBox}>
-            <Text style={styles.productName} >{data["product_name"]}</Text>
-          </View>
-          <View style={styles.carbonDetailsContainer}>
-            <CarIcon color={getStyle(data["co2_total_per_kg"])} size={50}/>
-            <View style={styles.carbonDetailsBox}>
-              <Text>Equal to driving 0.4km in a petrol car</Text>
-              <Text>95g CO2 per 100g of Product</Text>
+      <ScrollView>
+        <View style={styles.tableContainer}>
+        {data.map((data, index) => (
+          <View key={index} style={styles.itemContainer}>
+            <View style={styles.productNameBox}>
+              <Text style={styles.productName} >{data["product_name"]}</Text>
+            </View>
+            <View style={styles.carbonDetailsContainer}>
+              <CarIcon color={getStyle(data["co2_total_per_kg"])} size={50}/>
+              <View style={styles.carbonDetailsBox}>
+                <Text style={[styles.equalToDrivingText, {color: getStyle(data["co2_total_per_kg"])}]}>Equal to driving {carbonGramsToCarDistance(data["co2_total_per_kg"])} in a petrol car</Text>
+                <Text>{data["co2_total_per_kg"]}g CO2 per 1Kg of Product</Text>
+              </View>
             </View>
           </View>
+        ))}
         </View>
-      ))}
-      </View>
+      </ScrollView>
     </>
   );
 };
@@ -76,34 +87,40 @@ export default ScannedItem;
   
 const styles = StyleSheet.create({
   tableContainer: {
-    marginLeft:'5%',
+    // marginLeft:'5%',
     flexDirection:'column',
-    width:'95%',
+    width:'100%',
   },
 
   itemContainer: {
     width:'100%',
-    height: 80,
+    // height: 80,
     flexDirection:'column',
     color:'red',
+    padding:15,
+  },
+  productNameBox: {
+    // paddingLeft: 10,
+    height: 25,
+  },
+  productName: {
+    // height: 20,
+    // color: 'green',
+    // color: 'red',
+    fontWeight: 'bold',
+    fontSize:18
   },
   carbonDetailsContainer: {
     height:30,
     flexDirection:'row',
   },
   carbonDetailsBox: {
-    // flexDirection:'row',
-    // width:'100%'
+    width: '100%',
+    paddingLeft: 10,
+    // paddingTop: 5,
   },
-  textBox: {
-    // paddingLeft: 10,
-    height: 20,
-  },
-  productName: {
-    height: 20,
-    // color: 'green',
-    // color: 'red',
-    fontWeight: 'bold',
+  equalToDrivingText: {
+    fontSize: 16,
   },
   highcf: {
     // color: 'red',
