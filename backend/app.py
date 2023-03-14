@@ -1,11 +1,35 @@
 from flask import Flask, render_template, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
+from sqlalchemy.ext.mutable import MutableList
+from sqlalchemy import PickleType
 import random, math, urllib
 from product_data_backend import ProductData
 from camera_backend.receipt_splitter import ReceiptScanner
 import base64
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+    'sqlite:////' + os.path.join(basedir, 'database.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+    
+class User(db.Model):
+    username = db.Column(db.String(100), nullable=False, primary_key=True)
+    email = db.Column(db.String(80), unique=True, nullable=False)
+    data_metric = db.Column(db.String(80), unique=True, nullable=False)
 
+    def __init__(self, username, email, data_metric):
+        self.username = username
+        self.email = email
+        self.data_metric = data_metric
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+    
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
@@ -26,12 +50,17 @@ def home():
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
-    new_metric = ""
+    data_metric = "Miles Driven"
     if request.method == 'POST':
+        username = request.get_json()['username']
+        email = request.get_json()['username']
+        data_metric = request.get_json()['data_metric']
+        s = User(username=username, email=email, data_metric=data_metric)
+        db.session.add(s)
+        db.session.commit()
 
-        new_metric = request.get_json()['metric']
         # TODO - calculate the CF in terms of the new metric and update home page
-    return jsonify({"Metric" : new_metric})
+    return jsonify({"Metric" : data_metric})
 
 
 

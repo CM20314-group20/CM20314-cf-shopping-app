@@ -5,7 +5,9 @@ import axios from 'axios';
 
 export default function Settings() {
   const Separator = () => <View style={styles.separator} />;
-  const [selected, setSelected] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [dataMetric, setDataMetric] = React.useState("");
   
   const data = [
       {key:'1', value:'Miles Driven'},
@@ -13,11 +15,14 @@ export default function Settings() {
       {key:'3', value:'Pure CO2 emissions'},
   ]
 
-  async function postMetric(metric) {
+  async function postData(username, email, data_metric) {
+    
     try {
       // await axios.post('http://127.0.0.1:5000/settings', {
       await axios.post('http://192.168.1.94:4000/settings', {
-        data: 'New Metric', metric: metric,
+        username: username,
+        email: email,
+        data_metric: data_metric
       })
     }
     catch(err) {
@@ -32,26 +37,20 @@ export default function Settings() {
       <TextInput
         style={styles.UserinputBox}
         placeholder="Eg. user1"
+        onChangeText={text => setUsername(text)}
       />
       <Text style = {styles.text}> Email:   </Text>
       <TextInput
         style={styles.UserinputBox}
         placeholder="Eg. username@gmail.com"
+        onChangeText={text => setEmail(text)}
       />
-
-      <Text style = {styles.text}> Phone No.:   </Text>
-      <TextInput
-        style={styles.UserinputBox}
-        placeholder="Eg. 07779 138931"
-      />
-      
     </View>
     
-
     <View style={styles.savechanges}>
       <Pressable style={styles.Savebutton} onPress={() => {
-        postMetric(selected)
-        Alert.alert("Changes Saved")
+        postData(username, email, dataMetric);
+        Alert.alert("Changes Saved");
       }}>
         <Text style={styles.text}>Save Changes</Text>
       </Pressable>
@@ -75,7 +74,7 @@ export default function Settings() {
     <View style={styles.dropdown}>
     <Text style={styles.text}>Data Metric:</Text>
       <SelectList 
-        setSelected={(val) => setSelected(val)} 
+        setSelected={(val) => setDataMetric(val)} 
         onSelect={() => {}}
         data={data} 
         save="value"
