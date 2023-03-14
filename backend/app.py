@@ -38,21 +38,26 @@ def settings():
 @app.route('/social', methods=['GET', 'POST'])
 def social():
     groupid = -1
+    id_list = []
     if request.method == 'POST':
         if request.get_json()['data'] == 'Left Group':
             groupid = 0
 
         elif request.get_json()['data'] == 'Join Group':
             groupid = int(request.get_json()['group_id'])
+            # TODO - get the users in the group
+            id_list = [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]
 
         elif request.get_json()['data'] == 'Create Group':
             # TODO - Create new group with the user in
             groupid = int(request.get_json()['group_id'])
 
-        return jsonify({"group-id" : groupid})
+        # TODO - need to return all the other users in the group for the leaderboard
+        return jsonify({"group-id" : groupid, "id-list" : id_list})
 
         
     elif request.method == 'GET':
+        # TODO - get the user's group id from the database and return the user's and their data in that group
         return jsonify({"group-id" : groupid, "id-list" : [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]})
 
 
@@ -63,15 +68,12 @@ def receiptscanner():
         base64_str = data['data']['_parts'][0][1]['base64']
         decoded_img = base64.b64decode(base64_str)
         
-        with open('backend/scanned-images/new-image.jpg', 'wb') as f:
-            f.write(decoded_img)
+        # with open('backend/scanned-images/new-image.jpg', 'wb') as f:
+        #     f.write(decoded_img)
 
-
-        products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
-        products = [ProductData.product_from_name(name) for name in products if name != ' ']
-        
-        print(products)
-        
+        # products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
+        # products = [ProductData.product_from_name(name) for name in products]
+        products = [{'product_name': 'barefoot white Zinfandel  ', 'category': 'Wine, white, sweet', 'co2_total_per_kg': 1.1}, {'product_name': 'js Tikka Masala Sauce  ', 'category': 'Indian-style sauce, tandoori or garam masala type, prepacked', 'co2_total_per_kg': 1.3}, {'product_name': 'haribo supermix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'm&ms crispy pouch  ', 'category': 'Chocolate confectionery, filled with nuts and/or praline', 'co2_total_per_kg': 9.72}, {'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16}]
         return jsonify({"Image" : products})
 
 
