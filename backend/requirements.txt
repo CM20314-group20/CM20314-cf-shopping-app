@@ -9,3 +9,6 @@ numpy
 pyzbar
 flask
 pytesseract
+imutils
+itertools 
+mathutils

@@ -3,10 +3,8 @@ import pytesseract
 import numpy as np
 from imutils.perspective import four_point_transform
 import imutils
-import cv2
 from itertools import combinations, permutations
 from mathutils.geometry import intersect_point_line
-
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
@@ -43,11 +41,11 @@ def transform_image(original_image):
 
     # Remove any verticies on the edge of the photo
     longest = longest = np.array(longest).tolist()
-    dist = 10
-    for vertex in longest:
-        if vertex[0] < dist or vertex[0] > width - dist \
-            or vertex[1] < dist or vertex[1] > height - dist:
-                longest.remove(vertex)
+    # dist = 10
+    # for vertex in longest:
+    #     if vertex[0] < dist or vertex[0] > width - dist \
+    #         or vertex[1] < dist or vertex[1] > height - dist:
+    #             longest.remove(vertex)
     longest = np.array(longest)
 
     
@@ -77,6 +75,22 @@ def transform_image(original_image):
             if np.linalg.norm(intersect - point) < 25:
                 if point_a in vertices:
                     vertices.remove(list(point_a))
+
+    if len(vertices) == 3:
+        vertices = np.array(vertices)
+        for p1, p2, p3 in combinations(vertices, 3):
+                if not all(p1 == p2):
+                    vector = p2 - p1
+                    angle = np.arccos(vector[0] / np.linalg.norm(vector))
+                    angle = np.degrees(angle)
+                    if abs(angle) < 5.0 or abs(180- angle) < 5.0 or abs(90 - angle) < 5.0:
+                        p4 = vector + p3
+                        if any(p4 < 0) or p4[0] > width or p4[1] > height:
+                            p4 = p3 + -vector
+                        vertices = vertices.tolist()
+                        vertices.append(p4)
+                        vertices = np.array(vertices)
+                        break
 
     # If verticies cannot be found for each corner of receipt, just use corner of image
     if len(vertices) < 4:
@@ -115,11 +129,6 @@ def transform_image(original_image):
     new_verticies = np.array(vertices)
     new_verticies = sort_coordinates(new_verticies)
         
-    output = image.copy()
-    cv2.drawContours(output, [new_verticies], -1, (0, 255, 0), 2)
-    cv2.imshow("Receipt Outline", output)
-    cv2.waitKey(0)
-        
     # apply a four-point perspective transform to the *original* image to
     # obtain a top-down bird's-eye view of the receipt
     receipt = four_point_transform(original_image, new_verticies.reshape(4, 2) * ratio)
@@ -132,15 +141,8 @@ def filter_image(image):
     invert = 255 - blur
     return invert
 
-def process_image(image_path):
-    image = cv2.imread(image_path)
+def process_image(image):
     image = transform_image(image)
     image = filter_image(image)
     
-    data = pytesseract.image_to_string(image, lang='eng', config='--psm 6')
-    print(data)
-    cv2.imshow(image_path, imutils.resize(image, width=500))
-    cv2.waitKey(0)
-
-for i in range(3, 10):
-    process_image(f'backend\camera_backend\\test ({i}).jpg')
+    return image
