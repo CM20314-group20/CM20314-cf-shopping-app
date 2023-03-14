@@ -126,11 +126,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 0.5,
     backgroundColor: '#fff',
-    alignItems: 'left',
+    alignItems: 'left', // Doesn't work on android
     justifyContent: 'top',
   },
   Savebutton: {
-    alignItems: 'center',
+    alignItems: 'center', // Doesn't work on android
     justifyContent: 'center',
     paddingVertical: 6,
     paddingHorizontal: 18,
