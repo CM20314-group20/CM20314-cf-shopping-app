@@ -29,7 +29,7 @@
     "react-native": "0.71.3",
     "react-native-chart-kit": "^6.12.0",
     "react-native-curved-bottom-bar": "^2.1.4",
-    "react-native-dropdown-picker": "^5.4.4",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-leaderboard": "^1.0.6",
     "react-native-navbar": "^2.1.0",
