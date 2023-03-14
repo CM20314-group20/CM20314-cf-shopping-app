@@ -9,6 +9,7 @@ from PIL import Image
 
 # databse of abbreviatons and remove_abbreviations function
 from . import abbreviations_dict
+from .image_processing import process_image
 
 class ReceiptScanner:
 
@@ -16,7 +17,11 @@ class ReceiptScanner:
     @classmethod
     def OCR(self, image_name: str) -> str:
         img = Image.open(image_name)   # location of image to be processed
-        return tess.image_to_string(img)
+        try:
+            img = process_image(img)
+        except:
+            print("ERROR: Error in Image Processing for OCR in backend\camera_backend\receipt_splitter.py. \nMost likely due to problem in image_processing.py")
+        return tess.image_to_string(img, lang='eng', config='--psm 6')
 
 
     # takes string as input and removes non-alphanumeric and number characters
@@ -74,18 +79,3 @@ class ReceiptScanner:
             return sections
 
         return process_text(text)
-
-
-        # for row in text:
-        #     print(row)
-
-        #     current = row.split(' ')
-        #     if len(current) >= 2:
-        #         if current[0] == 'Vat' or current[1] == 'Number':
-        #             add = True
-        #         if current[1].lower() in {'balance', 'total'}:
-        #             add = False
-        #     if add and row != '':
-        #         sections.append(self.clean_string(row))
-
-        # return sections[1:]
