@@ -20,19 +20,19 @@ const ScannedItem = (props) => {
 
     if (carbonFootprintVal < rating1) {
       return '#2cba00'
-      return '#00FF00'
+      // return '#00FF00'
     }
     else if (carbonFootprintVal < rating2) {
       return '#7ac40a'
-      return '#9ACD32'
+      // return '#9ACD32'
     }
     else if (carbonFootprintVal < rating3) {
       return '#a8a222'
-      return '#FFA500'
+      // return '#FFA500'
     }
     else if (carbonFootprintVal < rating4) {
       return '#ffa700'
-      return '#FF6347'
+      // return '#FF6347'
     }
     else {
       return '#ff0000'
@@ -44,6 +44,16 @@ const ScannedItem = (props) => {
     return (grams/170).toFixed(2)
   }
 
+  function totalCarbon(data){
+    // ATTENTION This number is very flawed because
+    // say if someone bough 5kg worth of environmentally friendly milk (10g per 1kg) and 5grams of beef jerkey (500g per 1kg)
+    // the total would be 255 g per kg
+    let sum = 0;
+    data.forEach(function(item, index) {
+      sum += item["co2_total_per_kg"];
+    })
+    return (sum/data.length).toFixed(2);
+  }
 
   return (
     <>
@@ -62,6 +72,11 @@ const ScannedItem = (props) => {
       ))}
       </DataTable> */}
       <ScrollView>
+        <View style={styles.titleBox}>
+          <Text style={styles.todaysFootprint}>Todays Footprint: </Text>
+          <Text style={[styles.todaysFootprint, {color: getStyle(totalCarbon(data))}]}>{totalCarbon(data)}</Text>
+          <Text> per kg</Text>
+        </View>
         <View style={styles.tableContainer}>
         {data.map((data, index) => (
           <View key={index} style={styles.itemContainer}>
@@ -72,7 +87,7 @@ const ScannedItem = (props) => {
               <CarIcon color={getStyle(data["co2_total_per_kg"])} size={50}/>
               <View style={styles.carbonDetailsBox}>
                 <Text style={[styles.equalToDrivingText, {color: getStyle(data["co2_total_per_kg"])}]}>Equal to driving {carbonGramsToCarDistance(data["co2_total_per_kg"])} in a petrol car</Text>
-                <Text>{data["co2_total_per_kg"]}g CO2 per 1Kg of Product</Text>
+                <Text>{data["co2_total_per_kg"]}g CO<Text style={{fontSize: 10}}>2</Text> per 1Kg of Product</Text>
               </View>
             </View>
           </View>
@@ -86,29 +101,40 @@ const ScannedItem = (props) => {
 export default ScannedItem;
   
 const styles = StyleSheet.create({
+  titleBox: {
+    flexDirection: 'row',
+    padding: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: '#808080',
+  },
+  todaysFootprint: {
+    fontSize: 26,
+    fontWeight:'bold',
+  },
+  tarbonTitle: {
+    fontSize: 20,
+  },
   tableContainer: {
-    // marginLeft:'5%',
     flexDirection:'column',
     width:'100%',
   },
 
   itemContainer: {
     width:'100%',
-    // height: 80,
     flexDirection:'column',
-    color:'red',
     padding:15,
+    paddingTop:5,
+    paddingBottom: 25,
+    borderBottomWidth:1,
+    borderBottomColor: '#D3D3D3'
   },
   productNameBox: {
-    // paddingLeft: 10,
     height: 25,
   },
   productName: {
-    // height: 20,
-    // color: 'green',
-    // color: 'red',
     fontWeight: 'bold',
-    fontSize:18
+    fontSize:18,
+    // color: '#606060'
   },
   carbonDetailsContainer: {
     height:30,
