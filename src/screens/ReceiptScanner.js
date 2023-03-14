@@ -21,7 +21,8 @@ export default function ReceiptScanner() {
   const [base64, setBase64] = useState("");
 
   const cameraRef = useRef(null);
-  const ip = "192.168.1.94";
+  // const ip = "192.168.1.94";
+  const ip = "10.0.2.2"
   const port = "4000";
 
 
