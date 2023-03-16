@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet } from 'react-native';
 import Home from './src/screens/Home';
+import SearchPage from './src/screens/SearchBar';
 import Social from './src/screens/Social';
 import Settings from './src/screens/Settings';
 import ShoppingList from './src/screens/ShoppingList';
