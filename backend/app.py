@@ -1,12 +1,11 @@
 from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
 import random
 import base64
-import models
-from database import SessionLocal, engine
+from backend.user_data_backend import models
+from backend.user_data_backend.database import SessionLocal, engine
+from backend.user_data_backend.database_functions import add_user
 
 app = Flask(__name__)
-db = SessionLocal()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -33,11 +32,10 @@ def settings():
     if request.method == 'POST':
         db_user = models.User(
             username=request.get_json()['username'],
-            email=request.get_json()['username'],
+            email=request.get_json()['email'],
             data_metric=request.get_json()['data_metric']
         )
-        db.add(db_user)
-        db.commit()
+        add_user(db_user)
         # TODO - calculate the CF in terms of the new metric and update home page
     return jsonify({"Metric": data_metric})
 
