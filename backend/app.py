@@ -1,35 +1,14 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
-from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy import PickleType
-import random, math, urllib
-from product_data_backend import ProductData
-from camera_backend.receipt_splitter import ReceiptScanner
+import random
 import base64
-import os
-
-basedir = os.path.abspath(os.path.dirname(__file__))
+import models
+from database import SessionLocal, engine
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] =\
-    'sqlite:////' + os.path.join(basedir, 'database.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-    
-class User(db.Model):
-    username = db.Column(db.String(100), nullable=False, primary_key=True)
-    email = db.Column(db.String(80), unique=True, nullable=False)
-    data_metric = db.Column(db.String(80), unique=True, nullable=False)
+db = SessionLocal()
 
-    def __init__(self, username, email, data_metric):
-        self.username = username
-        self.email = email
-        self.data_metric = data_metric
 
-    def __repr__(self):
-        return f'<User {self.username}>'
-    
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
@@ -41,27 +20,26 @@ def home():
             random.uniform(0, 1) * 100,
             random.uniform(0, 1) * 100,
             random.uniform(0, 1) * 100
-                    ]
-        return jsonify({"Data" : data})
-    
-    return jsonify({"Home" : "Page"})
+        ]
+        return jsonify({"Data": data})
 
+    return jsonify({"Home": "Page"})
 
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
     data_metric = "Miles Driven"
+    # TODO - Test how this errors when given a non unique username, email or data metric
     if request.method == 'POST':
-        username = request.get_json()['username']
-        email = request.get_json()['username']
-        data_metric = request.get_json()['data_metric']
-        s = User(username=username, email=email, data_metric=data_metric)
-        db.session.add(s)
-        db.session.commit()
-
+        db_user = models.User(
+            username=request.get_json()['username'],
+            email=request.get_json()['username'],
+            data_metric=request.get_json()['data_metric']
+        )
+        db.add(db_user)
+        db.commit()
         # TODO - calculate the CF in terms of the new metric and update home page
-    return jsonify({"Metric" : data_metric})
-
+    return jsonify({"Metric": data_metric})
 
 
 @app.route('/social', methods=['GET', 'POST'])
@@ -82,12 +60,13 @@ def social():
             groupid = int(request.get_json()['group_id'])
 
         # TODO - need to return all the other users in the group for the leaderboard
-        return jsonify({"group-id" : groupid, "id-list" : id_list})
+        return jsonify({"group-id": groupid, "id-list": id_list})
 
-        
+
     elif request.method == 'GET':
         # TODO - get the user's group id from the database and return the user's and their data in that group
-        return jsonify({"group-id" : groupid, "id-list" : [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]})
+        return jsonify(
+            {"group-id": groupid, "id-list": [["1", "Joma", "23kg", "None"], ["2", "Coffeezilla", "25kg", "None"]]})
 
 
 @app.route('/receiptscanner', methods=['GET', 'POST'])
@@ -96,19 +75,28 @@ def receiptscanner():
         data = request.get_json()
         base64_str = data['data']['_parts'][0][1]['base64']
         decoded_img = base64.b64decode(base64_str)
-        
+
         # with open('backend/scanned-images/new-image.jpg', 'wb') as f:
         #     f.write(decoded_img)
 
         # products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
         # products = [ProductData.product_from_name(name) for name in products]
-        products = [{'product_name': 'barefoot white Zinfandel  ', 'category': 'Wine, white, sweet', 'co2_total_per_kg': 1.1}, {'product_name': 'js Tikka Masala Sauce  ', 'category': 'Indian-style sauce, tandoori or garam masala type, prepacked', 'co2_total_per_kg': 1.3}, {'product_name': 'haribo supermix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'm&ms crispy pouch  ', 'category': 'Chocolate confectionery, filled with nuts and/or praline', 'co2_total_per_kg': 9.72}, {'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16}]
-        return jsonify({"Image" : products})
-
+        products = [
+            {'product_name': 'barefoot white Zinfandel  ', 'category': 'Wine, white, sweet', 'co2_total_per_kg': 1.1},
+            {'product_name': 'js Tikka Masala Sauce  ',
+             'category': 'Indian-style sauce, tandoori or garam masala type, prepacked', 'co2_total_per_kg': 1.3},
+            {'product_name': 'haribo supermix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73},
+            {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73},
+            {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73},
+            {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73},
+            {'product_name': 'm&ms crispy pouch  ',
+             'category': 'Chocolate confectionery, filled with nuts and/or praline', 'co2_total_per_kg': 9.72},
+            {'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16}]
+        return jsonify({"Image": products})
 
     elif request.method == 'GET':
         print(request.data)
-        return jsonify({"Scanner" : "Page"})
+        return jsonify({"Scanner": "Page"})
 
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
@@ -116,13 +104,12 @@ def shoppinglist():
     # TODO - get items from db before hand
     items = ["Apple", "Pear", "Grape", "Chicken"]
     if request.method == 'GET':
-        return jsonify({"Items" : items})
-    
+        return jsonify({"Items": items})
+
     elif request.method == 'POST':
         # TODO - update items correctly in db for the user so after refresh it shows updated items
         items = request.get_json()['data']
-        return jsonify({"Items" : items})
-
+        return jsonify({"Items": items})
 
 
 if __name__ == '__main__':
