@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 // import { SearchBar } from '@rneui/themed';
-import { StyleSheet, View, Text, Dimensions, Button } from 'react-native';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
+import { StyleSheet, View, Text, TextInput, Dimensions, Button } from 'react-native';
+import { LineChart } from "react-native-chart-kit";
+// import { SearchBar } from 'react-native-elements';
 
 export default function Home() {
-  // const [update, setUpdate] = useState("")
   return (
     <>
+      {/* <View style={style.searchBar}>
+        <TextInput placeholder='Search here' />
+      </View> */}
       <View style={styles.container}>
         <Text style={styles.header01} >History</Text>
         <LineChart
@@ -157,21 +153,6 @@ const styles = StyleSheet.create({
     elevation: 3,
     elevation: 8,
     marginVertical: 10
-  },
-  app: {
-    flex: 4, // the number of columns you want to devide the screen into
-    marginHorizontal: "auto",
-    width: 400
-  },
-  item: {
-    flex: 1,
-    maxWidth: "25%", // 100% devided by the number of rows you want
-    alignItems: "center",
-
-    // my visual styles; not important for the grid
-    padding: 10,
-    backgroundColor: "rgba(249, 180, 45, 0.25)",
-    borderWidth: 1.5,
-    borderColor: "#fff"
   }
+
 });
