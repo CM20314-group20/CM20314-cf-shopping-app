@@ -2,26 +2,25 @@
 # download tesseract from here (windows) = dhttps://github.com/UB-Mannheim/tesseract/wiki 
 # or check under 'binaries' for other versions = https://tesseract-ocr.github.io/tessdoc/Home.html 
 
-import pytesseract as tess
-# tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'   # locaton of teserract-orc file and make sure to include \tesseract.exe at end
-from PIL import Image
-# import openfoodfacts
-
-# databse of abbreviatons and remove_abbreviations function
+import pytesseract as tess  
+import cv2
 from . import abbreviations_dict
 from .image_processing import process_image
 
-class ReceiptScanner:
+# # locaton of teserract-orc file and make sure to include \tesseract.exe at end
+tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe' 
 
+class ReceiptScanner:
     # takes image src as input and returns it as text
     @classmethod
     def OCR(self, image_name: str) -> str:
-        img = Image.open(image_name)   # location of image to be processed
-        try:
-            img = process_image(img)
-        except:
-            print("ERROR: Error in Image Processing for OCR in backend\camera_backend\receipt_splitter.py. \nMost likely due to problem in image_processing.py")
-        return tess.image_to_string(img, lang='eng', config='--psm 6')
+        original_img = cv2.imread(image_name)   # location of image to be processed
+        transformed_img = process_image(original_img)
+        text = tess.image_to_string(transformed_img, lang='eng', config='--psm 6')
+        if text == []:
+            return tess.image_to_string(original_img, lang='eng', config='--psm 6')
+        else:
+            return text
 
 
     # takes string as input and removes non-alphanumeric and number characters

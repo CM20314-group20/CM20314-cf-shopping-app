@@ -9,6 +9,8 @@ def _try_request(function: Callable, args: dict) -> Any:
         return function(**args)
     # TODO Decide on proper error handling.
     except Exception as err:
+        print(20*"-")
+        print(f"Function called: {function}, with arguments: {args}.")
         print(f"Unexpected {err=}, {type(err)=}")
         raise
 

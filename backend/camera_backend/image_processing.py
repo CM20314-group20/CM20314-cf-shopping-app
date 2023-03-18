@@ -1,12 +1,10 @@
 import cv2
-import pytesseract
 import numpy as np
 from imutils.perspective import four_point_transform
 import imutils
 from itertools import combinations, permutations
 from mathutils.geometry import intersect_point_line
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 def transform_image(original_image):
     # Copy image and resize to fixed width.
@@ -20,7 +18,7 @@ def transform_image(original_image):
     blurred = cv2.GaussianBlur(gray, (5, 5,), 0)
     edged = cv2.Canny(blurred, 75, 200)
     dilated = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, np.ones((5,5),np.uint8))
-
+    
     # Get contours of edges (find lines in the image)
     cnts = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
@@ -28,7 +26,6 @@ def transform_image(original_image):
 
     # Sort the contours (lines) and find the longest one.
     longest = None
-    second_longest = None
     length = 0
     for c in cnts:
         peri = cv2.arcLength(c, True)
@@ -39,16 +36,6 @@ def transform_image(original_image):
     # Remove weird excess brackets.
     longest = np.reshape(longest, (len(longest), 2))
 
-    # Remove any verticies on the edge of the photo
-    longest = longest = np.array(longest).tolist()
-    # dist = 10
-    # for vertex in longest:
-    #     if vertex[0] < dist or vertex[0] > width - dist \
-    #         or vertex[1] < dist or vertex[1] > height - dist:
-    #             longest.remove(vertex)
-    longest = np.array(longest)
-
-    
     # It may have some overlapping vertices so remove those in a certain radius
     vertices = []
     for vertex in longest:
@@ -62,7 +49,6 @@ def transform_image(original_image):
                     break
             if add:
                 vertices.append(vertex)
-    
 
     # Remove any verticies which are points on a line between two points as they are redundant.
     vertices = np.array(vertices).tolist()
@@ -130,9 +116,12 @@ def transform_image(original_image):
     new_verticies = sort_coordinates(new_verticies)
         
     # apply a four-point perspective transform to the *original* image to
-    # obtain a top-down bird's-eye view of the receipt
-    receipt = four_point_transform(original_image, new_verticies.reshape(4, 2) * ratio)
-    return receipt
+    # obtain a top-down bird's-eye view of the receipt    
+    rect = cv2.minAreaRect(new_verticies)
+    new_verticies = cv2.boxPoints(rect)
+    new_verticies = np.int0(new_verticies)
+    
+    return four_point_transform(original_image, new_verticies * ratio)
 
 def filter_image(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -144,5 +133,4 @@ def filter_image(image):
 def process_image(image):
     image = transform_image(image)
     image = filter_image(image)
-    
     return image
