@@ -26,7 +26,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 
 export default function Home() {
   const Separator = () => <View style={styles.separator} />;
-  const [cfData, setcfData] = useState([]);
+  const [cfData, setcfData] = useState([-1]);
   const [update, setUpdate] = useState("");
   const ip = "192.168.1.94";
   // const ip = "138.38.175.198";
@@ -36,16 +36,15 @@ export default function Home() {
   const Tab = createBottomTabNavigator();
 
   useEffect(() => {
-    // getCFHistory()
+    getCFHistory()
   }, [])
- 
+
   async function getCFHistory() {
     try {
       // const url = 'http://127.0.0.1:5000/';
       const url = 'http://' + ip + ':' + port + '/';
       const response = await axios.get(url);
-      // FIXME
-      const data = response.data["Data"];
+      const data = response.data['Data'];
       setcfData(data);
     }
     catch(err) {
@@ -67,16 +66,7 @@ export default function Home() {
           data={{
             labels: ["October", "November", "December", "January", "February", "March"],
             datasets: [
-              {
-                data: [
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100
-                ]
-              }
+              { data: cfData }
             ]
           }}
           width={Dimensions.get("window").width} // from react-native

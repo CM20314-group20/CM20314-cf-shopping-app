@@ -20,8 +20,16 @@ def home():
             random.uniform(0, 1) * 100
                     ]
         return jsonify({"Data" : data})
-    
-    return jsonify({"Home" : "Page"})
+    data = [
+            random.uniform(0, 1) * 100,
+            random.uniform(0, 1) * 100,
+            random.uniform(0, 1) * 100,
+            random.uniform(0, 1) * 100,
+            random.uniform(0, 1) * 100,
+            random.uniform(0, 1) * 100
+                    ]
+    print(data)
+    return jsonify({"Data" : data})
 
 
 
