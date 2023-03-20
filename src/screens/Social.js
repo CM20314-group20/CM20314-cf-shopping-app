@@ -11,7 +11,8 @@ export default function Social() {
   const [leaderboard, setLeaderboard] = useState()
   const Separator = () => <View style={styles.separator} />;
 
-  const ip = "192.168.1.94";
+  // const ip = "192.168.1.94";
+  const ip = "138.38.175.198";
   const port = "4000";
 
   useEffect(() => {

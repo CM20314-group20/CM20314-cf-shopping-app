@@ -13,7 +13,8 @@ export default function ShoppingList() {
   const [listItems, setListItems] = useState();
   const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
-  const ip = "192.168.1.94";
+  // const ip = "192.168.1.94";
+  const ip = "138.38.175.198";
   const port = "4000";
 
   useEffect(() => {
