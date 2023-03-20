@@ -8,7 +8,11 @@ export default function Settings() {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [dataMetric, setDataMetric] = React.useState("");
-  
+
+  // const ip = "192.168.1.94";
+  const ip = "138.38.175.198";
+  const port = 4000;
+
   const data = [
       {key:'1', value:'Miles Driven'},
       {key:'2', value:'Trees Saved'},
@@ -19,7 +23,7 @@ export default function Settings() {
     
     try {
       // await axios.post('http://127.0.0.1:5000/settings', {
-      await axios.post('http://192.168.1.94:4000/settings', {
+      await axios.post('http://' + ip + ':' + port + '/settings', {
         username: username,
         email: email,
         data_metric: data_metric

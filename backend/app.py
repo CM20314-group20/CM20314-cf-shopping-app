@@ -97,12 +97,12 @@ def receiptscanner():
         base64_str = data['data']['_parts'][0][1]['base64']
         decoded_img = base64.b64decode(base64_str)
         
-        # with open('backend/scanned-images/new-image.jpg', 'wb') as f:
-        #     f.write(decoded_img)
+        with open('backend/scanned-images/new-image.jpg', 'wb') as f:
+            f.write(decoded_img)
 
-        # products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
-        # products = [ProductData.product_from_name(name) for name in products]
-        products = [{'product_name': 'barefoot white Zinfandel  ', 'category': 'Wine, white, sweet', 'co2_total_per_kg': 1.1}, {'product_name': 'js Tikka Masala Sauce  ', 'category': 'Indian-style sauce, tandoori or garam masala type, prepacked', 'co2_total_per_kg': 1.3}, {'product_name': 'haribo supermix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'm&ms crispy pouch  ', 'category': 'Chocolate confectionery, filled with nuts and/or praline', 'co2_total_per_kg': 9.72}, {'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16}]
+        products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
+        products = [ProductData.product_from_name(name) for name in products]
+        # products = [{'product_name': 'barefoot white Zinfandel  ', 'category': 'Wine, white, sweet', 'co2_total_per_kg': 1.1}, {'product_name': 'js Tikka Masala Sauce  ', 'category': 'Indian-style sauce, tandoori or garam masala type, prepacked', 'co2_total_per_kg': 1.3}, {'product_name': 'haribo supermix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'm&ms crispy pouch  ', 'category': 'Chocolate confectionery, filled with nuts and/or praline', 'co2_total_per_kg': 9.72}, {'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16}]
         return jsonify({"Image" : products})
 
 
