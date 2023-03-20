@@ -24,12 +24,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
-
 export default function Home() {
-  const [cfData, setcfData] = useState([])
   const Separator = () => <View style={styles.separator} />;
-  // const ip = "192.168.1.94";
-  const ip = "138.38.175.198";
+  const [cfData, setcfData] = useState([]);
+  const [update, setUpdate] = useState("");
+  const ip = "192.168.1.94";
+  // const ip = "138.38.175.198";
   const port = "4000";
 
   const Stack = createNativeStackNavigator();
@@ -38,7 +38,7 @@ export default function Home() {
   useEffect(() => {
     // getCFHistory()
   }, [])
-
+ 
   async function getCFHistory() {
     try {
       // const url = 'http://127.0.0.1:5000/';
@@ -52,7 +52,6 @@ export default function Home() {
       console.log(err);
     }
   }
-  // const [update, setUpdate] = useState("")
   const Item = ({ item }) => {
     return <View style={styles.item}>{item.icon}</View>;
   };
@@ -93,7 +92,7 @@ export default function Home() {
             color: (opacity = 2) => 'green',
             labelColor: (opacity = 2) => 'grey',
             style: {
-              borderRadius: 16
+              borderRadius: 16,
             },
             propsForDots: {
               r: "3",
@@ -131,11 +130,7 @@ export default function Home() {
               <Text style={styles.text}>Goals</Text>
             </Pressable>
         </View>
-        {/* <SearchBar
-          placeholder="Type Here..."
-          onChangeText={updateSearch}
-          value={search}
-        /> */}
+
       </View >
     </>
   );
@@ -242,7 +237,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    alignContent: 'left', // Doesn't work on android
+    // alignContent: 'left', // Doesn't work on android
     paddingVertical: 1,
     paddingHorizontal: 18,
     borderRadius: 4,
@@ -253,7 +248,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    alignContent: 'left', // Doesn't work on android
+    // alignContent: 'left', // Doesn't work on android
     color: 'orange',
     paddingVertical: 1,
     paddingHorizontal: 18,
