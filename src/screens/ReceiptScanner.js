@@ -10,23 +10,21 @@ import { render } from 'react-dom';
 
 export default function ReceiptScanner() {
   
-  const [update, setUpdate] = useState("")
+  const [update, setUpdate] = useState("");
   const navigation = useNavigation();
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back)
+  const [type, setType] = useState(Camera.Constants.Type.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const [scannedItems, setScannedItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [base64, setBase64] = useState("");
 
   const cameraRef = useRef(null);
-  // const ip = "192.168.1.94";
-  const ip = "138.38.175.198";
+  const ip = "192.168.1.94";
+  // const ip = "138.38.175.198";
   const port = "4000";
 
-
-  // TODO - post request to send image to backend
   async function postImageToBackend(base64) {
     const form = new FormData();
     form.append('Image', {
@@ -48,11 +46,9 @@ export default function ReceiptScanner() {
   }
 
   function renderScannedItems(props) {
-    // TODO - get these items from return of post request of postImageToBackend
     navigation.push("Receipt Items", {
       data: props
     });
-    
   }
 
   useEffect(() => {
@@ -76,15 +72,12 @@ export default function ReceiptScanner() {
         console.log(e);
       }
     }
-    // renderScannedItems();
   }
 
   const saveImage = async() => {
     if (image) {
       try{
         await MediaLibrary.createAssetAsync(image);
-        // TODO - send image to backend here
-        // postImageToBackend(image);
         alert('Picture Save!')
         setImage(null);
       } catch(e) {

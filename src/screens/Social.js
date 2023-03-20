@@ -7,12 +7,12 @@ import LoadingScreen from '../components/LoadingScreen.js';
 export default function Social() {
   const [update, setUpdate] = useState("")
   // const [isLoaded, setIsLoaded] = useState(false)
-  const [group, setGroup] = useState()
-  const [leaderboard, setLeaderboard] = useState()
+  const [group, setGroup] = useState();
+  const [leaderboard, setLeaderboard] = useState();
   const Separator = () => <View style={styles.separator} />;
 
-  // const ip = "192.168.1.94";
-  const ip = "138.38.175.198";
+  const ip = "192.168.1.94";
+  // const ip = "138.38.175.198";
   const port = "4000";
 
   useEffect(() => {

@@ -9,8 +9,8 @@ export default function Settings() {
   const [email, setEmail] = React.useState("");
   const [dataMetric, setDataMetric] = React.useState("");
 
-  // const ip = "192.168.1.94";
-  const ip = "138.38.175.198";
+  const ip = "192.168.1.94";
+  // const ip = "138.38.175.198";
   const port = 4000;
 
   const data = [
