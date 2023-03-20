@@ -6,7 +6,8 @@ import pytesseract as tess
 # tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'   # locaton of teserract-orc file and make sure to include \tesseract.exe at end
 from PIL import Image
 # import openfoodfacts
-
+import cv2
+import numpy as np
 # databse of abbreviatons and remove_abbreviations function
 from . import abbreviations_dict
 
@@ -15,7 +16,7 @@ class ReceiptScanner:
     # takes image src as input and returns it as text
     @classmethod
     def OCR(self, image_name: str) -> str:
-        img = Image.open(image_name)   # location of image to be processed
+        img = cv2.imread(image_name, 0) 
         return tess.image_to_string(img)
 
 

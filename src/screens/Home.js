@@ -28,7 +28,8 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 export default function Home() {
   const [cfData, setcfData] = useState([])
   const Separator = () => <View style={styles.separator} />;
-  const ip = "192.168.1.94";
+  // const ip = "192.168.1.94";
+  const ip = "138.38.175.198";
   const port = "4000";
 
   const Stack = createNativeStackNavigator();
