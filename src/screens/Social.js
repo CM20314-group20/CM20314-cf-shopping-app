@@ -11,8 +11,7 @@ export default function Social() {
   const [leaderboard, setLeaderboard] = useState();
   const Separator = () => <View style={styles.separator} />;
 
-  const ip = "192.168.1.94";
-  // const ip = "138.38.175.198";
+  const ip = "localhost";
   const port = "4000";
 
   useEffect(() => {
@@ -22,7 +21,6 @@ export default function Social() {
 
   async function getGroupID() {
     try {
-      // const url = 'http://127.0.0.1:5000/social';
       const url = 'http://' + ip + ':' + port + '/social';
       const response = await axios.get(url);
       const groupID = response.data['group-id'];

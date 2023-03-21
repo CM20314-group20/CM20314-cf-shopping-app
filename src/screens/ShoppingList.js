@@ -13,8 +13,8 @@ export default function ShoppingList() {
   const [listItems, setListItems] = useState();
   const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
-  const ip = "192.168.1.94";
-  // const ip = "138.38.175.198";
+
+  const ip = "localhost";
   const port = "4000";
 
   useEffect(() => {
@@ -23,7 +23,6 @@ export default function ShoppingList() {
 
   async function getShoppingListItems() {
     try {
-      // const url = 'http://127.0.0.1:5000/shoppinglist';
       const url = 'http://' + ip + ':' + port + '/shoppinglist';
       const response = await axios.get(url);
       const shoppingListItems = response.data["Items"];      

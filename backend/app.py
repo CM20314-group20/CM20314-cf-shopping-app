@@ -4,7 +4,7 @@ from product_data_backend import ProductData
 from camera_backend.receipt_splitter import ReceiptScanner
 import base64
 import os
-
+import socket
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -108,4 +108,4 @@ def shoppinglist():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='4000')
+    app.run(port='4000')

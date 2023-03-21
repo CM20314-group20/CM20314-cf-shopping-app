@@ -7997,7 +7997,7 @@ react-native-curved-bottom-bar@^2.1.4:
 
 react-native-dropdown-picker@^5.4.6:
   version "5.4.6"
-  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.6.tgz#3736fc468de4a295e4df8d1f65ed2eadaf9b445f"
+  resolved "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.6.tgz"
   integrity sha512-T1XBHbE++M6aRU3wFYw3MvcOuabhWZ29RK/Ivdls2r1ZkZ62iEBZknLUPeVLMX3x6iUxj4Zgr3X2DGlEGXeHsA==
 
 react-native-dropdown-select-list@^2.0.4:
@@ -8035,6 +8035,11 @@ react-native-navbar@^2.1.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-network-info@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.npmjs.org/react-native-network-info/-/react-native-network-info-5.2.1.tgz"
+  integrity sha512-iam74xXtrSqqZurCl1/bSjZ9jXcsJY84g7brx1/4uVGCY26c6m+4CArHNSHOsz5ATg2NQT+81sjNy0KlCPyK4g==
+
 react-native-paper@^5.2.0:
   version "5.2.0"
   resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-5.2.0.tgz"
@@ -8043,6 +8048,11 @@ react-native-paper@^5.2.0:
     "@callstack/react-theme-provider" "^3.0.8"
     color "^3.1.2"
     use-event-callback "^0.1.0"
+
+react-native-public-ip@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/react-native-public-ip/-/react-native-public-ip-1.0.2.tgz"
+  integrity sha512-GElvYvHLo/BCRFlXARBTq9Dwx526d1zxnyqlSfp1RQwA1yAucFbabfm6nAA3c2Nnq2OdfL4dbFGSeArM2Hdr2g==
 
 "react-native-reanimated@>= 1.0.0", react-native-reanimated@~3.0.2:
   version "3.0.2"
@@ -8093,11 +8103,10 @@ react-native-svg-charts@^5.4.0:
     d3-shape "^1.0.6"
     prop-types "^15.6.0"
 
-react-native-svg@^13.8.0:
+react-native-svg@*, react-native-svg@^13.8.0, react-native-svg@^6.2.1||^7.0.3, "react-native-svg@> 6.4.1":
   version "13.8.0"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.8.0.tgz#b6a22cf77f8098f910490a13aeb160a37e182f97"
+  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.8.0.tgz"
   integrity sha512-G8Mx6W86da+vFimZBJvA93POw8yz0fgDS5biy6oIjMWVJVQSDzCyzwO/zY0yuZmCDhKSZzogl5m0wXXvW2OcTA==
-
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
@@ -8141,7 +8150,7 @@ react-native-wind@^1.2.0:
   resolved "https://registry.npmjs.org/react-native-wind/-/react-native-wind-1.2.0.tgz"
   integrity sha512-y3UkZeFaBK1JCFDDn+oZ0u4ukLuYFg4xGBY6H2ZAalooQAlLDhqsH41aHNWjGTS4y8qmEhR7LQeamLbmcs421A==
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@^0.71.4, "react-native@>= 0.50.0", react-native@>=0.46.0, react-native@>=0.57, react-native@>=0.59:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@^0.71.4, "react-native@>= 0.50.0", react-native@>=0.18.0, react-native@>=0.46.0, react-native@>=0.47, react-native@>=0.57, react-native@>=0.59:
   version "0.71.4"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.4.tgz"
   integrity sha512-3hSYqvWrOdKhpV3HpEKp1/CkWx8Sr/N/miCrmUIAsVTSJUR7JW0VvIsrV9urDhUj/s6v2WF4n7qIEEJsmTCrPw==
@@ -9848,9 +9857,9 @@ webpack-sources@^3.2.3:
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
 
 "webpack@^4.0.0 || ^5.0.0", "webpack@^4.37.0 || ^5.0.0", "webpack@^4.44.2 || ^5.47.0", webpack@^5.0.0, webpack@^5.1.0, webpack@^5.20.0, webpack@^5.64.4, webpack@>=2, "webpack@>=4.0.0 <6.0.0":
-  version "5.75.0"
-  resolved "https://registry.npmjs.org/webpack/-/webpack-5.75.0.tgz"
-  integrity sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==
+  version "5.76.1"
+  resolved "https://registry.npmjs.org/webpack/-/webpack-5.76.1.tgz"
+  integrity sha512-4+YIK4Abzv8172/SGqObnUjaIHjLEuUasz9EwQj/9xmPPkYJy2Mh03Q/lJfSD3YLzbxy5FeTq5Uw0323Oh6SJQ==
   dependencies:
     "@types/eslint-scope" "^3.7.3"
     "@types/estree" "^0.0.51"

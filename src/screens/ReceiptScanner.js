@@ -21,8 +21,8 @@ export default function ReceiptScanner() {
   const [base64, setBase64] = useState("");
 
   const cameraRef = useRef(null);
-  const ip = "192.168.1.94";
-  // const ip = "138.38.175.198";
+
+  const ip = "localhost";
   const port = "4000";
 
   async function postImageToBackend(base64) {
@@ -33,7 +33,6 @@ export default function ReceiptScanner() {
       type: "image.jpg",
     });
     try {
-      // await axios.post('http://127.0.0.1:5000/receiptscanner', {
       await axios.post('http://' + ip + ':' + port + '/receiptscanner', {
         data: form,
       }).then((response) => {

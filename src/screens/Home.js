@@ -23,25 +23,26 @@ import ReceiptItems from './ReceiptItems';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import publicIP from 'react-native-public-ip';
+import LoadingScreen from '../components/LoadingScreen';
 
 export default function Home() {
   const Separator = () => <View style={styles.separator} />;
   const [cfData, setcfData] = useState([-1]);
   const [update, setUpdate] = useState("");
-  const ip = "192.168.1.94";
-  // const ip = "138.38.175.198";
+  
+  const ip = "localhost";
   const port = "4000";
 
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
-
   useEffect(() => {
-    getCFHistory()
+    getCFHistory();
   }, [])
 
+  
   async function getCFHistory() {
     try {
-      // const url = 'http://127.0.0.1:5000/';
       const url = 'http://' + ip + ':' + port + '/';
       const response = await axios.get(url);
       const data = response.data['Data'];
@@ -56,8 +57,9 @@ export default function Home() {
   };
   return (
     <>
-        
-
+      {!ip && <LoadingScreen />}
+      {ip && (
+      <>
       <View style={styles.container}>
         <View style={styles.header_text}>
           <Text style={styles.header01}>Dashboard</Text>
@@ -121,7 +123,7 @@ export default function Home() {
             </Pressable>
         </View>
 
-      </View >
+      </View ></>)}
     </>
   );
 }
