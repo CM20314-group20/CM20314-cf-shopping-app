@@ -26,6 +26,7 @@ export default function ReceiptScanner() {
   const port = "4000";
 
   async function postImageToBackend(base64) {
+    setLoading(true);
     const form = new FormData();
     form.append('Image', {
       name: `scanned-receipt`,
@@ -36,6 +37,7 @@ export default function ReceiptScanner() {
       await axios.post('http://' + ip + ':' + port + '/receiptscanner', {
         data: form,
       }).then((response) => {
+        setLoading(false);
         renderScannedItems(response.data["Image"]);
       })
     }

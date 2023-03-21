@@ -102,6 +102,11 @@ def shoppinglist():
     elif request.method == 'POST':
         # TODO - update items correctly in db for the user so after refresh it shows updated items
         items = request.get_json()['data']
+        if request.get_json()['data']["calculate_cf"]:
+            products = request.get_json()['data']["calculate_cf"]
+            products = [ProductData.product_from_name(name) for name in products]
+            return jsonify({"Shopping List Items" : products})
+        
         return jsonify({"Items" : items})
 
 
