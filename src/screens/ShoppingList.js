@@ -12,6 +12,7 @@ import { currentIP } from '../components/GetIP.js';
 export default function ShoppingList() {
   const [list, setList] = useState();
   const [listItems, setListItems] = useState();
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
 
@@ -23,10 +24,12 @@ export default function ShoppingList() {
   }, [])
 
   async function getShoppingListItems() {
+    setLoading(true);
     try {
       const url = 'http://' + ip + ':' + port + '/shoppinglist';
       const response = await axios.get(url);
-      const shoppingListItems = response.data["Items"];      
+      const shoppingListItems = response.data["Items"];  
+      setLoading(false);    
       setListItems(shoppingListItems);
     }
     catch(err) {
@@ -51,35 +54,56 @@ export default function ShoppingList() {
   const removeItem = (index) => {
     let itemsCopy = [...listItems];
     itemsCopy.splice(index, 1);
-    // axios.post('http://127.0.0.1:5000/shoppinglist', {
     axios.post('http://' + ip + ':' + port + '/shoppinglist', {
       data: {'items_after_remove' : itemsCopy}
     })
     .catch(function (error) {
       console.log(error);
     });
-
-    setListItems(itemsCopy)
+    setListItems(itemsCopy);
   }
 
   const removeAllItems = () => {
     setListItems([]);
   }
 
+  async function calculateCF(props) {
+    setLoading(true);
+    try {
+      axios.post('http://' + ip + ':' + port + '/shoppinglist', {
+      data: {'calculate_cf' : listItems}
+    }).then((response) => {
+      setLoading(false);
+      navigation.push("Receipt Items", {
+        data: response.data["Shopping List Items"]
+      });
+    })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
     
-    {(!listItems) && <LoadingScreen />}
-    {listItems && ( 
+    {(loading || !listItems) && <LoadingScreen />}
+    {!loading && ( 
     <>
-    
+    <View style={styles.container}>
       <Pressable style={styles.removeAllItemsButton} onPress={() => {
         removeAllItems();
       }}>
         <Text style={styles.removeText}>Remove All Items</Text>
       </Pressable>
 
-    <View style={styles.container}>
+      <Pressable style={styles.removeAllItemsButton} onPress={() => {
+        calculateCF(listItems);
+      }}>
+        <Text style={styles.removeText}>Calculate CF</Text>
+      </Pressable>
+
+    
     
       <ScrollView
         contentContainerStyle={{
@@ -121,7 +145,7 @@ export default function ShoppingList() {
     
     </>
     )}
-  </>
+    </>
   );
 }
 

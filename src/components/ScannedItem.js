@@ -86,7 +86,7 @@ const ScannedItem = (props) => {
             <View style={styles.carbonDetailsContainer}>
               <CarIcon color={getStyle(data["co2_total_per_kg"])} size={50}/>
               <View style={styles.carbonDetailsBox}>
-                <Text style={[styles.equalToDrivingText, {color: getStyle(data["co2_total_per_kg"])}]}>Equal to driving {carbonGramsToCarDistance(data["co2_total_per_kg"])} in a petrol car</Text>
+                <Text style={[styles.equalToDrivingText, {color: getStyle(data["co2_total_per_kg"])}]}>Equal to driving {carbonGramsToCarDistance(data["co2_total_per_kg"])}km in a petrol car</Text>
                 <Text>{data["co2_total_per_kg"]}g CO<Text style={{fontSize: 10}}>2</Text> per 1Kg of Product</Text>
               </View>
             </View>

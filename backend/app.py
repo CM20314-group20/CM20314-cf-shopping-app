@@ -81,9 +81,9 @@ def receiptscanner():
         with open('backend/scanned-images/new-image.jpg', 'wb') as f:
             f.write(decoded_img)
 
-        # products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
-        # products = [ProductData.product_from_name(name) for name in products]
-        products = [{'product_name': 'Barefoot white Zinfandel  ', 'category': 'Wine, white, sweet', 'co2_total_per_kg': 0.9}, {'product_name': 'Js Tikka Masala Sauce  ', 'category': 'Indian-style sauce, tandoori or garam masala type, prepacked', 'co2_total_per_kg': 1.3}, {'product_name': 'haribo supermix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 2.43}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 3.66}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 3.77}, {'product_name': 'm&ms crispy pouch  ', 'category': 'Chocolate confectionery, filled with nuts and/or praline', 'co2_total_per_kg': 9.72}, {'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16}]
+        products = ReceiptScanner.im_to_text('backend/scanned-images/new-image.jpg')
+        products = [ProductData.product_from_name(name) for name in products]
+        # products = [{'product_name': 'Barefoot white Zinfandel  ', 'category': 'Wine, white, sweet', 'co2_total_per_kg': 0.9}, {'product_name': 'Js Tikka Masala Sauce  ', 'category': 'Indian-style sauce, tandoori or garam masala type, prepacked', 'co2_total_per_kg': 1.3}, {'product_name': 'haribo supermix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 2.43}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 3.66}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 3.77}, {'product_name': 'm&ms crispy pouch  ', 'category': 'Chocolate confectionery, filled with nuts and/or praline', 'co2_total_per_kg': 9.72}, {'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16}]
         return jsonify({"Image" : products})
 
 
@@ -102,6 +102,11 @@ def shoppinglist():
     elif request.method == 'POST':
         # TODO - update items correctly in db for the user so after refresh it shows updated items
         items = request.get_json()['data']
+        if request.get_json()['data']["calculate_cf"]:
+            products = request.get_json()['data']["calculate_cf"]
+            products = [ProductData.product_from_name(name) for name in products]
+            return jsonify({"Shopping List Items" : products})
+        
         return jsonify({"Items" : items})
 
 
