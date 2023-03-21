@@ -31,12 +31,20 @@ export default function Home() {
   const [cfData, setcfData] = useState([-1]);
   const [update, setUpdate] = useState("");
   
-  const ip = "localhost";
+  const ip = "192.168.1.94";
   const port = "4000";
 
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   useEffect(() => {
+    // if (!ip) { 
+    //   publicIP().then(ip => {
+    //     setIP(ip);
+    //   })
+    //   .catch(error => {
+    //     setIP("error")
+    //   });
+    // }
     getCFHistory();
   }, [])
 

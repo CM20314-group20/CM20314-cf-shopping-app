@@ -9,7 +9,7 @@ export default function Settings() {
   const [email, setEmail] = React.useState("");
   const [dataMetric, setDataMetric] = React.useState("");
 
-  const ip = "localhost";
+  const ip = "192.168.1.94";
   const port = 4000;
 
   const data = [
@@ -19,7 +19,6 @@ export default function Settings() {
   ]
 
   async function postData(username, email, data_metric) {
-    
     try {
       await axios.post('http://' + ip + ':' + port + '/settings', {
         username: username,
