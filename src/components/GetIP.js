@@ -1,3 +1,3 @@
 export function currentIP() {
-    return "138.38.200.36"
+    return "192.168.1.94"
 }

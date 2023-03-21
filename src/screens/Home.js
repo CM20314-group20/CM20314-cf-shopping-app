@@ -54,7 +54,7 @@ export default function Home() {
   const getData = async () => {
     setLoading(true);
     try {
-      const value = await AsyncStorage.getItem('@storage_Key')
+      const value = await AsyncStorage.getItem('@storage-key')
       if (value != null) {
         setEmail(value);
       }
@@ -111,7 +111,7 @@ export default function Home() {
       <>
       <View style={styles.container}>
         <View style={styles.header_text}>
-          <Text style={styles.header01}>Dashboard {email}</Text>
+          <Text style={styles.header01}>Dashboard</Text>
         </View>
         <LineChart
           data={{

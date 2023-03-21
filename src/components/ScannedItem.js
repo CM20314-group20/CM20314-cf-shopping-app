@@ -3,10 +3,20 @@ import { StyleSheet, Text, Image, View, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { Row } from 'react-native-table-component';
 import CarIcon from '../components/CarIcon';
+import AsyncStorage from '@react-native-async-storage/async-storage';
   
 const ScannedItem = (props) => {
   let data = props["data"];
 
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('@prev-cf-val', value);
+    } catch (e) {
+      // saving error
+      console.log('Store');
+      console.log(e);
+    }
+  }
   function getStyle(carbonFootprint) {
     // console.log(carbonFootprint);
     // let carbonFootprintVal = carbonFootprint.slice(0, length-2)
@@ -52,6 +62,7 @@ const ScannedItem = (props) => {
     data.forEach(function(item, index) {
       sum += item["co2_total_per_kg"];
     })
+    storeData((sum/data.length).toFixed(2).toString());
     return (sum/data.length).toFixed(2);
   }
 
