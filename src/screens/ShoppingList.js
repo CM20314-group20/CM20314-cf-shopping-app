@@ -7,6 +7,7 @@ import LoadingScreen from '../components/LoadingScreen.js';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { currentIP } from '../components/GetIP.js';
 
 export default function ShoppingList() {
   const [list, setList] = useState();
@@ -14,7 +15,7 @@ export default function ShoppingList() {
   const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
 
-  const ip = "192.168.1.94";
+  const ip = currentIP();
   const port = "4000";
 
   useEffect(() => {

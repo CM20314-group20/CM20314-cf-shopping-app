@@ -28,7 +28,6 @@ def home():
             random.uniform(0, 1) * 100,
             random.uniform(0, 1) * 100
                     ]
-    print(data)
     return jsonify({"Data" : data})
 
 

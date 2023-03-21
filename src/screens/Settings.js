@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Pressable, Alert} from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import axios from 'axios';
+import { currentIP } from '../components/GetIP.js';
 
 export default function Settings() {
   const Separator = () => <View style={styles.separator} />;
@@ -9,7 +10,7 @@ export default function Settings() {
   const [email, setEmail] = React.useState("");
   const [dataMetric, setDataMetric] = React.useState("");
 
-  const ip = "192.168.1.94";
+  const ip = currentIP();
   const port = 4000;
 
   const data = [

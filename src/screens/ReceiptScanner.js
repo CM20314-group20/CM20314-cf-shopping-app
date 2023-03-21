@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import LoadingScreen from '../components/LoadingScreen';
 import { render } from 'react-dom';
+import { currentIP } from '../components/GetIP.js';
 
 export default function ReceiptScanner() {
   
@@ -21,8 +22,7 @@ export default function ReceiptScanner() {
   const [base64, setBase64] = useState("");
 
   const cameraRef = useRef(null);
-  const ip = "192.168.1.94";
-  // const ip = "138.38.175.198";
+  const ip = currentIP();
   const port = "4000";
 
   async function postImageToBackend(base64) {

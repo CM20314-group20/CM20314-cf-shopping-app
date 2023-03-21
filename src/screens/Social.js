@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Pressable, Alert} from 'react-native';
 import LeaderboardTable from '../components/LeaderboardTable.js';
 import axios from 'axios';
 import LoadingScreen from '../components/LoadingScreen.js';
+import { currentIP } from '../components/GetIP.js';
 
 export default function Social() {
   const [update, setUpdate] = useState("")
@@ -11,7 +12,7 @@ export default function Social() {
   const [leaderboard, setLeaderboard] = useState();
   const Separator = () => <View style={styles.separator} />;
 
-  const ip = "192.168.1.94";
+  const ip = currentIP();
   const port = "4000";
 
   useEffect(() => {

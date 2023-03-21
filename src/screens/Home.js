@@ -25,13 +25,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import publicIP from 'react-native-public-ip';
 import LoadingScreen from '../components/LoadingScreen';
+import { currentIP } from '../components/GetIP.js';
 
 export default function Home() {
   const Separator = () => <View style={styles.separator} />;
   const [cfData, setcfData] = useState([-1]);
   const [update, setUpdate] = useState("");
-  
-  const ip = "192.168.1.94";
+
+  const ip = currentIP();
   const port = "4000";
 
   const Stack = createNativeStackNavigator();
