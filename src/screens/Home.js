@@ -51,6 +51,15 @@ export default function Home() {
       console.log(e);
     }
   }
+  const setCfNull = async (value) => {
+    try {
+      await AsyncStorage.setItem('@prev-cf-val', "")
+    } catch (e) {
+      // saving error
+      console.log('Store');
+      console.log(e);
+    }
+  }
   const getData = async () => {
     setLoading(true);
     try {
@@ -69,24 +78,49 @@ export default function Home() {
       console.log('read');
       console.log(e);
     }
-    
   }
 
   useEffect(() => {
     getCFHistory();
-    getData();
-  }, [email])
+    // setCfNull();
+    // getData();
+  }, [])
   
   
   async function getCFHistory() {
+    // try {
+    //   const url = 'http://' + ip + ':' + port + '/';
+    //   const response = await axios.get(url);
+    //   const data = response.data['Data'];
+    //   setcfData(data);
+    // }
+    // catch(err) {
+    //   console.log(err);
+    // }
+    setLoading(true);
     try {
-      const url = 'http://' + ip + ':' + port + '/';
-      const response = await axios.get(url);
-      const data = response.data['Data'];
-      setcfData(data);
-    }
-    catch(err) {
-      console.log(err);
+      const value = await AsyncStorage.getItem('@prev-cf-val')
+      if (value == null) {
+        setcfData([0, 0]);
+        setLoading(false);
+        return;
+      }
+      let prev_data = JSON.parse(value)["prev-data"];
+      let prev_data_arr = [JSON.parse(value)["prev-data"]];
+      console.log(prev_data_arr);
+      
+      if (prev_data_arr.length <= 1) {
+        setcfData([0, prev_data]);
+      } else {
+        setcfData([prev_data]);
+      }
+
+      setLoading(false);
+      
+    } catch(e) {
+      // error reading value
+      console.log('read');
+      console.log(e);
     }
   }
 

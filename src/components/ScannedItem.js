@@ -1,22 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, Image, View, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { Row } from 'react-native-table-component';
 import CarIcon from '../components/CarIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoadingScreen from './LoadingScreen';
   
 const ScannedItem = (props) => {
   let data = props["data"];
+  // TODO - complete this so it gets cf from local storage and then appends to it and stores it again
+  // console.log(totalCarbon(data));
+  // let total_carbon_data = totalCarbon(data);
+  // console.log(total_carbon_data);
+  const [loading, setLoading] = useState(false);
+  const [cfData, setcfData] = useState([]);
 
+  useEffect(() => {
+    getCFHistory();
+  }, [])
+  
   const storeData = async (value) => {
     try {
-      await AsyncStorage.setItem('@prev-cf-val', value);
+      // console.log("cf data");
+      // cfData.push(value);
+      // console.log(cfData);
+      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : value}));
     } catch (e) {
       // saving error
       console.log('Store');
       console.log(e);
     }
   }
+    
+  
+  async function getCFHistory() {
+    setLoading(true);
+    try {
+      const value = await AsyncStorage.getItem('@prev-cf-val')
+      let prev_data = JSON.parse(value)["prev-data"];
+      let prev_data_arr = [JSON.parse(value)["prev-data"]];
+      // console.log(prev_data_arr);
+      setcfData([prev_data]);
+      
+
+      setLoading(false);
+      
+    } catch(e) {
+      // error reading value
+      console.log('read');
+      console.log(e);
+    }
+  }
+  
   function getStyle(carbonFootprint) {
     // console.log(carbonFootprint);
     // let carbonFootprintVal = carbonFootprint.slice(0, length-2)
@@ -68,6 +103,10 @@ const ScannedItem = (props) => {
 
   return (
     <>
+    {loading && <LoadingScreen />}
+    
+    {!loading && (
+      <>
     {/* <DataTable style={styles.container}>
       <DataTable.Header style={styles.tableHeader}>
         <DataTable.Title>Product Name</DataTable.Title>
@@ -104,8 +143,10 @@ const ScannedItem = (props) => {
           </View>
         ))}
         </View>
-      </ScrollView>
-    </>
+        </ScrollView>
+        </>
+        )}
+        </>
   );
 };
   
