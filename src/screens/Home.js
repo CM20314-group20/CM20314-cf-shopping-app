@@ -31,38 +31,6 @@ import { currentIP } from '../components/GetIP.js';
 export default function Home() {
   // Getting the users email
   const [email, setEmail] = useState("don't work");
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem('@storage_Key', value)
-    } catch (e) {
-      // saving error
-      console.log('Store');
-      console.log(e);
-    }
-  }
-
-  // storeData('ur mother');
-
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@storage_Key')
-      .then((response) => {
-        setEmail(response);
-        return response
-      })
-      // if(value !== null) {
-      //   // value previously stored
-      //   return 
-      // }
-    } catch(e) {
-      // error reading value
-      console.log('read');
-      console.log(e);
-    }
-  }
-  // let data = getData();
-  // console.log(data);
-
 
   const Separator = () => <View style={styles.separator} />;
   const [cfData, setcfData] = useState([-1]);
@@ -73,27 +41,35 @@ export default function Home() {
 
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
-
-  
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('@storage_Key', value)
+    } catch (e) {
+      // saving error
+      console.log('Store');
+      console.log(e);
+    }
+  }
+  storeData('hello');
   useEffect(() => {
-    // if (!ip) { 
-    //   publicIP().then(ip => {
-    //     setIP(ip);
-    //   })
-    //   .catch(error => {
-    //     setIP("error")
-    //   });
-    // }
     getCFHistory();
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('@storage_Key')
+        .then((response) => {
+          setEmail(response);
+        })
+      } catch(e) {
+        // error reading value
+        console.log('read');
+        console.log(e);
+      }
+    }
     
-    storeData('ur mother');
-    getData() // .then((response) => {setEmail(response)})
+    
+    getData();
     console.log(email);
-    // .then((response) => {
-    //   console.log(response);
-    // })
-    // console.log(email);
-  }, [])
+  }, [email])
 
   
   async function getCFHistory() {
