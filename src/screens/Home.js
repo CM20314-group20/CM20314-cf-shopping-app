@@ -79,7 +79,7 @@ export default function Home() {
               { data: cfData }
             ]
           }}
-          width={Dimensions.get("window").width} // from react-native
+          width={Dimensions.get("window").width - 20} // from react-native
           height={220}
           yAxisLabel=""
           yAxisSuffix="kg"
