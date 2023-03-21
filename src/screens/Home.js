@@ -29,9 +29,8 @@ import LoadingScreen from '../components/LoadingScreen';
 import { currentIP } from '../components/GetIP.js';
 
 export default function Home() {
-  // Getting the users email
-  const [email, setEmail] = useState("don't work");
-
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const Separator = () => <View style={styles.separator} />;
   const [cfData, setcfData] = useState([-1]);
   const [update, setUpdate] = useState("");
@@ -41,7 +40,9 @@ export default function Home() {
 
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
+
   const storeData = async (value) => {
+    setEmail(value);
     try {
       await AsyncStorage.setItem('@storage_Key', value)
     } catch (e) {
@@ -50,27 +51,32 @@ export default function Home() {
       console.log(e);
     }
   }
-  storeData('hello');
-  useEffect(() => {
-    getCFHistory();
-    const getData = async () => {
-      try {
-        const value = await AsyncStorage.getItem('@storage_Key')
-        .then((response) => {
-          setEmail(response);
-        })
-      } catch(e) {
-        // error reading value
-        console.log('read');
-        console.log(e);
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const value = await AsyncStorage.getItem('@storage_Key')
+      if (value != null) {
+        setEmail(value);
       }
+      else {
+        storeData('uniqueid');
+      }
+      postID(email);
+      setLoading(false);
+      
+    } catch(e) {
+      // error reading value
+      console.log('read');
+      console.log(e);
     }
     
-    
-    getData();
-    console.log(email);
-  }, [email])
+  }
 
+  useEffect(() => {
+    getCFHistory();
+    getData();
+  }, [email])
+  
   
   async function getCFHistory() {
     try {
@@ -83,17 +89,29 @@ export default function Home() {
       console.log(err);
     }
   }
+
+  async function postID(props) {
+    try {
+      axios.post('http://' + ip + ':' + port + '/', {
+      uuid: props
+    })
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   const Item = ({ item }) => {
     return <View style={styles.item}>{item.icon}</View>;
   };
   return (
     <>
-      {!ip && <LoadingScreen />}
-      {ip && (
+      {loading && <LoadingScreen />}
+      {!loading && (
       <>
       <View style={styles.container}>
         <View style={styles.header_text}>
-          <Text style={styles.header01}>Dashboard</Text>
+          <Text style={styles.header01}>Dashboard {email}</Text>
         </View>
         <LineChart
           data={{
