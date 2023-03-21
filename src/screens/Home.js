@@ -14,6 +14,7 @@ import axios from "axios";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Social from './Social';
 import Settings from './Settings';
@@ -28,6 +29,41 @@ import LoadingScreen from '../components/LoadingScreen';
 import { currentIP } from '../components/GetIP.js';
 
 export default function Home() {
+  // Getting the users email
+  const [email, setEmail] = useState("don't work");
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('@storage_Key', value)
+    } catch (e) {
+      // saving error
+      console.log('Store');
+      console.log(e);
+    }
+  }
+
+  // storeData('ur mother');
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@storage_Key')
+      .then((response) => {
+        setEmail(response);
+        return response
+      })
+      // if(value !== null) {
+      //   // value previously stored
+      //   return 
+      // }
+    } catch(e) {
+      // error reading value
+      console.log('read');
+      console.log(e);
+    }
+  }
+  // let data = getData();
+  // console.log(data);
+
+
   const Separator = () => <View style={styles.separator} />;
   const [cfData, setcfData] = useState([-1]);
   const [update, setUpdate] = useState("");
@@ -37,6 +73,8 @@ export default function Home() {
 
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
+
+  
   useEffect(() => {
     // if (!ip) { 
     //   publicIP().then(ip => {
@@ -47,6 +85,14 @@ export default function Home() {
     //   });
     // }
     getCFHistory();
+    
+    storeData('ur mother');
+    getData() // .then((response) => {setEmail(response)})
+    console.log(email);
+    // .then((response) => {
+    //   console.log(response);
+    // })
+    // console.log(email);
   }, [])
 
   
@@ -143,16 +189,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'top', // Doesn't work on android
+    // justifyContent: 'top', // Doesn't work on android
   },
   header_text: {
-    alignItems: 'left' // Doesn't work on android
+    // alignItems: 'left' // Doesn't work on android
   },
   savings: {
     alignItems: 'center'
   },
   achievements_wrapper: {
-    alignItems: 'left' // Doesn't work on android
+    // alignItems: 'left' // Doesn't work on android
   },
   achievements: {
     alignItems: 'center'
