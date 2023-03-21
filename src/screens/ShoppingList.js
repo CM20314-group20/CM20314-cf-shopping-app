@@ -11,7 +11,7 @@ import { currentIP } from '../components/GetIP.js';
 
 export default function ShoppingList() {
   const [list, setList] = useState();
-  const [listItems, setListItems] = useState();
+  const [listItems, setListItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
@@ -29,8 +29,8 @@ export default function ShoppingList() {
       const url = 'http://' + ip + ':' + port + '/shoppinglist';
       const response = await axios.get(url);
       const shoppingListItems = response.data["Items"];  
-      setLoading(false);    
       setListItems(shoppingListItems);
+      setLoading(false);
     }
     catch(err) {
       console.log(err);
@@ -41,7 +41,6 @@ export default function ShoppingList() {
     Keyboard.dismiss();
     setListItems([...listItems, list])
 
-    // axios.post('http://127.0.0.1:5000/shoppinglist', {
     axios.post('http://' + ip + ':' + port + '/shoppinglist', {
       data: {'items_after_add' : [...listItems, list]}
     })
