@@ -9,21 +9,24 @@ import LoadingScreen from './LoadingScreen';
 const ScannedItem = (props) => {
   let data = props["data"];
   // TODO - complete this so it gets cf from local storage and then appends to it and stores it again
-  // console.log(totalCarbon(data));
-  // let total_carbon_data = totalCarbon(data);
-  // console.log(total_carbon_data);
   const [loading, setLoading] = useState(false);
   const [cfData, setcfData] = useState([]);
+  const [carbonVal, setTotalCarbon] = useState(-1);
 
   useEffect(() => {
     getCFHistory();
-  }, [])
+    setTotalCarbon(totalCarbon(data));
+    if (carbonVal == -1) {
+      setLoading(true);
+    } else {
+      storeData(carbonVal);
+      setLoading(false);
+    }
+  }, [carbonVal])
   
   const storeData = async (value) => {
     try {
-      // console.log("cf data");
-      // cfData.push(value);
-      // console.log(cfData);
+      // TODO - only stores the previous shop cf data, not every single shop
       await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : value}));
     } catch (e) {
       // saving error
@@ -41,10 +44,7 @@ const ScannedItem = (props) => {
       let prev_data_arr = [JSON.parse(value)["prev-data"]];
       // console.log(prev_data_arr);
       setcfData([prev_data]);
-      
-
       setLoading(false);
-      
     } catch(e) {
       // error reading value
       console.log('read');
@@ -97,7 +97,9 @@ const ScannedItem = (props) => {
     data.forEach(function(item, index) {
       sum += item["co2_total_per_kg"];
     })
-    storeData((sum/data.length).toFixed(2).toString());
+    // if (carbonVal != -1) {
+    //   storeData((sum/data.length).toFixed(2));
+    // }
     return (sum/data.length).toFixed(2);
   }
 
@@ -124,7 +126,7 @@ const ScannedItem = (props) => {
       <ScrollView>
         <View style={styles.titleBox}>
           <Text style={styles.todaysFootprint}>Todays Footprint: </Text>
-          <Text style={[styles.todaysFootprint, {color: getStyle(totalCarbon(data))}]}>{totalCarbon(data)}</Text>
+          <Text style={[styles.todaysFootprint, {color: getStyle(carbonVal)}]}>{carbonVal}</Text>
           <Text> per kg</Text>
         </View>
         <View style={styles.tableContainer}>
