@@ -21,13 +21,10 @@ export default function ShoppingList() {
   const port = "4000";
 
   useEffect(() => {
-    // getShoppingListItems()
     getData();
   }, [])
   
   const storeData = async (value) => {
-    // setListItems(value);
-    // console.log(value);
     try {
       await AsyncStorage.setItem('@shopping-list', JSON.stringify({"list-items" : value}))
     } catch (e) {
@@ -58,31 +55,11 @@ export default function ShoppingList() {
     }
     
   }
-  // async function getShoppingListItems() {
-  //   try {
-  //     const url = 'http://' + ip + ':' + port + '/shoppinglist';
-  //     const response = await axios.get(url);
-  //     const shoppingListItems = response.data["Items"];
-  //     console.log(shoppingListItems);
-  //     // const shoppingListItems = getData();     
-  //     setListItems(shoppingListItems);
-  //   }
-  //   catch(err) {
-  //     console.log(err);
-  //   }
-  // }
 
   const addItem = () => {
     Keyboard.dismiss();
     setListItems([...listItems, list])
     storeData([...listItems, list]);
-    // axios.post('http://127.0.0.1:5000/shoppinglist', {
-    // axios.post('http://' + ip + ':' + port + '/shoppinglist', {
-    //   data: {'items_after_add' : [...listItems, list]}
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
     setList(null);
   }
 
@@ -90,14 +67,6 @@ export default function ShoppingList() {
     let itemsCopy = [...listItems];
     itemsCopy.splice(index, 1);
     storeData(itemsCopy);
-    // axios.post('http://127.0.0.1:5000/shoppinglist', {
-    // axios.post('http://' + ip + ':' + port + '/shoppinglist', {
-    //   data: {'items_after_remove' : itemsCopy}
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
-
     setListItems(itemsCopy);
   }
 
