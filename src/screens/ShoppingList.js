@@ -107,10 +107,11 @@ export default function ShoppingList() {
   }
 
   async function calculateCF(props) {
+    console.log(listItems);
     setLoading(true);
     try {
       axios.post('http://' + ip + ':' + port + '/shoppinglist', {
-      data: {'calculate_cf' : listItems}
+      data: {'calculate_cf' : props}
     }).then((response) => {
       setLoading(false);
       navigation.push("Receipt Items", {
@@ -216,6 +217,7 @@ const styles = StyleSheet.create({
   tasks: {
     paddingTop: 0,
     paddingHorizontal: 20,
+    // backgroundColor: '', Warning comes here
     shadowColor: 'darkgrey',
     shadowOpacity: 1.5,
     elevation: 8,
