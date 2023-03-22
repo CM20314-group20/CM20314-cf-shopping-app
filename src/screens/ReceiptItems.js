@@ -8,7 +8,7 @@ export default function ReceiptItems(args) {
   items = args["route"]["params"]["data"];
   const [update, setUpdate] = useState("")
   const navigation = useNavigation();
-
+  
   return (
     <>
         <View style={styles.container}>
