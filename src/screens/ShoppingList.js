@@ -33,6 +33,16 @@ export default function ShoppingList() {
       console.log(e);
     }
   }
+  // const storeData2 = async (value) => {
+  //   try {
+  //     await AsyncStorage.setItem('@shopping-list', JSON.stringify({"list-items" : []}))
+  //   } catch (e) {
+  //     // saving error
+  //     console.log('Store');
+  //     console.log(e);
+  //   }
+  // }
+  // storeData2();
 
   const getData = async () => {
     setLoading(true);
