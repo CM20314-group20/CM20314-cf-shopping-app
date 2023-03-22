@@ -8,13 +8,13 @@ import LoadingScreen from './LoadingScreen';
   
 const ScannedItem = (props) => {
   let data = props["data"];
-  // TODO - complete this so it gets cf from local storage and then appends to it and stores it again
   const [loading, setLoading] = useState(false);
   const [cfData, setcfData] = useState([]);
   const [carbonVal, setTotalCarbon] = useState(-1);
 
   useEffect(() => {
     getCFHistory();
+    console.log(data);
     setTotalCarbon(totalCarbon(data));
     if (carbonVal == -1) {
       setLoading(true);
@@ -27,6 +27,10 @@ const ScannedItem = (props) => {
   const storeData = async (value) => {
     try {
       // TODO - only stores the previous shop cf data, not every single shop
+      // Handle if passing empty shopping list / receipt
+      if (value == "NaN") {
+        value = 0
+      }
       await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : value}));
     } catch (e) {
       // saving error
@@ -97,9 +101,7 @@ const ScannedItem = (props) => {
     data.forEach(function(item, index) {
       sum += item["co2_total_per_kg"];
     })
-    // if (carbonVal != -1) {
-    //   storeData((sum/data.length).toFixed(2));
-    // }
+
     return (sum/data.length).toFixed(2);
   }
 
@@ -109,20 +111,6 @@ const ScannedItem = (props) => {
     
     {!loading && (
       <>
-    {/* <DataTable style={styles.container}>
-      <DataTable.Header style={styles.tableHeader}>
-        <DataTable.Title>Product Name</DataTable.Title>
-        <DataTable.Title>Category</DataTable.Title>
-        <DataTable.Title>C02 per kg</DataTable.Title>
-      </DataTable.Header>
-      {data.map((data, index) => (
-        <DataTable.Row key={index}>
-          <DataTable.Cell> {data["product_name"]} </DataTable.Cell>
-          <DataTable.Cell> {data["category"]} </DataTable.Cell>
-          <DataTable.Cell> <Text style = { [getStyle(data["co2_total_per_kg"]), styles.text] }> {data["co2_total_per_kg"]} </Text> </DataTable.Cell>
-        </DataTable.Row>
-      ))}
-      </DataTable> */}
       <ScrollView>
         <View style={styles.titleBox}>
           <Text style={styles.todaysFootprint}>Todays Footprint: </Text>

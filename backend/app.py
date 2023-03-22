@@ -112,6 +112,9 @@ def shoppinglist():
             products = [ProductData.product_from_name(name) for name in products]
             return jsonify({"Shopping List Items" : products})
         
+        else:
+            return jsonify({"Shopping List Items" : [{'product_name' : 'N/A', 'category' : 'N/A', 'co2_total_per_kg' : 0}]})
+        
         return jsonify({"Items" : items})
 
 
