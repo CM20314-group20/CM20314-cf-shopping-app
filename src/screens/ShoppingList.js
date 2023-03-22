@@ -44,7 +44,6 @@ export default function ShoppingList() {
         setListItems(items);
       } else {
         storeData([]);
-        // console.log('hello')
       }
       setLoading(false);
       
@@ -76,7 +75,6 @@ export default function ShoppingList() {
   }
 
   async function calculateCF(props) {
-    console.log(listItems);
     setLoading(true);
     try {
       axios.post('http://' + ip + ':' + port + '/shoppinglist', {

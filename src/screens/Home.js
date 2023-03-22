@@ -83,21 +83,10 @@ export default function Home() {
 
   useEffect(() => {
     getCFHistory();
-    // setCfNull();
-    // getData();
   }, [])
   
   
   async function getCFHistory() {
-    // try {
-    //   const url = 'http://' + ip + ':' + port + '/';
-    //   const response = await axios.get(url);
-    //   const data = response.data['Data'];
-    //   setcfData(data);
-    // }
-    // catch(err) {
-    //   console.log(err);
-    // }
     setLoading(true);
     try {
       const value = await AsyncStorage.getItem('@prev-cf-val')
@@ -108,7 +97,6 @@ export default function Home() {
       }
       let prev_data = JSON.parse(value)["prev-data"];
       let prev_data_arr = [JSON.parse(value)["prev-data"]];
-      console.log(prev_data);
       if (prev_data_arr.length <= 1) {
         setcfData([0, prev_data]);
       } else {
