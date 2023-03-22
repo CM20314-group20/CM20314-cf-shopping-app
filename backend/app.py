@@ -113,7 +113,7 @@ def shoppinglist():
             return jsonify({"Shopping List Items" : products})
         
         else:
-            return jsonify({"Shopping List Items" : [{'product_name' : 'N/A', 'category' : 'N/A', 'co2_total_per_kg' : 0}]})
+            return jsonify({"Shopping List Items" : []})
         
         return jsonify({"Items" : items})
 

@@ -49,7 +49,7 @@ export default function ShoppingList() {
     try {
       const value = await AsyncStorage.getItem('@shopping-list')
       const items = JSON.parse(value)["list-items"];
-      setListItems(items);
+      // setListItems(items);
       if (items != null) {
         setListItems(items);
       } else {
