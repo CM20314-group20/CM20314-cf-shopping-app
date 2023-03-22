@@ -1,12 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, Image, View, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { Row } from 'react-native-table-component';
 import CarIcon from '../components/CarIcon';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoadingScreen from './LoadingScreen';
   
 const ScannedItem = (props) => {
   let data = props["data"];
+  // TODO - complete this so it gets cf from local storage and then appends to it and stores it again
+  const [loading, setLoading] = useState(false);
+  const [cfData, setcfData] = useState([]);
+  const [carbonVal, setTotalCarbon] = useState(-1);
 
+  useEffect(() => {
+    getCFHistory();
+    setTotalCarbon(totalCarbon(data));
+    if (carbonVal == -1) {
+      setLoading(true);
+    } else {
+      storeData(carbonVal);
+      setLoading(false);
+    }
+  }, [carbonVal])
+  
+  const storeData = async (value) => {
+    try {
+      // TODO - only stores the previous shop cf data, not every single shop
+      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : value}));
+    } catch (e) {
+      // saving error
+      console.log('Store');
+      console.log(e);
+    }
+  }
+    
+  
+  async function getCFHistory() {
+    setLoading(true);
+    try {
+      const value = await AsyncStorage.getItem('@prev-cf-val')
+      let prev_data = JSON.parse(value)["prev-data"];
+      let prev_data_arr = [JSON.parse(value)["prev-data"]];
+      // console.log(prev_data_arr);
+      setcfData([prev_data]);
+      setLoading(false);
+    } catch(e) {
+      // error reading value
+      console.log('read');
+      console.log(e);
+    }
+  }
+  
   function getStyle(carbonFootprint) {
     // console.log(carbonFootprint);
     // let carbonFootprintVal = carbonFootprint.slice(0, length-2)
@@ -52,11 +97,18 @@ const ScannedItem = (props) => {
     data.forEach(function(item, index) {
       sum += item["co2_total_per_kg"];
     })
+    // if (carbonVal != -1) {
+    //   storeData((sum/data.length).toFixed(2));
+    // }
     return (sum/data.length).toFixed(2);
   }
 
   return (
     <>
+    {loading && <LoadingScreen />}
+    
+    {!loading && (
+      <>
     {/* <DataTable style={styles.container}>
       <DataTable.Header style={styles.tableHeader}>
         <DataTable.Title>Product Name</DataTable.Title>
@@ -74,7 +126,7 @@ const ScannedItem = (props) => {
       <ScrollView>
         <View style={styles.titleBox}>
           <Text style={styles.todaysFootprint}>Todays Footprint: </Text>
-          <Text style={[styles.todaysFootprint, {color: getStyle(totalCarbon(data))}]}>{totalCarbon(data)}</Text>
+          <Text style={[styles.todaysFootprint, {color: getStyle(carbonVal)}]}>{carbonVal}</Text>
           <Text> per kg</Text>
         </View>
         <View style={styles.tableContainer}>
@@ -93,8 +145,10 @@ const ScannedItem = (props) => {
           </View>
         ))}
         </View>
-      </ScrollView>
-    </>
+        </ScrollView>
+        </>
+        )}
+        </>
   );
 };
   

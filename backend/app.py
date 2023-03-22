@@ -20,6 +20,11 @@ def home():
             random.uniform(0, 1) * 100
                     ]
         return jsonify({"Data" : data})
+    if request.method == "POST":
+        uuid = request.get_json()['uuid']
+        if uuid:
+            print(uuid)
+            
     data = [
             random.uniform(0, 1) * 100,
             random.uniform(0, 1) * 100,

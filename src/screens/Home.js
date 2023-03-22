@@ -14,6 +14,7 @@ import axios from "axios";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Social from './Social';
 import Settings from './Settings';
@@ -28,6 +29,8 @@ import LoadingScreen from '../components/LoadingScreen';
 import { currentIP } from '../components/GetIP.js';
 
 export default function Home() {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const Separator = () => <View style={styles.separator} />;
   const [cfData, setcfData] = useState([-1]);
   const [update, setUpdate] = useState("");
@@ -37,37 +40,108 @@ export default function Home() {
 
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
-  useEffect(() => {
-    // if (!ip) { 
-    //   publicIP().then(ip => {
-    //     setIP(ip);
-    //   })
-    //   .catch(error => {
-    //     setIP("error")
-    //   });
-    // }
-    getCFHistory();
-  }, [])
 
+  const storeData = async (value) => {
+    setEmail(value);
+    try {
+      await AsyncStorage.setItem('@storage_Key', value)
+    } catch (e) {
+      // saving error
+      console.log('Store');
+      console.log(e);
+    }
+  }
+  const setCfNull = async (value) => {
+    try {
+      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : 0}))
+    } catch (e) {
+      // saving error
+      console.log('Store');
+      console.log(e);
+    }
+  }
+  // setCfNull();
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const value = await AsyncStorage.getItem('@storage-key')
+      if (value != null) {
+        setEmail(value);
+      }
+      else {
+        storeData('uniqueid');
+      }
+      postID(email);
+      setLoading(false);
+      
+    } catch(e) {
+      // error reading value
+      console.log('read');
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getCFHistory();
+    // setCfNull();
+    // getData();
+  }, [])
+  
   
   async function getCFHistory() {
+    // try {
+    //   const url = 'http://' + ip + ':' + port + '/';
+    //   const response = await axios.get(url);
+    //   const data = response.data['Data'];
+    //   setcfData(data);
+    // }
+    // catch(err) {
+    //   console.log(err);
+    // }
+    setLoading(true);
     try {
-      const url = 'http://' + ip + ':' + port + '/';
-      const response = await axios.get(url);
-      const data = response.data['Data'];
-      setcfData(data);
+      const value = await AsyncStorage.getItem('@prev-cf-val')
+      if (value == null) {
+        setcfData([0, 0]);
+        setLoading(false);
+        return;
+      }
+      let prev_data = JSON.parse(value)["prev-data"];
+      let prev_data_arr = [JSON.parse(value)["prev-data"]];
+      
+      if (prev_data_arr.length <= 1) {
+        setcfData([0, prev_data]);
+      } else {
+        setcfData(prev_data);
+      }
+
+      setLoading(false);
+      
+    } catch(e) {
+      // error reading value
+      console.log('read');
+      console.log(e);
+    }
+  }
+
+  async function postID(props) {
+    try {
+      axios.post('http://' + ip + ':' + port + '/', {
+      uuid: props
+    })
     }
     catch(err) {
       console.log(err);
     }
   }
+
   const Item = ({ item }) => {
     return <View style={styles.item}>{item.icon}</View>;
   };
   return (
     <>
-      {!ip && <LoadingScreen />}
-      {ip && (
+      {loading && <LoadingScreen />}
+      {!loading && (
       <>
       <View style={styles.container}>
         <View style={styles.header_text}>
