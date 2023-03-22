@@ -97,14 +97,20 @@ export default function ShoppingList() {
     {(loading) && <LoadingScreen />}
     {!loading && ( 
     <>
-    
+    <View style={styles.container}>
       <Pressable style={styles.removeAllItemsButton} onPress={() => {
         removeAllItems();
       }}>
         <Text style={styles.removeText}>Remove All Items</Text>
       </Pressable>
 
-    <View style={styles.container}>
+      <Pressable style={styles.removeAllItemsButton} onPress={() => {
+        calculateCF(listItems);
+      }}>
+        <Text style={styles.removeText}>Calculate CF</Text>
+      </Pressable>
+
+    
     
       <ScrollView
         contentContainerStyle={{
@@ -146,7 +152,7 @@ export default function ShoppingList() {
     
     </>
     )}
-  </>
+    </>
   );
 }
 
