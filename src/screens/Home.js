@@ -108,7 +108,6 @@ export default function Home() {
       }
       let prev_data = JSON.parse(value)["prev-data"];
       let prev_data_arr = [JSON.parse(value)["prev-data"]];
-      console.log(prev_data);
       
       if (prev_data_arr.length <= 1) {
         setcfData([0, prev_data]);
