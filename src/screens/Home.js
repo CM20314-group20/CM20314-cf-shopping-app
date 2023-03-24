@@ -53,7 +53,8 @@ export default function Home() {
   }
   const setCfNull = async (value) => {
     try {
-      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : 0}))
+      let data = ["1.23", "2.34", "3.45"]
+      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : data}))
     } catch (e) {
       // saving error
       console.log('Store');
@@ -96,7 +97,12 @@ export default function Home() {
         return;
       }
       let prev_data = JSON.parse(value)["prev-data"];
-      let prev_data_arr = [JSON.parse(value)["prev-data"]];
+      let result = [];
+      for (let i = 0; i < prev_data.length; i++) {
+        result.push(parseFloat(prev_data[i]));
+      }
+      // let prev_data_arr = [JSON.parse(value)["prev-data"]];
+      let prev_data_arr = result;
       if (prev_data_arr.length <= 1) {
         setcfData([0, prev_data]);
       } else {
