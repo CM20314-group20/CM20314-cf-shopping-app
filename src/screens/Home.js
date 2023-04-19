@@ -15,7 +15,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useNavigation } from '@react-navigation/native';
 import Social from './Social';
 import Settings from './Settings';
 import ShoppingList from './ShoppingList';
@@ -37,7 +37,7 @@ export default function Home() {
 
   const ip = currentIP();
   const port = "4000";
-
+  const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
 
@@ -53,7 +53,8 @@ export default function Home() {
   }
   const setCfNull = async (value) => {
     try {
-      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : 0}))
+      let data = ["1.23", "2.34", "3.45"]
+      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : data}))
     } catch (e) {
       // saving error
       console.log('Store');
@@ -96,7 +97,12 @@ export default function Home() {
         return;
       }
       let prev_data = JSON.parse(value)["prev-data"];
-      let prev_data_arr = [JSON.parse(value)["prev-data"]];
+      let result = [];
+      for (let i = 0; i < prev_data.length; i++) {
+        result.push(parseFloat(prev_data[i]));
+      }
+      // let prev_data_arr = [JSON.parse(value)["prev-data"]];
+      let prev_data_arr = result;
       if (prev_data_arr.length <= 1) {
         setcfData([0, prev_data]);
       } else {
@@ -184,15 +190,22 @@ export default function Home() {
 
         <Separator />
         
-        <View style={styles.goalButtonWrapper} >
-          <Pressable style={styles.goal} onPress={() => {
+        
+        <Pressable style={styles.goal} onPress={() => {
               Alert.alert(
                 "To save 10kg"
               )
             }}>
               <Text style={styles.text}>Goals</Text>
-            </Pressable>
-        </View>
+        </Pressable>
+        <Separator />
+        <Pressable style={styles.barcodescanner} onPress={() => {
+              navigation.push("Barcode Scanner", {
+                
+              });
+            }}>
+          <Text style={styles.text2}>Barcode Scanner</Text>
+        </Pressable>
 
       </View ></>)}
     </>
@@ -218,6 +231,9 @@ const styles = StyleSheet.create({
   },
   achievements: {
     alignItems: 'center'
+  },
+  text2: {
+    color: 'white'
   },
   goalButtonWrapper: {
     flex: 1,
@@ -329,6 +345,20 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'lawngreen',
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
+  },
+  barcodescanner: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
     shadowColor: 'darkgrey',
     shadowOpacity: 1.5,
     elevation: 8,

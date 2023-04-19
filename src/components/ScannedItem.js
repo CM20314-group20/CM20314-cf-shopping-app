@@ -31,7 +31,8 @@ const ScannedItem = (props) => {
       if (value == "NaN") {
         value = 0
       }
-      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : value}));
+      data = ["1.23", "2.34", "3.45", value]
+      await AsyncStorage.setItem('@prev-cf-val', JSON.stringify({"prev-data" : data}));
     } catch (e) {
       // saving error
       console.log('Store');
