@@ -15,7 +15,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useNavigation } from '@react-navigation/native';
 import Social from './Social';
 import Settings from './Settings';
 import ShoppingList from './ShoppingList';
@@ -37,7 +37,7 @@ export default function Home() {
 
   const ip = currentIP();
   const port = "4000";
-
+  const navigation = useNavigation();
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
 
@@ -190,15 +190,22 @@ export default function Home() {
 
         <Separator />
         
-        <View style={styles.goalButtonWrapper} >
-          <Pressable style={styles.goal} onPress={() => {
+        
+        <Pressable style={styles.goal} onPress={() => {
               Alert.alert(
                 "To save 10kg"
               )
             }}>
               <Text style={styles.text}>Goals</Text>
-            </Pressable>
-        </View>
+        </Pressable>
+        <Separator />
+        <Pressable style={styles.barcodescanner} onPress={() => {
+              navigation.push("Barcode Scanner", {
+                
+              });
+            }}>
+          <Text style={styles.text2}>Barcode Scanner</Text>
+        </Pressable>
 
       </View ></>)}
     </>
@@ -224,6 +231,9 @@ const styles = StyleSheet.create({
   },
   achievements: {
     alignItems: 'center'
+  },
+  text2: {
+    color: 'white'
   },
   goalButtonWrapper: {
     flex: 1,
@@ -335,6 +345,20 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'lawngreen',
+    shadowColor: 'darkgrey',
+    shadowOpacity: 1.5,
+    elevation: 8,
+    shadowRadius: 5 ,
+    shadowOffset : { width: 1, height: 5},
+  },
+  barcodescanner: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
     shadowColor: 'darkgrey',
     shadowOpacity: 1.5,
     elevation: 8,

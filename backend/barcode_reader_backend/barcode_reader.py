@@ -5,8 +5,8 @@ Available at: https://www.geeksforgeeks.org/how-to-make-a-barcode-reader-in-pyth
 import cv2
 import numpy as np
 from pyzbar import pyzbar
-from barcode_errors import BarcodeNotDetectedError, MultipleBarcodesDetectedError
-from barcode import Barcode
+from .barcode_errors import BarcodeNotDetectedError, MultipleBarcodesDetectedError
+from .barcode import Barcode
 
 
 class BarcodeReader:
@@ -32,8 +32,10 @@ class BarcodeReader:
             barcode_image = BarcodeReader._crop_barcode_image(image, decoded_barcode)
             return Barcode(decoded_barcode.data.decode("utf-8"), decoded_barcode.type, barcode_image)
         elif number_of_barcodes == 0:
+            return -1
             raise BarcodeNotDetectedError("Barcode not detected. Image has no barcode or is not readable.")
         elif number_of_barcodes > 1:
+            return -1
             raise MultipleBarcodesDetectedError("Multiple barcodes detected.")
 
     @staticmethod

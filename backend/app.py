@@ -5,6 +5,11 @@ from camera_backend.receipt_splitter import ReceiptScanner
 import base64
 import os
 import socket
+import cv2
+
+from barcode_reader_backend.barcode_errors import BarcodeNotDetectedError, MultipleBarcodesDetectedError
+from barcode_reader_backend.barcode_reader import BarcodeReader
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -117,7 +122,31 @@ def shoppinglist():
         
         return jsonify({"Items" : items})
 
+@app.route('/barcodescanner', methods=['GET', 'POST'])
+def barcodescanner():
+    if request.method == 'POST':
+        data = request.get_json()
+        base64_str = data['data']['_parts'][0][1]['base64']
+        decoded_img = base64.b64decode(base64_str)
+        
+        with open('backend/scanned-barcode/new-image.jpg', 'wb') as f:
+            f.write(decoded_img)
 
+        barcode_1 = cv2.imread("backend/scanned-barcode/new-image.jpg")
+        barcode = BarcodeReader.read_barcode(barcode_1)
+        if barcode == -1:
+            return jsonify({"Error" : "Barcode Not Found"})
+        barcode_num = barcode.get_data()
+        products = [ProductData.product_from_barcode(barcode_num)]
+        if products == None:
+            return jsonify({"Error" : "Product Not Found"})
+        # products = [{'product_name': 'Barefoot white Zinfandel  ', 'category': 'Wine, white, sweet', 'co2_total_per_kg': 0.9}, {'product_name': 'Js Tikka Masala Sauce  ', 'category': 'Indian-style sauce, tandoori or garam masala type, prepacked', 'co2_total_per_kg': 1.3}, {'product_name': 'haribo supermix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 1.73}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 2.43}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 3.66}, {'product_name': 'haribo starmix  ', 'category': 'Candies, all types', 'co2_total_per_kg': 3.77}, {'product_name': 'm&ms crispy pouch  ', 'category': 'Chocolate confectionery, filled with nuts and/or praline', 'co2_total_per_kg': 9.72}, {'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16},{'product_name': 'mms peanut pouch  ', 'category': 'Peanut', 'co2_total_per_kg': 4.16}]
+        return jsonify({"Image" : products})
+
+
+    elif request.method == 'GET':
+        print(request.data)
+        return jsonify({"Scanner" : "Page"})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='4000')

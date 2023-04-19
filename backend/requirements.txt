@@ -9,3 +9,5 @@ numpy
 pyzbar
 flask
 pytesseract
+pyzbar
+pyzbar[scripts]
